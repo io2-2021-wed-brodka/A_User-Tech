@@ -1,16 +1,16 @@
 import {
     BrowserRouter,
     Route,
-    Switch,
-
+    Switch
 } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import Topbar from "./layout/Topbar";
+import MainPage from "./pages/mainPage/MainPage";
 
 const Pages = () => {
 
     return (
         <BrowserRouter>
-
+            <Topbar />
             <Switch>
                 <Route exact path="/" component={() => <MainPage />} />
             </Switch>
