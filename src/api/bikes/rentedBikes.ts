@@ -1,12 +1,19 @@
 import { Bike } from "../../models/bike"
+import getMockedRentedBikes from '../../mock_data/rentedBikesMock';
+import { handleError, handleResponse, IApiResponse } from "../apiUtils";
+import { bikes } from "../apiUrls";
 
+export const getRentedBikes = async (): Promise<IApiResponse<Bike[]>> => {
 
-export const getRentedBikes = async (): Promise<Bike[]> => {
+    if(parseInt(process.env.REACT_APP_MOCK_DATA || "0" )===1 
+        || process.env.REACT_APP_BACKEND_URL === undefined)
+        return getMockedRentedBikes();
 
-    return [
-        { id: "123", rentalStationName: "rondo ONZ", rentalTimestamp: new Date(2021, 2, 1, 14, 21, 41) },
-        { id: "124", rentalStationName: "rondo ONZ", rentalTimestamp: new Date(2021, 2, 1, 15, 41, 41) },
-        { id: "125", rentalStationName: "Ratusz Arsenał", rentalTimestamp: new Date(2021, 2, 1, 13, 15, 41) },
-        { id: "126", rentalStationName: "Ustro", rentalTimestamp: new Date(2021, 1, 1, 14, 12, 41) },
-    ]
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented";
+    type T = IApiResponse<Bike[]>;
+    return fetch(url, {
+        method: "GET",
+        // configure headers values on specification changes
+        headers: new Headers(), 
+    }).then<T>(handleResponse).catch<T>(handleError);
 }

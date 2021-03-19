@@ -21,8 +21,8 @@ const RentedBikesList = () => {
     const classes = useStyles();
     const [rentedBikes, setRentedBikes] = useState<Bike[]>([])
     useEffect(() => {
-        getRentedBikes().then(bikes => {
-            setRentedBikes(bikes);
+        getRentedBikes().then(res => {
+            setRentedBikes(res.data || []);
         });
     }, [])
 
