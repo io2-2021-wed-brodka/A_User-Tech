@@ -6,7 +6,7 @@ import rentBikeMock from "../../mock_data/rentBikeMock";
 
 export const rentBike = async (bikeId: string): Promise<IApiResponse<Http2ServerResponse>> => {
 
-    if(parseInt(process.env.REACT_APP_MOCK_DATA || "0" )===1 
+    if(parseInt(process.env.REACT_APP_MOCK_DATA || "0" ) === 1 
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return rentBikeMock();
 
