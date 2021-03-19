@@ -1,5 +1,5 @@
-import { Bike } from "../models/bike";
-import { IApiResponse } from "../api/apiUtils";
+import { Bike } from "../../models/bike";
+import { IApiResponse } from "../../api/apiUtils";
 const getMockedRentedBikes = (): IApiResponse<Bike[]> => {
 
     return {

@@ -1,5 +1,5 @@
 import { Bike } from "../../models/bike"
-import getMockedRentedBikes from '../../mock_data/rentedBikesMock';
+import getMockedRentedBikes from '../../mock_data/bikes/rentedBikesMock';
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { bikes } from "../apiUrls";
 

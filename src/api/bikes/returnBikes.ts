@@ -1,7 +1,7 @@
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { bikes } from "../apiUrls";
 import { Http2ServerResponse } from "http2";
-import returnRentedBikeMock from "../../mock_data/returnRentedBikeMock";
+import returnRentedBikeMock from "../../mock_data/bikes/returnRentedBikeMock";
 
 export const returnRentedBike = async (bikeId: string, stationId: string): Promise<IApiResponse<Http2ServerResponse>> => {
 

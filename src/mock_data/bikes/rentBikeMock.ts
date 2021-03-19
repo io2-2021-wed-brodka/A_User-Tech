@@ -1,5 +1,5 @@
 import { Http2ServerResponse } from "http2"
-import { IApiResponse } from "../api/apiUtils";
+import { IApiResponse } from "../../api/apiUtils";
 
 const rentBikeMock = (): IApiResponse<Http2ServerResponse> =>
 {
