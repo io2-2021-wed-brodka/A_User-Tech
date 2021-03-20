@@ -29,7 +29,7 @@ const RentedBikesList = () => {
     return (
         rentedBikes.length > 0 ?
             <>
-                <Typography className={classes.typography}>Rented bikes:</Typography>
+                <Typography variant="h6">Rented bikes:</Typography>
                 <List className={classes.list}>
                     {
                         rentedBikes.map(bike => {

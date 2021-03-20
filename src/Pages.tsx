@@ -1,3 +1,5 @@
+import React from 'react';
+import { useScrollTrigger } from "@material-ui/core";
 import {
     BrowserRouter,
     Route,
