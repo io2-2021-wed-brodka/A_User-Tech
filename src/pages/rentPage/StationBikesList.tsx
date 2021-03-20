@@ -7,7 +7,7 @@ import {
     DialogTitle,
     List, ListItem, ListItemAvatar,
     ListItemSecondaryAction, ListItemText,
-    makeStyles, Paper, Slide, Typography
+    makeStyles, Paper, Slide, Typography, Zoom
 } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
@@ -24,13 +24,6 @@ paper: {
    alignItems: 'center',
    justifyContent: 'center',
 },
-rentButton: {
-    background: '#F87172',
-    color: "#FFFFFF",
-    '&:hover': {
-        backgroundColor: "#DAE0E2"
-    }
-},
 list: {
 },
 typography: {
@@ -45,7 +38,7 @@ const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },
     ref: React.Ref<unknown>,
 ) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Zoom in ref={ref} {...props} />;
 });
 
 
@@ -107,8 +100,7 @@ const StationBikesList = (props: StationBikesListProps) =>{
     
     return (
     bikes.length > 0 ?
-        <>
-        <Paper className={classes.paper}>
+        <>        
             <Typography className={classes.typography}>Available bikes:</Typography>
             <List className={classes.list}>
                 {
@@ -121,8 +113,7 @@ const StationBikesList = (props: StationBikesListProps) =>{
                                 </ListItemAvatar>
                                 <ListItemText primary={bike.id} />
                                 <ListItemSecondaryAction>
-                                    <Button size="small"
-                                            className={classes.rentButton}
+                                    <Button size="small" color="primary"
                                             onClick={() => rentBikeClickHandle(bike.id)}>
                                         Rent
                                     </Button>
@@ -155,7 +146,7 @@ const StationBikesList = (props: StationBikesListProps) =>{
                         </Button>
                     </DialogActions>
             </Dialog>
-        </Paper>
+        
         </>
         :
         <Typography className={classes.typography}>No bikes available</Typography>

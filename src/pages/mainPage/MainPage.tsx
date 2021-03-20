@@ -1,6 +1,7 @@
 import { Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import RentBikePage from '../rentPage/RentBikePage';
 import RentedBikesList from './RentedBikesList';
 
 
@@ -39,7 +40,7 @@ const MainPage = () => {
             <Button onClick={rentBikeClick} className={classes.rentBikeButton}>Rent bike</Button>
             <Paper className={classes.paper}>
                 <RentedBikesList />
-            </Paper>
+            </Paper>            
         </>
     )
 }

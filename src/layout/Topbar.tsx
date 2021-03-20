@@ -1,3 +1,4 @@
+import { AppBar, Toolbar, IconButton, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 const useStyles = makeStyles(theme => ({
@@ -37,21 +38,14 @@ const useStyles = makeStyles(theme => ({
 const Topbar = () => {
     const classes = useStyles();
 
-
-
-
     return (
-        <div className={classes.topBar}>
-            <div className={classes.leftSide}>
-
-
-
-                <h1 className={classes.appTitle}>Bikes</h1>
-            </div>
-            <div className={classes.loginDiv}>
-            </div>
-
-        </div>
+        <AppBar position="static">
+            <Toolbar>            
+                <Typography variant="h6">
+                Bikes
+                </Typography>                
+            </Toolbar>
+        </AppBar>
     )
 }
 

@@ -10,7 +10,7 @@ import RentBikePage from "./pages/rentPage/RentBikePage";
 const Pages = () => {
 
     return (
-        <BrowserRouter>
+        <BrowserRouter>            
             <Topbar />
             <Switch>
                 <Route exact path="/" component={() => <MainPage />} />
