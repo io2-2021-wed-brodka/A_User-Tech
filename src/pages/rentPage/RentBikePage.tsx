@@ -46,7 +46,7 @@ const RentBikePage = () =>{
     {
         let tmpStations = [...stations];
         tmpStations[stationIndex][1] = !tmpStations[stationIndex][1];
-        setStations(prev => tmpStations);
+        setStations(tmpStations);
     };
 
     return (

@@ -76,11 +76,11 @@ const StationBikesList = (props: StationBikesListProps) =>{
     }, [props.stationId, enqueueSnackbar]);
 
     const rentBikeClickHandle = (id: string) => {
-        setRentBikeId(prev => id);
-        setOpenSlidingWindow(prev => true);
+        setRentBikeId(id);
+        setOpenSlidingWindow(true);
     } 
 
-    const handleCloseWindow = () => setOpenSlidingWindow(prev=> false);
+    const handleCloseWindow = () => setOpenSlidingWindow(false);
     
     const rentBikeCall = () => {
         let tmpBike = rentBikeId;
@@ -100,9 +100,9 @@ const StationBikesList = (props: StationBikesListProps) =>{
             }
         });
 
-        setOpenSlidingWindow(prev => false);
-        setRentBikeId(prev => '');
-        history.push('/rent');
+        setOpenSlidingWindow(false);
+        setRentBikeId('');
+        history.push('/');
     }
     
     return (
