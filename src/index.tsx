@@ -1,3 +1,4 @@
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -6,7 +7,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Pages />
+    <SnackbarProvider maxSnack={3} >
+      <Pages />
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

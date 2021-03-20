@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import HomeIcon from '@material-ui/icons/Home';
+import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { getStations } from "../../api/stations/getStations";
 import { Station } from "../../models/station";
@@ -27,13 +28,19 @@ const useStyles = makeStyles({
 
 const RentBikePage = () =>{
     const classes = useStyles();
-    const [stations, setStations] = useState<[station:Station, isOpen:boolean][]>([]);
+    const { enqueueSnackbar } = useSnackbar();
+
+    const [stations, setStations] = useState<[Station, boolean][]>([]);
     useEffect(() => {
         getStations().then(res => {
-            setStations((res.data || [])
-            .map(x => [x, false] ));
+            if(res.isError)
+            {
+                enqueueSnackbar("Could not retrive stations", { variant: "error" });
+                return;
+            }
+            setStations((res.data || []).map(x => [x, false] ));
         });
-    }, []);
+    }, [enqueueSnackbar]);
 
     const handleOpenStationClick = (stationIndex: number) =>
     {
