@@ -40,7 +40,7 @@ export const bikesFromStationMock = (stationId: string): IApiResponse<UnrentedBi
         responseCode: 200,
         data: bikes.filter(x => x.stationId===stationId)
                     .map(y => {
-                        return <UnrentedBike>{id: y.id}
+                        return {id: y.id} as UnrentedBike;
                     })
     };   
 }
