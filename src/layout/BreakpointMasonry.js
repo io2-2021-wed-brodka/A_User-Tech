@@ -9,11 +9,10 @@ import Masonry from "react-masonry-css";
 
 const useStyles = makeStyles((theme) => ({
   masonryGrid: {
-    display: "flex",    
-    width: "600",
+    display: "flex",        
+    width: "inherit",
   },
-  masonryColumn: {
-    paddingLeft: theme.spacing(1),
+  masonryColumn: {    
     backgroundClip: "padding-box",
   },
 }));
@@ -35,12 +34,11 @@ const BreakpointMasonry = ({ children }) => {
   const theme = useTheme();
 
   const breakpointCols = {
-    default: 4,
-    [theme.breakpoints.values.xl]: 4,
-    [theme.breakpoints.values.lg]: 3,
-    [theme.breakpoints.values.md]: 2,
-    [theme.breakpoints.values.sm]: 1,
-    [theme.breakpoints.values.xs]: 1,
+    default: 4,    
+    1664: 3,
+    1248: 2,
+    832: 1,
+    416: 1,
   };
 
   return (

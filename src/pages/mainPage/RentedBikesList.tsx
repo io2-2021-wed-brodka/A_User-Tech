@@ -57,7 +57,6 @@ const RentedBikesList = () => {
             </>
             :
             <Typography className={classes.typography}>No bikes rented</Typography>
-
     )
 }
 

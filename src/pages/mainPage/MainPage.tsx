@@ -1,14 +1,13 @@
-import { Button, Paper } from '@material-ui/core';
+import { Box, Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import { useHistory } from "react-router-dom";
 import RentBikePage from '../rentPage/RentBikePage';
 import RentedBikesList from './RentedBikesList';
 
-
-
 const useStyles = makeStyles({
-    container: {    
-        width: "100%",    
+    container: {         
+        width: '100%',
         display: 'flex',
         justifyContent: 'center',
     },
@@ -21,12 +20,8 @@ const useStyles = makeStyles({
 });
 
 const MainPage = () => {
-
     let history = useHistory();
     const classes = useStyles();
-    const rentBikeClick = () => {
-        history.push("/rent");
-    }
 
     return (
         <>           

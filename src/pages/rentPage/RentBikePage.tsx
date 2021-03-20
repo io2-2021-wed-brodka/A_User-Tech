@@ -1,5 +1,5 @@
 import {
-    Avatar, Box, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Collapse, createStyles, IconButton,
+    Avatar, Box, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Collapse, createStyles, Icon, IconButton,
     List, ListItem, ListItemAvatar,
     ListItemSecondaryAction, ListItemText,
     makeStyles, Paper, Theme, Typography
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         margin: '1em',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '20em',
+        width: '24em',
     },
     content: {
         display: "flex",        
@@ -32,29 +32,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         justifyContent: "center"
     },    
     media: {
-        height: 140,
+        height: 160,
     },
     expand: {
+        height: 'auto',
+        verticalAlign: 'middle',
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
         transition: theme.transitions.create('transform', {
-          duration: theme.transitions.duration.shortest,
+            duration: theme.transitions.duration.shortest,
         }),
         float: "right",
-      },
-      expandOpen: {
-        transform: 'rotate(180deg)',
-        float: "right",
-      },
+    },
+    expandOpen: {        
+        verticalAlign: 'middle',
+        transform: 'rotate(180deg)',        
+    },
 }),
 );
-
-const breakpointColumnsObj = {
-    default: 3,
-    600: 3,
-    400: 2,
-    200: 1
-  };
 
 const RentBikePage = () =>{
     const classes = useStyles();
@@ -97,7 +92,7 @@ const RentBikePage = () =>{
                                         {station[0].name}
                                     </Typography>        
                                 
-                                    <IconButton   
+                                    <Icon   
                                         className={clsx(classes.expand, {
                                         [classes.expandOpen]: station[1],
                                         })}                                                            
@@ -105,7 +100,7 @@ const RentBikePage = () =>{
                                         aria-label="show more"
                                         >
                                         <ExpandMore />
-                                    </IconButton>   
+                                    </Icon>   
                                 </CardContent>
                                 </CardActionArea>
                                 <Collapse in={station[1]} timeout="auto" unmountOnExit>
