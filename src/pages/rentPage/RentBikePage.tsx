@@ -90,9 +90,9 @@ const RentBikePage = () =>{
 
     const handleOpenStationClick = (stationIndex: number) =>
     {
-        let tmpStations = [...stations];        
-        setStations(tmpStations);
+        let tmpStations = [...stations];                
         tmpStations[stationIndex][1] = !tmpStations[stationIndex][1];        
+        setStations(tmpStations);
     };   
 
     return (
