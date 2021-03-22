@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Masonry from "react-masonry-css";
 
-/////////////////////////////////////////
-//  Styles
-/////////////////////////////////////////
-
 const useStyles = makeStyles((theme) => ({
   masonryGrid: {
     display: "flex",
@@ -17,17 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/////////////////////////////////////////
-//  PropTypes
-/////////////////////////////////////////
-
 const propTypes = {
   children: PropTypes.node,
 };
-
-/////////////////////////////////////////
-//  Component
-/////////////////////////////////////////
 
 const BreakpointMasonry = ({ children }: { children: any }) => {
   const classes = useStyles();
