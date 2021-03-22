@@ -1,6 +1,5 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
 import RentBikePage from '../rentPage/RentBikePage';
 import RentedBikesList from './RentedBikesList';
 
@@ -26,8 +25,7 @@ const useStyles = makeStyles({
     },
 });
 
-const MainPage = () => {
-    let history = useHistory();
+const MainPage = () => {    
     const classes = useStyles();
 
     return (
