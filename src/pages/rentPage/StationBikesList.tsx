@@ -7,7 +7,7 @@ import {
     DialogTitle,
     List, ListItem, ListItemAvatar,
     ListItemSecondaryAction, ListItemText,
-    makeStyles, Paper, Slide, Typography, Zoom
+    makeStyles, Typography, Zoom
 } from "@material-ui/core";
 import { TransitionProps } from "@material-ui/core/transitions/transition";
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';

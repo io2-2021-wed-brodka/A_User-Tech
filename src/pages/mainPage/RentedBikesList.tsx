@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react"
+import { IconButton, ListItemSecondaryAction, makeStyles, Typography } from "@material-ui/core";
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import ListItemText from '@material-ui/core/ListItemText';
+import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
+import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
+import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../../api/bikes/rentedBikes";
 import { Bike } from "../../models/bike";
-import Avatar from '@material-ui/core/Avatar';
-import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
-import { IconButton, ListItemSecondaryAction, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
     list: {
@@ -28,8 +28,7 @@ const RentedBikesList = () => {
 
     return (
         rentedBikes.length > 0 ?
-            <>
-                <Typography variant="h6">Rented bikes:</Typography>
+            <>                
                 <List className={classes.list}>
                     {
                         rentedBikes.map(bike => {

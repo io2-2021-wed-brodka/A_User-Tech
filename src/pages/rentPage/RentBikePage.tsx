@@ -1,18 +1,15 @@
 import {
-    Avatar, Box, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Collapse, createStyles, Icon, IconButton,
-    List, ListItem, ListItemAvatar,
-    ListItemSecondaryAction, ListItemText,
-    makeStyles, Paper, Theme, Typography
+    Card, CardActionArea, CardContent, 
+    CardMedia, Collapse, createStyles, 
+    Icon, makeStyles, Theme, Typography
 } from "@material-ui/core";
 import clsx from 'clsx';
-import { ExpandLess, ExpandMore, FullscreenExitTwoTone } from "@material-ui/icons";
-import HomeIcon from '@material-ui/icons/Home';
+import { ExpandMore } from "@material-ui/icons";
 import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getStations } from "../../api/stations/getStations";
 import { Station } from "../../models/station";
 import StationBikesList from "./StationBikesList";
-import Masonry from "react-masonry-css";
 import BreakpointMasonry from "../../layout/BreakpointMasonry";
 
 
@@ -53,9 +50,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const RentBikePage = () =>{
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();    
+
+    const cityImages = [
+        "https://upload.wikimedia.org/wikipedia/commons/8/82/Melbourne_City_Bikes.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/f/fb/Citybike_station_bikeMi_Milan_Italy_20101230.JPG",
+        "https://www.researchgate.net/profile/Grzegorz-Karon/publication/329415886/figure/fig2/AS:700401628229633@1544000169355/City-bike-station-at-the-building-of-the-Faculty-of-Transport-of-the-Silesian-University.ppm",
+        "https://media.izi.travel/cd9b44b4-d2c6-4ee4-a3ea-9296c8916cff/92ddf687-769b-41b4-beb4-90b25cf689c4_800x600.jpg",        
+        "https://media.timeout.com/images/100920555/630/472/image.jpg",
+        "https://www.tuwroclaw.com/pliki/duze_zdjecia/wiadomosci/rower_miejski_stacja_poziom.jpg",
+        "https://s-trojmiasto.pl/zdj/c/n/9/1969/3000x0/1969607.jpg",
+        "https://previews.123rf.com/images/rouslan/rouslan1806/rouslan180600032/106466940-budapest-hungary-march-22-2018-bubi-moll-rent-a-bike-station-in-front-of-the-famous-budapest-great-m.jpg",
+    ];    
+
+    const [imagesSet, setImageSet] = useState<boolean>(false);
 
     const [stations, setStations] = useState<[Station, boolean][]>([]);
+    const [imagesIndexes, setImagesIndexes] = useState<number[]>([]);
+    
     useEffect(() => {
         getStations().then(res => {
             if(res.isError)
@@ -66,6 +78,15 @@ const RentBikePage = () =>{
             setStations((res.data || []).map(x => [x, false] ));
         });
     }, [enqueueSnackbar]);
+
+    useEffect(() => {        
+        if(!imagesSet && stations.length > 0)
+        {
+            let indexes = stations.map((_, index) => Math.floor(Math.random() * cityImages.length));
+            setImagesIndexes(indexes);
+            setImageSet(true);
+        }        
+    }, [stations]);
 
     const handleOpenStationClick = (stationIndex: number) =>
     {
@@ -85,8 +106,8 @@ const RentBikePage = () =>{
                                     <CardActionArea onClick={() => handleOpenStationClick(stationIndex)}>
                                         <CardMedia
                                         className={classes.media} 
-                                        image="https://cdn.officelist.pl/cache/35/47/35473c1c47cc0dabb9bc9bc2fea45a1c.jpg?h=800&w=1280&auto=enhance&q=90&s=d5b2a76c421b0e5ed929ea658e469ba0"
-                                        title="Lizard"/>
+                                        image={cityImages[imagesIndexes[stationIndex]]}                                        
+                                        title="StationImage"/>
                                 <CardContent className={classes.content}>
                                     <Typography className={classes.typography} variant="h6">
                                         {station[0].name}

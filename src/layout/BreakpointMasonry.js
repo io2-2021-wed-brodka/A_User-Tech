@@ -37,8 +37,7 @@ const BreakpointMasonry = ({ children }) => {
     default: 4,    
     1664: 3,
     1248: 2,
-    832: 1,
-    416: 1,
+    832: 1,    
   };
 
   return (

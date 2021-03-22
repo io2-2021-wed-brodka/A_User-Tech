@@ -1,12 +1,12 @@
-import { Box, Button, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import { useHistory } from "react-router-dom";
 import RentBikePage from '../rentPage/RentBikePage';
 import RentedBikesList from './RentedBikesList';
 
 const useStyles = makeStyles({
-    container: {         
+    container: {      
+        marginTop: '1em',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -16,6 +16,13 @@ const useStyles = makeStyles({
         margin: '1em',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    box: {        
+        margin: '1em',        
+    },
+    subheader: {        
+        padding: '0.25em',
+        paddingLeft: '0.5em',
     },
 });
 
@@ -27,10 +34,14 @@ const MainPage = () => {
         <>           
             <div className={classes.container}>
                 <div>
-                    <Paper className={classes.paper}>
-                        <RentedBikesList />
-                    </Paper>            
-                    <RentBikePage/>
+                    <Typography variant='h5' className={classes.subheader}>
+                        Rented bikes:
+                    </Typography>                    
+                    <RentedBikesList />                                   
+                    <Typography variant='h5' className={classes.subheader}>
+                        Available stations:
+                    </Typography>
+                    <RentBikePage/>                    
                 </div>
             </div>             
         </>
