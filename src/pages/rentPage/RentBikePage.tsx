@@ -82,11 +82,11 @@ const RentBikePage = () =>{
     useEffect(() => {        
         if(!imagesSet && stations.length > 0)
         {
-            let indexes = stations.map((_, index) => Math.floor(Math.random() * cityImages.length));
+            let indexes = stations.map(_ => Math.floor(Math.random() * cityImages.length));
             setImagesIndexes(indexes);
             setImageSet(true);
         }        
-    }, [stations]);
+    }, [stations, cityImages.length, imagesSet]);
 
     const handleOpenStationClick = (stationIndex: number) =>
     {
