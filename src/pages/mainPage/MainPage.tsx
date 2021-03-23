@@ -1,45 +1,47 @@
-import { Button, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
+import RentBikePage from '../rentPage/RentBikePage';
 import RentedBikesList from './RentedBikesList';
 
-
-
 const useStyles = makeStyles({
+    container: {      
+        marginTop: '1em',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
     paper: {
         padding: '1em',
         margin: '1em',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    rentBikeButton: {
-        margin: '0.5em auto',
-        background: '#F87172',
-        border: 0,
-        borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        color: 'white',
-        height: 48,
-        padding: '0 30px',
-        display: 'block'
-
+    box: {        
+        margin: '1em',        
+    },
+    subheader: {        
+        padding: '0.25em',
+        paddingLeft: '0.5em',
     },
 });
 
-const MainPage = () => {
-
-    let history = useHistory();
+const MainPage = () => {    
     const classes = useStyles();
-    const rentBikeClick = () => {
-        history.push("/rent");
-    }
 
     return (
-        <>
-            <Button onClick={rentBikeClick} className={classes.rentBikeButton}>Rent bike</Button>
-            <Paper className={classes.paper}>
-                <RentedBikesList />
-            </Paper>
+        <>           
+            <div className={classes.container}>
+                <div>
+                    <Typography variant='h5' className={classes.subheader}>
+                        Rented bikes:
+                    </Typography>                    
+                    <RentedBikesList />                                   
+                    <Typography variant='h5' className={classes.subheader}>
+                        Available stations:
+                    </Typography>
+                    <RentBikePage/>                    
+                </div>
+            </div>             
         </>
     )
 }

@@ -1,15 +1,21 @@
+import { ThemeProvider } from '@material-ui/styles';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import mainTheme from './layout/mainTheme';
 import Pages from './Pages';
 import reportWebVitals from './reportWebVitals';
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider maxSnack={3} >
-      <Pages />
-    </SnackbarProvider>
+    <ThemeProvider theme={mainTheme}>
+      <SnackbarProvider maxSnack={3} >
+        <Pages />
+      </SnackbarProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
