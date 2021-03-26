@@ -1,5 +1,5 @@
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
-import { bikes } from "../apiUrls";
+import {stations } from "../apiUrls";
 import { Http2ServerResponse } from "http2";
 import returnRentedBikeMock from "../../mock_data/bikes/returnRentedBikeMock";
 
@@ -9,16 +9,15 @@ export const returnRentedBike = async (bikeId: string, stationId: string): Promi
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return returnRentedBikeMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes";
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
-        method: "DELETE",
+        method: "POST",
         // configure headers values on specification changes
         headers: new Headers(), 
         body: JSON.stringify(
             {
-                bikeId: bikeId,
-                stationId: stationId
+                id: bikeId
             })
     }).then<T>(handleResponse).catch<T>(handleError);
 }
