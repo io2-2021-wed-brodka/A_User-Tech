@@ -1,6 +1,6 @@
 import { Bike } from "../../models/bike"
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
-import { bikes } from "../apiUrls";
+import { stations } from "../apiUrls";
 import { bikesFromStationMock } from "../../mock_data/bikes/bikesFromStationMock";
 import { UnrentedBike } from "../../models/unrentedBike";
 
@@ -10,7 +10,7 @@ export const  getBikesFromStation = async (stationId: string): Promise<IApiRespo
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return bikesFromStationMock(stationId);
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + stationId;
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes";
     type T = IApiResponse<Bike[]>;
     return fetch(url, {
         method: "GET",
