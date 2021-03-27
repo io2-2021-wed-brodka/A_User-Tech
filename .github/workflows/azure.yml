@@ -18,6 +18,8 @@
 on:
   release:
     types: [created]
+  push:
+    branches: [ develop ]
 
 env:
   AZURE_WEBAPP_NAME: io2-frontendA
