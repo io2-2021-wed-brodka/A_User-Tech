@@ -43,7 +43,7 @@ const RentedBikesList = () => {
 
     return (
         rentedBikes.length > 0 ?
-            <>                
+            <>
                 <List className={classes.list}>
                     {
                         rentedBikes.map(bike => {

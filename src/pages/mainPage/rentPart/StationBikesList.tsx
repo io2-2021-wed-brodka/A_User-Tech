@@ -13,21 +13,21 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getBikesFromStation } from "../../api/bikes/getBikesFromStation";
-import { rentBike } from "../../api/bikes/rentBike";
-import Transition from "../../layout/Transition";
-import { UnrentedBike } from "../../models/unrentedBike";
+import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
+import { rentBike } from "../../../api/bikes/rentBike";
+import { UnrentedBike } from "../../../models/unrentedBike";
+import Transition from "../../../layout/Transition";
 const useStyles = makeStyles({
-paper: {
-   padding: '1em',
-   margin: '1em',
-   alignItems: 'center',
-   justifyContent: 'center',
-},
-list: {
-},
-typography: {
-}
+    paper: {
+        padding: '1em',
+        margin: '1em',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    list: {
+    },
+    typography: {
+    }
 });
 
 interface StationBikesListProps {
@@ -43,16 +43,14 @@ const StationBikesList = (props: StationBikesListProps) =>{
     const [rentBikeId, setRentBikeId] = useState<string>('');
 
     useEffect(() => {
-        
-        if(props.stationId === undefined)
-        {
+
+        if (props.stationId === undefined) {
             enqueueSnackbar("Could not retrive bikes", { variant: "error" });
             return;
         }
         getBikesFromStation(props.stationId).then(res => {
-            
-            if(res.isError)
-            {
+
+            if (res.isError) {
                 enqueueSnackbar("Could not retrive bikes", { variant: "error" });
                 return;
             }
@@ -63,15 +61,14 @@ const StationBikesList = (props: StationBikesListProps) =>{
     const rentBikeClickHandle = (id: string) => {
         setRentBikeId(id);
         setOpenSlidingWindow(true);
-    } 
+    }
 
     const handleCloseWindow = () => setOpenSlidingWindow(false);
-    
+
     const rentBikeCall = () => {
         let tmpBike = rentBikeId;
-        
-        if(tmpBike.length < 1)
-        {
+
+        if (tmpBike.length < 1) {
             enqueueSnackbar("Could not rent this bike", { variant: "error" });
             return;
         }
@@ -89,15 +86,15 @@ const StationBikesList = (props: StationBikesListProps) =>{
         setRentBikeId('');
         history.push('/');
     }
-    
+
     return (
-    bikes.length > 0 ?
-        <>        
-            <Typography className={classes.typography}>Available bikes:</Typography>
-            <List className={classes.list}>
-                {
-                    bikes.map(bike => {
-                        return (<ListItem key={bike.id}>
+        bikes.length > 0 ?
+            <>
+                <Typography className={classes.typography}>Available bikes:</Typography>
+                <List className={classes.list}>
+                    {
+                        bikes.map(bike => {
+                            return (<ListItem key={bike.id}>
                                 <ListItemAvatar>
                                     <Avatar>
                                         <DirectionsBikeIcon />
@@ -106,16 +103,16 @@ const StationBikesList = (props: StationBikesListProps) =>{
                                 <ListItemText primary={bike.id} />
                                 <ListItemSecondaryAction>
                                     <Button size="small" color="primary"
-                                            onClick={() => rentBikeClickHandle(bike.id)}>
+                                        onClick={() => rentBikeClickHandle(bike.id)}>
                                         Rent
                                     </Button>
                                 </ListItemSecondaryAction>
-                        </ListItem>                       
-                        );
-                    })
-                }
-            </List>
-            <Dialog
+                            </ListItem>
+                            );
+                        })
+                    }
+                </List>
+                <Dialog
                     open={openSlidingWindow}
                     TransitionComponent={Transition}
                     keepMounted
@@ -134,14 +131,14 @@ const StationBikesList = (props: StationBikesListProps) =>{
                             No
                         </Button>
                         <Button onClick={rentBikeCall} color="primary">
-                                Yes
+                            Yes
                         </Button>
                     </DialogActions>
-            </Dialog>
-        
-        </>
-        :
-        <Typography className={classes.typography}>No bikes available</Typography>
+                </Dialog>
+
+            </>
+            :
+            <Typography className={classes.typography}>No bikes available</Typography>
     )
 };
 

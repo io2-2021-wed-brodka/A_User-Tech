@@ -5,13 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.21",
+    "@types/jest": "^26.0.22",
     "@types/node": "^12.20.6",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.2",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.1",
     "@types/react-router-dom": "^5.1.7",
     "notistack": "^1.0.5",
     "react": "^17.0.1",
@@ -26,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -45,6 +42,21 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/preset-typescript": "^7.13.0",
+    "@testing-library/react": "^11.2.5",
+    "@types/react-test-renderer": "^17.0.1",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "react-test-renderer": "^17.0.1"
+  },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(test).[jt]s?(x)"
     ]
   }
 }

@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import RentBikePage from '../rentPage/RentBikePage';
+import StationsList from './rentPart/StationsList';
 import RentedBikesList from './RentedBikesList';
 
 const useStyles = makeStyles({
-    container: {      
+    container: {
         marginTop: '1em',
         width: '100%',
         display: 'flex',
@@ -16,32 +16,32 @@ const useStyles = makeStyles({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    box: {        
-        margin: '1em',        
+    box: {
+        margin: '1em',
     },
-    subheader: {        
+    subheader: {
         padding: '0.25em',
         paddingLeft: '0.5em',
     },
 });
 
-const MainPage = () => {    
+const MainPage = () => {
     const classes = useStyles();
 
     return (
-        <>           
+        <>
             <div className={classes.container}>
                 <div>
                     <Typography variant='h5' className={classes.subheader}>
                         Rented bikes:
-                    </Typography>                    
-                    <RentedBikesList />                                   
+                    </Typography>
+                    <RentedBikesList />
                     <Typography variant='h5' className={classes.subheader}>
                         Available stations:
                     </Typography>
-                    <RentBikePage/>                    
+                    <StationsList />
                 </div>
-            </div>             
+            </div>
         </>
     )
 }
