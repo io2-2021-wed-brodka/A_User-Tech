@@ -5,6 +5,7 @@ import {
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
+import { returnRentedBike } from "../api/bikes/returnBikes";
 import { getStations } from "../api/stations/getStations";
 import { Station } from "../models/station";
 
@@ -41,10 +42,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         verticalAlign: 'middle',
         transform: 'rotate(180deg)',        
     },
+    listScrollable:{
+        maxHeight: "100%",
+        overflow: 'auto'
+    }
 }),
 );
-
-const ReturnBikeDialog = () =>{
+interface ReturnDialogProps {
+    bikeId: string,
+    closeDialog: any
+}
+const ReturnBikeDialog = (props: ReturnDialogProps) =>{
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();    
     const [stations, setStations] = useState<Station[]>([]);
@@ -53,17 +61,36 @@ const ReturnBikeDialog = () =>{
         getStations().then(res => {
             if(res.isError)
             {
-                enqueueSnackbar("Could not retrive stations", { variant: "error" });
+                enqueueSnackbar("Could not return bike", { variant: "error" });
                 return;
             }
             setStations(res.data || []);
         });
     }, [enqueueSnackbar]);
 
+    const returnBikeClick = (stationId: string) =>{
+        let tmpBike = props.bikeId;
+        
+        if(tmpBike.length < 1)
+        {
+            enqueueSnackbar("Could not return this bike", { variant: "error" });
+            return;
+        }
+
+        returnRentedBike(tmpBike, stationId).then(res => {
+            if (res.isError) {
+                enqueueSnackbar("Something went wrong", { variant: "error" });
+            }
+            else {
+                enqueueSnackbar("Bike returned", { variant: "success" });
+            }
+        });
+        props.closeDialog();
+    };
 
     return (
         stations.length > 0 ?
-            <>   
+            <div className={classes.listScrollable}>   
             <List>
                 {
                     stations.map((station) => {
@@ -73,7 +100,10 @@ const ReturnBikeDialog = () =>{
                                     {station.name}
                                 </ListItemText>
                                 <ListItemSecondaryAction>
-                                    <Button>
+                                    <Button 
+                                        size="small" 
+                                        color="primary"
+                                        onClick={()=> returnBikeClick(station.id)}>
                                         Return
                                     </Button>
                                 </ListItemSecondaryAction>
@@ -83,7 +113,7 @@ const ReturnBikeDialog = () =>{
                     })
                 }
             </List>             
-            </>
+            </div>
             :
             <Typography className={classes.typography}>No stations available</Typography>
     )
