@@ -34,7 +34,7 @@ interface StationBikesListProps {
     stationId: string
 }
 
-const StationBikesList = (props: StationBikesListProps) =>{
+const StationBikesList = (props: StationBikesListProps) => {
     const classes = useStyles();
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
@@ -84,7 +84,6 @@ const StationBikesList = (props: StationBikesListProps) =>{
 
         setOpenSlidingWindow(false);
         setRentBikeId('');
-        history.push('/');
     }
 
     return (

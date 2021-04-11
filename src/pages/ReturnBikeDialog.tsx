@@ -11,20 +11,20 @@ import { Station } from "../models/station";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    card: {        
+    card: {
         margin: '1em',
         alignItems: 'center',
         justifyContent: 'center',
         width: '24em',
     },
     content: {
-        display: "flex",        
+        display: "flex",
     },
-    typography: {                
+    typography: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center"
-    },    
+    },
     media: {
         height: 160,
     },
@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         }),
         float: "right",
     },
-    expandOpen: {        
+    expandOpen: {
         verticalAlign: 'middle',
-        transform: 'rotate(180deg)',        
+        transform: 'rotate(180deg)',
     },
-    listScrollable:{
+    listScrollable: {
         maxHeight: "100%",
         overflow: 'auto'
     }
@@ -52,15 +52,14 @@ interface ReturnDialogProps {
     bikeId: string,
     closeDialog: any
 }
-const ReturnBikeDialog = (props: ReturnDialogProps) =>{
+const ReturnBikeDialog = (props: ReturnDialogProps) => {
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();    
+    const { enqueueSnackbar } = useSnackbar();
     const [stations, setStations] = useState<Station[]>([]);
-    
+
     useEffect(() => {
         getStations().then(res => {
-            if(res.isError)
-            {
+            if (res.isError) {
                 enqueueSnackbar("Could not return bike", { variant: "error" });
                 return;
             }
@@ -68,11 +67,10 @@ const ReturnBikeDialog = (props: ReturnDialogProps) =>{
         });
     }, [enqueueSnackbar]);
 
-    const returnBikeClick = (stationId: string) =>{
+    const returnBikeClick = (stationId: string) => {
         let tmpBike = props.bikeId;
-        
-        if(tmpBike.length < 1)
-        {
+
+        if (tmpBike.length < 1) {
             enqueueSnackbar("Could not return this bike", { variant: "error" });
             return;
         }
@@ -90,29 +88,29 @@ const ReturnBikeDialog = (props: ReturnDialogProps) =>{
 
     return (
         stations.length > 0 ?
-            <div className={classes.listScrollable}>   
-            <List>
-                {
-                    stations.map((station) => {
-                        return (<div key={station.id}>
-                            <ListItem>
-                                <ListItemText>
-                                    {station.name}
-                                </ListItemText>
-                                <ListItemSecondaryAction>
-                                    <Button 
-                                        size="small" 
-                                        color="primary"
-                                        onClick={()=> returnBikeClick(station.id)}>
-                                        Return
+            <div className={classes.listScrollable}>
+                <List>
+                    {
+                        stations.map((station) => {
+                            return (<div key={station.id}>
+                                <ListItem>
+                                    <ListItemText>
+                                        {station.name}
+                                    </ListItemText>
+                                    <ListItemSecondaryAction>
+                                        <Button
+                                            size="small"
+                                            color="primary"
+                                            onClick={() => returnBikeClick(station.id)}>
+                                            Return
                                     </Button>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        </div>       
-                        );
-                    })
-                }
-            </List>             
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            </div>
+                            );
+                        })
+                    }
+                </List>
             </div>
             :
             <Typography className={classes.typography}>No stations available</Typography>
