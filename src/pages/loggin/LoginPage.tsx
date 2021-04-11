@@ -79,6 +79,7 @@ const LoginPage = (props: LoginPageProps) => {
                             margin="normal"
                             required
                             fullWidth
+                            autoFocus
                         />
                         <TextField
                             id={"PasswordInput"}
