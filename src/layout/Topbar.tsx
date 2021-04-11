@@ -50,10 +50,6 @@ const Topbar = (props: TopbarProps) => {
         history.push("/");
     }
 
-    const handleLogoClick = () => {
-        history.push("/");
-    }
-
     return (
         <div>
             <AppBar>

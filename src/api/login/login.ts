@@ -1,4 +1,3 @@
-import { Http2ServerResponse } from "http2";
 import { loginMock } from "../../mock_data/login/bikesFromStationMock";
 import { login as loginUrl } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
