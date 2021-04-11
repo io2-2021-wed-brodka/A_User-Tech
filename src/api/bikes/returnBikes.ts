@@ -1,11 +1,12 @@
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
-import {stations } from "../apiUrls";
+import { stations } from "../apiUrls";
 import { Http2ServerResponse } from "http2";
 import returnRentedBikeMock from "../../mock_data/bikes/returnRentedBikeMock";
+import { getToken } from "../login/token";
 
 export const returnRentedBike = async (bikeId: string, stationId: string): Promise<IApiResponse<Http2ServerResponse>> => {
 
-    if(parseInt(process.env.REACT_APP_MOCK_DATA || "0" ) === 1 
+    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return returnRentedBikeMock();
 
@@ -14,7 +15,9 @@ export const returnRentedBike = async (bikeId: string, stationId: string): Promi
     return fetch(url, {
         method: "POST",
         // configure headers values on specification changes
-        headers: new Headers(), 
+        headers: {
+            'x-bearerToken': getToken(),
+        },
         body: JSON.stringify(
             {
                 id: bikeId
