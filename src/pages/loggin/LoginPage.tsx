@@ -1,19 +1,30 @@
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, Container, CssBaseline, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../../api/login/login';
 
-const useStyles = makeStyles({
-    container: {
-        marginTop: '1em',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-    },
 
-});
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
 export interface LoginPageProps {
     setToken: (newToken: string) => void;
@@ -35,7 +46,7 @@ const LoginPage = (props: LoginPageProps) => {
         setPassword(event.target.value);
     };
 
-    const handleLogInClick = () => {
+    const handleFormSubmit = () => {
         login(username, password).then(r => {
             if (r.isError) {
                 enqueueSnackbar(`Loggin failed: ${r.errorMessage}`, { variant: "error" });
@@ -51,28 +62,49 @@ const LoginPage = (props: LoginPageProps) => {
 
     return (
         <>
-            <div className={classes.container}>
-                <form>
-                    <TextField
-                        id={"LoginInput"}
-                        label={"Login"}
-                        variant="filled"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        autoComplete="username" />
-                    <TextField
-                        id={"PasswordInput"}
-                        label={"Password"}
-                        variant="filled"
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        autoComplete="current-password" />
-                    <Button onClick={handleLogInClick}>
-                        Log In
-                    </Button>
-                </form>
-            </div>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <form className={classes.form} onSubmit={handleFormSubmit}>
+                        <TextField
+                            id={"LoginInput"}
+                            label={"Login"}
+                            value={username}
+                            onChange={handleUsernameChange}
+                            autoComplete="username"
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                        />
+                        <TextField
+                            id={"PasswordInput"}
+                            label={"Password"}
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            autoComplete="current-password"
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                        />
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign In
+                         </Button>
+                    </form>
+                </div>
+            </Container>
         </>
     )
 }

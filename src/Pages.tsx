@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     BrowserRouter,
     Route,
@@ -11,12 +11,24 @@ import MainPage from "./pages/mainPage/MainPage";
 const Pages = () => {
     const [logged, setLogged] = useState(false);
 
-    const setToken = (newToken: string) => {
-        localStorage.setItem("token", newToken);
-        if (newToken) {
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const userName = localStorage.getItem('userName');
+        if (token && userName) {
             setLogged(true);
         }
         else {
+            setLogged(false);
+        }
+    }, [])
+
+    const setToken = (newToken: string | undefined) => {
+        if (newToken) {
+            localStorage.setItem("token", newToken);
+            setLogged(true);
+        }
+        else {
+            localStorage.removeItem("token");
             setLogged(false);
         }
     };
@@ -27,7 +39,7 @@ const Pages = () => {
 
     return (
         <BrowserRouter>
-            <Topbar logged={logged} />
+            <Topbar logged={logged} setToken={setToken} />
             <Switch>
                 {logged ||
                     <Route path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
