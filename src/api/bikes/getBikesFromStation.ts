@@ -3,10 +3,11 @@ import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { stations } from "../apiUrls";
 import { bikesFromStationMock } from "../../mock_data/bikes/bikesFromStationMock";
 import { UnrentedBike } from "../../models/unrentedBike";
+import { getToken } from "../login/token";
 
-export const  getBikesFromStation = async (stationId: string): Promise<IApiResponse<UnrentedBike[]>> => {
+export const getBikesFromStation = async (stationId: string): Promise<IApiResponse<UnrentedBike[]>> => {
 
-    if(parseInt(process.env.REACT_APP_MOCK_DATA || "0" ) === 1 
+    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return bikesFromStationMock(stationId);
 
@@ -15,6 +16,8 @@ export const  getBikesFromStation = async (stationId: string): Promise<IApiRespo
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes
-        headers: new Headers() 
+        headers: {
+            'x-bearerToken': getToken(),
+        },
     }).then<T>(handleResponse).catch<T>(handleError);
 }

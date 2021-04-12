@@ -4,13 +4,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../../api/bikes/rentedBikes";
 import Transition from "../../layout/Transition";
 import { Bike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
+import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 
 const useStyles = makeStyles({
     list: {
@@ -64,7 +64,7 @@ const RentedBikesList = () => {
                                             aria-label="delete"
                                             onClick={() => handleOpenWindow(bike.id)}
                                         >
-                                            <AccessibleForwardIcon />
+                                            <SubdirectoryArrowLeftIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
