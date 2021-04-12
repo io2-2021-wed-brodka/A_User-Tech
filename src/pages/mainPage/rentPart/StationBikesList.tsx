@@ -12,11 +12,10 @@ import {
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
-import { UnrentedBike } from "../../../models/unrentedBike";
 import Transition from "../../../layout/Transition";
+import { UnrentedBike } from "../../../models/unrentedBike";
 const useStyles = makeStyles({
     paper: {
         padding: '1em',
@@ -34,9 +33,8 @@ interface StationBikesListProps {
     stationId: string
 }
 
-const StationBikesList = (props: StationBikesListProps) =>{
+const StationBikesList = (props: StationBikesListProps) => {
     const classes = useStyles();
-    const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const [bikes, setBikes] = useState<UnrentedBike[]>([]);
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
@@ -84,7 +82,6 @@ const StationBikesList = (props: StationBikesListProps) =>{
 
         setOpenSlidingWindow(false);
         setRentBikeId('');
-        history.push('/');
     }
 
     return (

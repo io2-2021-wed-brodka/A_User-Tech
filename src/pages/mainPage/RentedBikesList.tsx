@@ -48,7 +48,7 @@ const RentedBikesList = () => {
                     {
                         rentedBikes.map(bike => {
                             return (
-                                <ListItem>
+                                <ListItem key={bike.id}>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <DirectionsBikeIcon />
@@ -59,10 +59,10 @@ const RentedBikesList = () => {
                                         secondary={"From: " + bike.rentalStationName}
                                     />
                                     <ListItemSecondaryAction>
-                                        <IconButton 
-                                            edge="end" 
+                                        <IconButton
+                                            edge="end"
                                             aria-label="delete"
-                                            onClick={()=>handleOpenWindow(bike.id)}
+                                            onClick={() => handleOpenWindow(bike.id)}
                                         >
                                             <AccessibleForwardIcon />
                                         </IconButton>
@@ -84,7 +84,7 @@ const RentedBikesList = () => {
                         {"Choose return station for bike: " + returnBikeId}
                     </DialogTitle>
                     <DialogContent>
-                        <ReturnBikeDialog 
+                        <ReturnBikeDialog
                             bikeId={returnBikeId}
                             closeDialog={handleCloseWindow}
                         />
