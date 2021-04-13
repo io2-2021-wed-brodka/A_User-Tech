@@ -14,9 +14,11 @@ export const getRentedBikes = async (): Promise<IApiResponse<Bike[]>> => {
     type T = IApiResponse<Bike[]>;
     return fetch(url, {
         method: "GET",
-        // configure headers values on specification changes
-        headers: {
+        // configure headers values on specification changes 
+        headers: new Headers({
+            'Accept': 'application/json',
+            "Content-Type": "application/json",
             'x-bearerToken': getToken(),
-        },
+        }),
     }).then<T>(handleResponse).catch<T>(handleError);
 }

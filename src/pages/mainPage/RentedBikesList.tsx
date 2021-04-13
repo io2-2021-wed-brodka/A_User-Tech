@@ -62,8 +62,7 @@ const RentedBikesList = () => {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={bike.rentalTimestamp.toLocaleString()}
-                                        secondary={"From: " + bike.rentalStationName}
+                                        secondary={"From: " + bike.station.name}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
