@@ -5,8 +5,10 @@ import {
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
+import { getRentedBikes } from "../api/bikes/rentedBikes";
 import { returnRentedBike } from "../api/bikes/returnBikes";
 import { getStations } from "../api/stations/getStations";
+import { Bike } from "../models/bike";
 import { Station } from "../models/station";
 
 
@@ -50,7 +52,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 );
 interface ReturnDialogProps {
     bikeId: string,
-    closeDialog: any
+    closeDialog: any,
+    setBikes: React.Dispatch<React.SetStateAction<Bike[]>>;
 }
 const ReturnBikeDialog = (props: ReturnDialogProps) => {
     const classes = useStyles();
@@ -81,6 +84,15 @@ const ReturnBikeDialog = (props: ReturnDialogProps) => {
             }
             else {
                 enqueueSnackbar("Bike returned", { variant: "success" });
+                props.setBikes(prev => prev.filter(b => b.id !== tmpBike));
+                getRentedBikes().then(res => {
+                    if (res.isError) {
+                        enqueueSnackbar("Could not get rented bikes", { variant: "error" });
+                    }
+                    else {
+                        props.setBikes(res.data || []);
+                    }
+                });
             }
         });
         props.closeDialog();

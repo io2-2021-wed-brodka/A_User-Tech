@@ -11,6 +11,7 @@ import Transition from "../../layout/Transition";
 import { Bike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
     list: {
@@ -21,13 +22,19 @@ const useStyles = makeStyles({
 
 const RentedBikesList = () => {
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
     const [rentedBikes, setRentedBikes] = useState<Bike[]>([]);
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [returnBikeId, setReturnBikeId] = useState<string>("");
 
     useEffect(() => {
         getRentedBikes().then(res => {
-            setRentedBikes(res.data || []);
+            if (res.isError) {
+                enqueueSnackbar("Could not get rented bikes", { variant: "error" });
+            }
+            else {
+                setRentedBikes(res.data || []);
+            }
         });
     }, [])
 
@@ -87,6 +94,7 @@ const RentedBikesList = () => {
                         <ReturnBikeDialog
                             bikeId={returnBikeId}
                             closeDialog={handleCloseWindow}
+                            setBikes={setRentedBikes}
                         />
                     </DialogContent>
                 </Dialog>
