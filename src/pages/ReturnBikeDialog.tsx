@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../api/bikes/rentedBikes";
 import { returnRentedBike } from "../api/bikes/returnBikes";
 import { getStations } from "../api/stations/getStations";
-import { Bike } from "../models/bike";
+import { RentedBike } from "../models/bike";
 import { Station } from "../models/station";
 
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 interface ReturnDialogProps {
     bikeId: string,
     closeDialog: any,
-    setBikes: React.Dispatch<React.SetStateAction<Bike[]>>;
+    setBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
 }
 const ReturnBikeDialog = (props: ReturnDialogProps) => {
     const classes = useStyles();

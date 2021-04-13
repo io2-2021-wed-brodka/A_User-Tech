@@ -1,7 +1,10 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import StationsList from './rentPart/StationsList';
+import { useState } from 'react';
+import { RentedBike } from '../../models/bike';
+import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
+import StationsList from './rentPart/StationsList';
 
 const useStyles = makeStyles({
     container: {
@@ -28,6 +31,9 @@ const useStyles = makeStyles({
 const MainPage = () => {
     const classes = useStyles();
 
+    const [rentedBikes, setRentedBikes] = useState<RentedBike[]>([]);
+    const [stations, setStations] = useState<StationWithBikes[]>([]);
+
     return (
         <>
             <div className={classes.container}>
@@ -35,11 +41,11 @@ const MainPage = () => {
                     <Typography variant='h5' className={classes.subheader}>
                         Rented bikes:
                     </Typography>
-                    <RentedBikesList />
+                    <RentedBikesList setRentedBikes={setRentedBikes} rentedBikes={rentedBikes} />
                     <Typography variant='h5' className={classes.subheader}>
                         Available stations:
                     </Typography>
-                    <StationsList />
+                    <StationsList setStations={setStations} stations={stations} />
                 </div>
             </div>
         </>

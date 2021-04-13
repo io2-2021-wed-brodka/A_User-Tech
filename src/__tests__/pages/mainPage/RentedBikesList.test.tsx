@@ -3,7 +3,7 @@ import React from 'react';
 import 'regenerator-runtime/runtime';
 import { getRentedBikes } from '../../../api/bikes/rentedBikes';
 import { getStations } from '../../../api/stations/getStations';
-import { Bike } from '../../../models/bike';
+import { RentedBike } from '../../../models/bike';
 import { Station } from '../../../models/station';
 import RentedBikesList from '../../../pages/mainPage/RentedBikesList';
 import { render } from '../../test-utils';
@@ -15,7 +15,7 @@ jest.mock('../../../api/stations/getStations');
 
 
 const mockedGetRentedBikes = getRentedBikes as jest.MockedFunction<typeof getRentedBikes>;
-const bikes: Bike[] = [
+const bikes: RentedBike[] = [
     { id: "2137", rentalStationName: "Stacja Główna", rentalTimestamp: new Date(2011, 11, 11, 11, 11) },
     { id: "2138", rentalStationName: "Stacja Poboczna", rentalTimestamp: new Date(2012, 12, 12, 12, 12) },
     { id: "SPEED", rentalStationName: "Warszawa Zachodnia", rentalTimestamp: new Date(2012, 12, 15, 15, 15) },

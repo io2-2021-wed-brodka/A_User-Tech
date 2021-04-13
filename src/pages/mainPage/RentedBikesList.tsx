@@ -5,13 +5,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
+import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
+import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../../api/bikes/rentedBikes";
 import Transition from "../../layout/Transition";
-import { Bike } from "../../models/bike";
+import { RentedBike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
-import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
-import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
     list: {
@@ -20,10 +20,14 @@ const useStyles = makeStyles({
     }
 });
 
-const RentedBikesList = () => {
+export interface RentedBikesListProps {
+    rentedBikes: RentedBike[],
+    setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>
+}
+
+const RentedBikesList = (props: RentedBikesListProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-    const [rentedBikes, setRentedBikes] = useState<Bike[]>([]);
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [returnBikeId, setReturnBikeId] = useState<string>("");
 
@@ -33,10 +37,10 @@ const RentedBikesList = () => {
                 enqueueSnackbar("Could not get rented bikes", { variant: "error" });
             }
             else {
-                setRentedBikes(res.data || []);
+                props.setRentedBikes(res.data || []);
             }
         });
-    }, [enqueueSnackbar])
+    }, [])
 
     const handleCloseWindow = () => {
         setOpenSlidingWindow(false);
@@ -49,11 +53,11 @@ const RentedBikesList = () => {
 
 
     return (
-        rentedBikes.length > 0 ?
+        props.rentedBikes.length > 0 ?
             <>
                 <List className={classes.list}>
                     {
-                        rentedBikes.map(bike => {
+                        props.rentedBikes.map(bike => {
                             return (
                                 <ListItem key={bike.id}>
                                     <ListItemAvatar>
@@ -62,8 +66,7 @@ const RentedBikesList = () => {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={bike.rentalTimestamp.toLocaleString()}
-                                        secondary={"From: " + bike.rentalStationName}
+                                        secondary={bike.id}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
@@ -94,7 +97,7 @@ const RentedBikesList = () => {
                         <ReturnBikeDialog
                             bikeId={returnBikeId}
                             closeDialog={handleCloseWindow}
-                            setBikes={setRentedBikes}
+                            setBikes={props.setRentedBikes}
                         />
                     </DialogContent>
                 </Dialog>
