@@ -6,12 +6,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
-import { useSnackbar } from "notistack";
-import React, { useEffect, useState } from "react";
-import { getRentedBikes } from "../../api/bikes/rentedBikes";
+import React, { useState } from "react";
 import Transition from "../../layout/Transition";
+import { RentedBike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
-import { Bike } from "../../models/bike";
 
 const useStyles = makeStyles({
     list: {
@@ -21,26 +19,14 @@ const useStyles = makeStyles({
 });
 
 export interface RentedBikesListProps {
-    rentedBikes: Bike[],
-    setRentedBikes: React.Dispatch<React.SetStateAction<Bike[]>>
+    rentedBikes: RentedBike[];
+    setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
 }
 
 const RentedBikesList = (props: RentedBikesListProps) => {
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [returnBikeId, setReturnBikeId] = useState<string>("");
-
-    useEffect(() => {
-        getRentedBikes().then(res => {
-            if (res.isError) {
-                enqueueSnackbar("Could not get rented bikes", { variant: "error" });
-            }
-            else {
-                props.setRentedBikes(res.data || []);
-            }
-        });
-    }, [])
 
     const handleCloseWindow = () => {
         setOpenSlidingWindow(false);

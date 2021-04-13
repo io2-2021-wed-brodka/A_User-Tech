@@ -1,6 +1,9 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
+import { getRentedBikes } from '../../api/bikes/rentedBikes';
+import { getStations } from '../../api/stations/getStations';
 import { RentedBike } from '../../models/bike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
@@ -30,9 +33,46 @@ const useStyles = makeStyles({
 
 const MainPage = () => {
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [rentedBikes, setRentedBikes] = useState<RentedBike[]>([]);
     const [stations, setStations] = useState<StationWithBikes[]>([]);
+
+    useEffect(() => {
+        fetchRentedBikes();
+        fetchStations();
+    }, [])
+
+    const addRentedBike = (bike: RentedBike) => {
+        setRentedBikes(prev => [...prev, bike]);
+        fetchRentedBikes();
+    }
+
+    const fetchRentedBikes = () => {
+        getRentedBikes().then(res => {
+            if (res.isError) {
+                enqueueSnackbar("Could not get rented bikes", { variant: "error" });
+            }
+            else {
+                setRentedBikes(res.data || []);
+            }
+        });
+    }
+    const fetchStations = () => {
+        getStations().then(res => {
+            if (res.isError) {
+                enqueueSnackbar("Could not retrive stations", { variant: "error" });
+                return;
+            }
+            setStations((res.data || []).map(s => {
+                return {
+                    ...s,
+                    bikes: [],
+                };
+            }
+            ));
+        });
+    }
 
     return (
         <>
@@ -45,7 +85,7 @@ const MainPage = () => {
                     <Typography variant='h5' className={classes.subheader}>
                         Available stations:
                     </Typography>
-                    <StationsList setStations={setStations} stations={stations} />
+                    <StationsList setStations={setStations} stations={stations} addRentedBike={addRentedBike} />
                 </div>
             </div>
         </>

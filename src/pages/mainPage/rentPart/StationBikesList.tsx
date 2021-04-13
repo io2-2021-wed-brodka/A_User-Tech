@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
 import Transition from "../../../layout/Transition";
+import { RentedBike } from "../../../models/bike";
 import { StationWithBikes } from "../../../models/station";
 const useStyles = makeStyles({
     paper: {
@@ -32,20 +33,21 @@ const useStyles = makeStyles({
 interface StationBikesListProps {
     station: StationWithBikes;
     setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
+    addRentedBike: (bike: RentedBike) => void;
 }
 
 const StationBikesList = (props: StationBikesListProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
+
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [rentBikeId, setRentBikeId] = useState<string>('');
 
     useEffect(() => {
+        fetchBikes();
+    }, []);
 
-        if (props.station.id === undefined) {
-            enqueueSnackbar("Could not retrive bikes", { variant: "error" });
-            return;
-        }
+    const fetchBikes = () => {
         getBikesFromStation(props.station.id).then(res => {
 
             if (res.isError) {
@@ -59,7 +61,8 @@ const StationBikesList = (props: StationBikesListProps) => {
                 return ns;
             }));
         });
-    }, []);
+    }
+
 
     const rentBikeClickHandle = (id: string) => {
         setRentBikeId(id);
@@ -69,23 +72,30 @@ const StationBikesList = (props: StationBikesListProps) => {
     const handleCloseWindow = () => setOpenSlidingWindow(false);
 
     const rentBikeCall = () => {
-        let tmpBike = rentBikeId;
+        let tmpBikeId = rentBikeId;
 
-        if (tmpBike.length < 1) {
+        if (tmpBikeId.length < 1) {
             enqueueSnackbar("Could not rent this bike", { variant: "error" });
             return;
         }
 
-        rentBike(tmpBike).then(res => {
+        rentBike(tmpBikeId).then(res => {
             if (res.isError) {
                 enqueueSnackbar("Something went wrong", { variant: "error" });
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
+                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "" } })
                 props.setStations(prev => prev.map(s => {
                     if (s.id !== props.station.id) return s;
                     const ns = { ...s };
-                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBike);
+                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
+                    return ns;
+                }));
+                props.setStations(prev => prev.map(s => {
+                    if (s.id !== props.station.id) return s;
+                    const ns = { ...s };
+                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
                     return ns;
                 }));
                 getBikesFromStation(props.station.id).then(res => {

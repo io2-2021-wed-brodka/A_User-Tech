@@ -10,6 +10,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import { getStations } from "../../../api/stations/getStations";
 import BreakpointMasonry from "../../../layout/BreakpointMasonry";
+import { RentedBike } from "../../../models/bike";
 import { StationWithBikes } from "../../../models/station";
 import StationBikesList from "./StationBikesList";
 
@@ -51,7 +52,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 export interface StationsListProps {
     setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
-    stations: StationWithBikes[]
+    stations: StationWithBikes[];
+    addRentedBike: (bike: RentedBike) => void;
 }
 
 const StationsList = (props: StationsListProps) => {
@@ -75,24 +77,8 @@ const StationsList = (props: StationsListProps) => {
     const [imagesIndexes, setImagesIndexes] = useState<number[]>([]);
 
     useEffect(() => {
-        getStations().then(res => {
-            if (res.isError) {
-                enqueueSnackbar("Could not retrive stations", { variant: "error" });
-                return;
-            }
-            props.setStations((res.data || []).map(s => {
-                return {
-                    ...s,
-                    bikes: [],
-                };
-            }
-            ));
-        });
-    }, []);
-
-    useEffect(() => {
         setStationsOpenStatus(props.stations.map(x => false));
-    }, [props.stations]);
+    }, [props.stations.length]);
 
     useEffect(() => {
         if (!imagesSet && props.stations.length > 0) {
@@ -100,7 +86,7 @@ const StationsList = (props: StationsListProps) => {
             setImagesIndexes(indexes);
             setImageSet(true);
         }
-    }, [props.stations, cityImages.length, imagesSet]);
+    }, [props.stations.length]);
 
     const handleOpenStationClick = (stationIndex: number) => {
         let tmpStations = [...stationsOpenStatus];
@@ -139,7 +125,7 @@ const StationsList = (props: StationsListProps) => {
                                     </CardActionArea>
                                     <Collapse in={stationsOpenStatus[stationIndex]} timeout="auto" unmountOnExit>
                                         <CardContent>
-                                            <StationBikesList station={station} setStations={props.setStations} />
+                                            <StationBikesList station={station} setStations={props.setStations} addRentedBike={props.addRentedBike} />
                                         </CardContent>
                                     </Collapse>
                                 </Card>
