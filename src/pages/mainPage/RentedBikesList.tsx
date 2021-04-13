@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 export interface RentedBikesListProps {
     rentedBikes: RentedBike[];
     setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
+    ReturnBike: (bikeId: string, stationId: string) => void;
 }
 
 const RentedBikesList = (props: RentedBikesListProps) => {
@@ -83,7 +84,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                         <ReturnBikeDialog
                             bikeId={returnBikeId}
                             closeDialog={handleCloseWindow}
-                            setBikes={props.setRentedBikes}
+                            ReturnBike={props.ReturnBike}
                         />
                     </DialogContent>
                 </Dialog>
