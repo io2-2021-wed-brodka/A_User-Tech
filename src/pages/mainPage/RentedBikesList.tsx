@@ -36,7 +36,7 @@ const RentedBikesList = () => {
                 setRentedBikes(res.data || []);
             }
         });
-    }, [])
+    }, [enqueueSnackbar])
 
     const handleCloseWindow = () => {
         setOpenSlidingWindow(false);
