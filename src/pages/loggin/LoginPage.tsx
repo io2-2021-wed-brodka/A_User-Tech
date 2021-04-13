@@ -1,7 +1,7 @@
 import { Button, Container, CssBaseline, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../../api/login/login';
 
@@ -46,7 +46,8 @@ const LoginPage = (props: LoginPageProps) => {
         setPassword(event.target.value);
     };
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = (e: FormEvent) => {
+        e.preventDefault();
         login(username, password).then(r => {
             if (r.isError) {
                 enqueueSnackbar(`Loggin failed: ${r.errorMessage}`, { variant: "error" });
@@ -57,7 +58,6 @@ const LoginPage = (props: LoginPageProps) => {
                 history.push("/");
             }
         });
-
     }
 
     return (
