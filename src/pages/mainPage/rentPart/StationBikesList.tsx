@@ -15,7 +15,8 @@ import React, { useEffect, useState } from "react";
 import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
 import Transition from "../../../layout/Transition";
-import { UnrentedBike } from "../../../models/unrentedBike";
+import { RentedBike } from "../../../models/bike";
+import { StationWithBikes } from "../../../models/station";
 const useStyles = makeStyles({
     paper: {
         padding: '1em',
@@ -30,31 +31,38 @@ const useStyles = makeStyles({
 });
 
 interface StationBikesListProps {
-    stationId: string
+    station: StationWithBikes;
+    setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
+    addRentedBike: (bike: RentedBike) => void;
 }
 
 const StationBikesList = (props: StationBikesListProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-    const [bikes, setBikes] = useState<UnrentedBike[]>([]);
+
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [rentBikeId, setRentBikeId] = useState<string>('');
 
     useEffect(() => {
+        fetchBikes();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-        if (props.stationId === undefined) {
-            enqueueSnackbar("Could not retrive bikes", { variant: "error" });
-            return;
-        }
-        getBikesFromStation(props.stationId).then(res => {
+    const fetchBikes = () => {
+        getBikesFromStation(props.station.id).then(res => {
 
             if (res.isError) {
                 enqueueSnackbar("Could not retrive bikes", { variant: "error" });
                 return;
             }
-            setBikes(res.data || []);
+            props.setStations(prev => prev.map(s => {
+                if (s.id !== props.station.id) return s;
+                const ns = { ...s };
+                ns.bikes = res.data || [];
+                return ns;
+            }));
         });
-    }, [props.stationId, enqueueSnackbar]);
+    }
+
 
     const rentBikeClickHandle = (id: string) => {
         setRentBikeId(id);
@@ -64,27 +72,44 @@ const StationBikesList = (props: StationBikesListProps) => {
     const handleCloseWindow = () => setOpenSlidingWindow(false);
 
     const rentBikeCall = () => {
-        let tmpBike = rentBikeId;
+        let tmpBikeId = rentBikeId;
 
-        if (tmpBike.length < 1) {
+        if (tmpBikeId.length < 1) {
             enqueueSnackbar("Could not rent this bike", { variant: "error" });
             return;
         }
 
-        rentBike(tmpBike).then(res => {
+        rentBike(tmpBikeId).then(res => {
             if (res.isError) {
                 enqueueSnackbar("Something went wrong", { variant: "error" });
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
-                setBikes(prev => prev.filter(b => b.id !== tmpBike));
-                getBikesFromStation(props.stationId).then(res => {
+                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "" } })
+                props.setStations(prev => prev.map(s => {
+                    if (s.id !== props.station.id) return s;
+                    const ns = { ...s };
+                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
+                    return ns;
+                }));
+                props.setStations(prev => prev.map(s => {
+                    if (s.id !== props.station.id) return s;
+                    const ns = { ...s };
+                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
+                    return ns;
+                }));
+                getBikesFromStation(props.station.id).then(res => {
 
                     if (res.isError) {
                         enqueueSnackbar("Could not retrive bikes", { variant: "error" });
                         return;
                     }
-                    setBikes(res.data || []);
+                    props.setStations(prev => prev.map(s => {
+                        if (s.id !== props.station.id) return s;
+                        const ns = { ...s };
+                        ns.bikes = res.data || [];
+                        return ns;
+                    }));
                 });
             }
         });
@@ -94,12 +119,12 @@ const StationBikesList = (props: StationBikesListProps) => {
     }
 
     return (
-        bikes.length > 0 ?
+        props.station.bikes.length > 0 ?
             <>
                 <Typography className={classes.typography}>Available bikes:</Typography>
                 <List className={classes.list}>
                     {
-                        bikes.map(bike => {
+                        props.station.bikes.map(bike => {
                             return (<ListItem key={bike.id}>
                                 <ListItemAvatar>
                                     <Avatar>

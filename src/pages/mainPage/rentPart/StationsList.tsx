@@ -1,17 +1,16 @@
-import * as React from 'react';
 import {
     Card, CardActionArea, CardContent,
     CardMedia, Collapse, createStyles,
     Icon, makeStyles, Theme, Typography
 } from "@material-ui/core";
-import clsx from 'clsx';
 import { ExpandMore } from "@material-ui/icons";
-import { useSnackbar } from "notistack";
+import clsx from 'clsx';
+import * as React from 'react';
 import { useEffect, useState } from "react";
-import { getStations } from "../../../api/stations/getStations";
-import { Station } from "../../../models/station";
-import StationBikesList from "./StationBikesList";
 import BreakpointMasonry from "../../../layout/BreakpointMasonry";
+import { RentedBike } from "../../../models/bike";
+import { StationWithBikes } from "../../../models/station";
+import StationBikesList from "./StationBikesList";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -49,9 +48,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }),
 );
 
-const StationsList = () => {
+export interface StationsListProps {
+    setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
+    stations: StationWithBikes[];
+    addRentedBike: (bike: RentedBike) => void;
+}
+
+const StationsList = (props: StationsListProps) => {
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();
 
     const cityImages = [
         "https://upload.wikimedia.org/wikipedia/commons/8/82/Melbourne_City_Bikes.JPG",
@@ -65,41 +69,35 @@ const StationsList = () => {
     ];
 
     const [imagesSet, setImageSet] = useState<boolean>(false);
+    const [stationsOpenStatus, setStationsOpenStatus] = useState<boolean[]>([]);
 
-    const [stations, setStations] = useState<[Station, boolean][]>([]);
     const [imagesIndexes, setImagesIndexes] = useState<number[]>([]);
 
     useEffect(() => {
-        getStations().then(res => {
-            if (res.isError) {
-                enqueueSnackbar("Could not retrive stations", { variant: "error" });
-                return;
-            }
-            setStations((res.data || []).map(x => [x, false]));
-        });
-    }, [enqueueSnackbar]);
+        setStationsOpenStatus(props.stations.map(x => false));
+    }, [props.stations.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        if (!imagesSet && stations.length > 0) {
-            let indexes = stations.map(_ => Math.floor(Math.random() * cityImages.length));
+        if (!imagesSet && props.stations.length > 0) {
+            let indexes = props.stations.map(_ => Math.floor(Math.random() * cityImages.length));
             setImagesIndexes(indexes);
             setImageSet(true);
         }
-    }, [stations, cityImages.length, imagesSet]);
+    }, [props.stations.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleOpenStationClick = (stationIndex: number) => {
-        let tmpStations = [...stations];
-        tmpStations[stationIndex][1] = !tmpStations[stationIndex][1];
-        setStations(tmpStations);
+        let tmpStations = [...stationsOpenStatus];
+        tmpStations[stationIndex] = !tmpStations[stationIndex];
+        setStationsOpenStatus(tmpStations);
     };
 
     return (
-        stations.length > 0 ?
+        props.stations.length > 0 ?
             <>
                 <BreakpointMasonry>
                     {
-                        stations.map((station, stationIndex) => {
-                            return (<div key={station[0].id}>
+                        props.stations.map((station, stationIndex) => {
+                            return (<div key={station.id}>
                                 <Card className={classes.card} >
                                     <CardActionArea onClick={() => handleOpenStationClick(stationIndex)}>
                                         <CardMedia
@@ -108,23 +106,23 @@ const StationsList = () => {
                                             title="StationImage" />
                                         <CardContent className={classes.content}>
                                             <Typography className={classes.typography} variant="h6">
-                                                {station[0].name}
+                                                {station.name}
                                             </Typography>
 
                                             <Icon
                                                 className={clsx(classes.expand, {
-                                                    [classes.expandOpen]: station[1],
+                                                    [classes.expandOpen]: stationsOpenStatus[stationIndex],
                                                 })}
-                                                aria-expanded={station[1]}
+                                                aria-expanded={stationsOpenStatus[stationIndex]}
                                                 aria-label="show more"
                                             >
                                                 <ExpandMore />
                                             </Icon>
                                         </CardContent>
                                     </CardActionArea>
-                                    <Collapse in={station[1]} timeout="auto" unmountOnExit>
+                                    <Collapse in={stationsOpenStatus[stationIndex]} timeout="auto" unmountOnExit>
                                         <CardContent>
-                                            <StationBikesList stationId={station[0].id} />
+                                            <StationBikesList station={station} setStations={props.setStations} addRentedBike={props.addRentedBike} />
                                         </CardContent>
                                     </Collapse>
                                 </Card>

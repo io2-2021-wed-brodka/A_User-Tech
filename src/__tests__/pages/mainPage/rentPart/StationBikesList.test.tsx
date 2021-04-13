@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime';
 import { getBikesFromStation } from '../../../../api/bikes/getBikesFromStation';
 import { rentBike } from '../../../../api/bikes/rentBike';
 import { UnrentedBike } from '../../../../models/unrentedBike';
+import MainPage from '../../../../pages/mainPage/MainPage';
 import StationBikesList from '../../../../pages/mainPage/rentPart/StationBikesList';
 import { render } from '../../../test-utils';
 
@@ -26,7 +27,7 @@ it("Bikes ids exisit on list", async () => {
 
     await act(async () => {
         renderResult = render(
-            <StationBikesList stationId={"1"} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
         );
     });
 
@@ -39,7 +40,7 @@ it("Click on bike should show confirm pop-up", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationBikesList stationId={"1"} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
         );
     });
 
@@ -54,7 +55,7 @@ it("Renting bike should show success message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationBikesList stationId={"1"} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
         );
     });
 

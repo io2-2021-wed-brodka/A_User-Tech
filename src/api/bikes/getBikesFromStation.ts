@@ -1,4 +1,4 @@
-import { Bike } from "../../models/bike"
+import { RentedBike } from "../../models/bike"
 import { handleError, handleResponse, IApiResponse } from "../apiUtils";
 import { stations } from "../apiUrls";
 import { bikesFromStationMock } from "../../mock_data/bikes/bikesFromStationMock";
@@ -12,7 +12,7 @@ export const getBikesFromStation = async (stationId: string): Promise<IApiRespon
         return bikesFromStationMock(stationId);
 
     let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
-    type T = IApiResponse<Bike[]>;
+    type T = IApiResponse<RentedBike[]>;
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes

@@ -5,6 +5,8 @@ import { getBikesFromStation } from '../../../../api/bikes/getBikesFromStation';
 import { getStations } from '../../../../api/stations/getStations';
 import { Station } from '../../../../models/station';
 import { UnrentedBike } from '../../../../models/unrentedBike';
+import MainPage from '../../../../pages/mainPage/MainPage';
+import StationBikesList from '../../../../pages/mainPage/rentPart/StationBikesList';
 import StationsList from '../../../../pages/mainPage/rentPart/StationsList';
 import { render } from '../../../test-utils';
 
@@ -28,7 +30,7 @@ it("Station card unfolds on click", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationsList />
+            <StationsList stations={stations.map(s => { return { ...s, bikes: bikes } })} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
         );
     });
 
@@ -60,7 +62,7 @@ it("All stations have images", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationsList />
+            <StationsList stations={stations.map(s => { return { ...s, bikes: bikes } })} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
         );
     });
 
