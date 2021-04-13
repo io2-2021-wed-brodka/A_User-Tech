@@ -10,8 +10,8 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../../api/bikes/rentedBikes";
 import Transition from "../../layout/Transition";
-import { RentedBike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
+import { Bike } from "../../models/bike";
 
 const useStyles = makeStyles({
     list: {
@@ -21,8 +21,8 @@ const useStyles = makeStyles({
 });
 
 export interface RentedBikesListProps {
-    rentedBikes: RentedBike[],
-    setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>
+    rentedBikes: Bike[],
+    setRentedBikes: React.Dispatch<React.SetStateAction<Bike[]>>
 }
 
 const RentedBikesList = (props: RentedBikesListProps) => {

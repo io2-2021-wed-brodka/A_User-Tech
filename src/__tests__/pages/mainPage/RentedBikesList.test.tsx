@@ -15,10 +15,10 @@ jest.mock('../../../api/stations/getStations');
 
 
 const mockedGetRentedBikes = getRentedBikes as jest.MockedFunction<typeof getRentedBikes>;
-const bikes: RentedBike[] = [
-    { id: "2137", rentalStationName: "Stacja Główna", rentalTimestamp: new Date(2011, 11, 11, 11, 11) },
-    { id: "2138", rentalStationName: "Stacja Poboczna", rentalTimestamp: new Date(2012, 12, 12, 12, 12) },
-    { id: "SPEED", rentalStationName: "Warszawa Zachodnia", rentalTimestamp: new Date(2012, 12, 15, 15, 15) },
+const bikes: Bike[] = [
+    { id: "2137", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
+    { id: "2138", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
+    { id: "SPEED", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
 ];
 const fullResponse = { isError: false, responseCode: 200, data: bikes }
 const emptyResponse = { isError: false, responseCode: 200, data: [] }
@@ -54,8 +54,7 @@ it("Bikes ids exisit on list", async () => {
     });
 
     bikes.forEach(bike => {
-        expect(renderResult.getByText(bike.rentalStationName, { exact: false })).toBeDefined();
-        expect(renderResult.getByText(bike.rentalTimestamp.toLocaleString(), { exact: false })).toBeDefined();
+        expect(renderResult.getByText(bike.id, { exact: false })).toBeDefined();
     });
 })
 
