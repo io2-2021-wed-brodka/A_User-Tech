@@ -10,13 +10,14 @@ export const getRentedBikes = async (): Promise<IApiResponse<Bike[]>> => {
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return getMockedRentedBikes();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented";
-    type T = IApiResponse<Bike[]>;
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented/";
+    type T = IApiResponse<Bike[]>;    
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes
-        headers: {
-            'x-bearerToken': getToken(),
-        },
+        headers: new Headers({
+            'Accept': 'application/json',    
+            'Authorization': getToken(),
+        }),
     }).then<T>(handleResponse).catch<T>(handleError);
 }

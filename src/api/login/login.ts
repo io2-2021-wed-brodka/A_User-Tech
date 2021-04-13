@@ -12,16 +12,18 @@ export const login = async (username: string, password: string): Promise<IApiRes
         return loginMock(username, password);
 
     let url = process.env.REACT_APP_BACKEND_URL + loginUrl;
-    type T = IApiResponse<Token>;
+    type T = IApiResponse<Token>;    
     return fetch(url, {
         method: "POST",
         // configure headers values on specification changes
-        headers: new Headers(),
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }),
         body: JSON.stringify(
             {
                 login: username,
-                password: password,
-                role: "user",
+                password: password,                
             })
     }).then<T>(handleResponse).catch<T>(handleError);
 }

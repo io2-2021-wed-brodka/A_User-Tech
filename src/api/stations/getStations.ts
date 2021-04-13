@@ -12,12 +12,13 @@ export const getStations = async (): Promise<IApiResponse<Station[]>> => {
         return getMockedStations();
 
     let url = process.env.REACT_APP_BACKEND_URL + stations;
-    type T = IApiResponse<Station[]>;
+    type T = IApiResponse<Station[]>;    
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes
-        headers: {
-            'x-bearerToken': getToken(),
-        },
+        headers: new Headers({
+            'Accept': 'application/json',            
+            'Authorization': getToken(),
+        }),
     }).then<T>(handleResponse).catch<T>(handleError);
 }
