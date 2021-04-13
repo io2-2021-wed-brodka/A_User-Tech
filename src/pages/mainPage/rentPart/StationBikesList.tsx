@@ -77,6 +77,15 @@ const StationBikesList = (props: StationBikesListProps) => {
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
+                setBikes(prev => prev.filter(b => b.id !== tmpBike));
+                getBikesFromStation(props.stationId).then(res => {
+
+                    if (res.isError) {
+                        enqueueSnackbar("Could not retrive bikes", { variant: "error" });
+                        return;
+                    }
+                    setBikes(res.data || []);
+                });
             }
         });
 
