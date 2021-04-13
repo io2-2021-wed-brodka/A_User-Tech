@@ -8,10 +8,10 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import React, { useEffect, useState } from "react";
 import { getRentedBikes } from "../../api/bikes/rentedBikes";
 import Transition from "../../layout/Transition";
-import { Bike } from "../../models/bike";
 import ReturnBikeDialog from "../ReturnBikeDialog";
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import { useSnackbar } from "notistack";
+import { Bike } from "../../models/bike";
 
 const useStyles = makeStyles({
     list: {
@@ -62,8 +62,7 @@ const RentedBikesList = () => {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={bike.rentalTimestamp.toLocaleString()}
-                                        secondary={"From: " + bike.rentalStationName}
+                                        secondary={bike.id}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
