@@ -45,7 +45,7 @@ const StationBikesList = (props: StationBikesListProps) => {
 
     useEffect(() => {
         fetchBikes();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchBikes = () => {
         getBikesFromStation(props.station.id).then(res => {

@@ -5,6 +5,7 @@ import { getRentedBikes } from '../../../api/bikes/rentedBikes';
 import { getStations } from '../../../api/stations/getStations';
 import { RentedBike } from '../../../models/bike';
 import { Station } from '../../../models/station';
+import MainPage from '../../../pages/mainPage/MainPage';
 import RentedBikesList from '../../../pages/mainPage/RentedBikesList';
 import { render } from '../../test-utils';
 
@@ -15,7 +16,7 @@ jest.mock('../../../api/stations/getStations');
 
 
 const mockedGetRentedBikes = getRentedBikes as jest.MockedFunction<typeof getRentedBikes>;
-const bikes: Bike[] = [
+const bikes: RentedBike[] = [
     { id: "2137", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
     { id: "2138", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
     { id: "SPEED", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
@@ -35,7 +36,7 @@ it("No rented bikes should show a message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <RentedBikesList />
+            <MainPage />
         );
     });
 
@@ -49,7 +50,7 @@ it("Bikes ids exisit on list", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <RentedBikesList />
+            <MainPage />
         );
     });
 
@@ -64,7 +65,7 @@ it("There should be a button to return a bike", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <RentedBikesList />
+            <MainPage />
         );
     });
 
@@ -82,7 +83,7 @@ it("Show popup after clicking to return bike", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <RentedBikesList />
+            <MainPage />
         );
     });
 
@@ -102,7 +103,7 @@ it("Returning a bike show success message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <RentedBikesList />
+            <MainPage />
         );
     });
 

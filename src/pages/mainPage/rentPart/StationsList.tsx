@@ -5,10 +5,8 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import clsx from 'clsx';
-import { useSnackbar } from "notistack";
 import * as React from 'react';
 import { useEffect, useState } from "react";
-import { getStations } from "../../../api/stations/getStations";
 import BreakpointMasonry from "../../../layout/BreakpointMasonry";
 import { RentedBike } from "../../../models/bike";
 import { StationWithBikes } from "../../../models/station";
@@ -58,7 +56,6 @@ export interface StationsListProps {
 
 const StationsList = (props: StationsListProps) => {
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();
 
     const cityImages = [
         "https://upload.wikimedia.org/wikipedia/commons/8/82/Melbourne_City_Bikes.JPG",
@@ -78,7 +75,7 @@ const StationsList = (props: StationsListProps) => {
 
     useEffect(() => {
         setStationsOpenStatus(props.stations.map(x => false));
-    }, [props.stations.length]);
+    }, [props.stations.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (!imagesSet && props.stations.length > 0) {
@@ -86,7 +83,7 @@ const StationsList = (props: StationsListProps) => {
             setImagesIndexes(indexes);
             setImageSet(true);
         }
-    }, [props.stations.length]);
+    }, [props.stations.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleOpenStationClick = (stationIndex: number) => {
         let tmpStations = [...stationsOpenStatus];

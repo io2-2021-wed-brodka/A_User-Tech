@@ -7,6 +7,6 @@ export const loginMock = (username: string, password: string): IApiResponse<Toke
     return {
         isError: false,
         responseCode: 200,
-        data: { token: "Marzę o tym żeby móc na widok policjanta Odetchnąć z ulgą i pomyśleć, że jestem bezpieczny" }
+        data: { token: "superbezpiecznytoken" }
     };
 }

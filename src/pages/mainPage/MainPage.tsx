@@ -8,6 +8,7 @@ import { RentedBike } from '../../models/bike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
+import React from 'react';
 
 const useStyles = makeStyles({
     container: {
@@ -41,7 +42,7 @@ const MainPage = () => {
     useEffect(() => {
         fetchRentedBikes();
         fetchStations();
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const addRentedBike = (bike: RentedBike) => {
         setRentedBikes(prev => [...prev, bike]);
