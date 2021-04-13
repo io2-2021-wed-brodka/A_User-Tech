@@ -10,14 +10,16 @@ export const returnRentedBike = async (bikeId: string, stationId: string): Promi
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return returnRentedBikeMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",
         // configure headers values on specification changes
-        headers: {
-            'x-bearerToken': getToken(),
-        },
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': getToken(),
+        }),
         body: JSON.stringify(
             {
                 id: bikeId

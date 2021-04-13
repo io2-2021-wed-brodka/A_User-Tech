@@ -11,15 +11,15 @@ export const getBikesFromStation = async (stationId: string): Promise<IApiRespon
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return bikesFromStationMock(stationId);
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
     type T = IApiResponse<Bike[]>;
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
-            "Content-Type": "application/json",
-            'x-bearerToken': getToken(),
+            'Content-Type': 'application/json',
+            'Authorization': getToken(),
         }),
     }).then<T>(handleResponse).catch<T>(handleError);
 }

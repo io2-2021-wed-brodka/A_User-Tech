@@ -11,14 +11,16 @@ export const rentBike = async (bikeId: string): Promise<IApiResponse<Http2Server
         || process.env.REACT_APP_BACKEND_URL === undefined)
         return rentBikeMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented";
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented/";
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",
         // configure headers values on specification changes
-        headers: {
-            'x-bearerToken': getToken(),
-        },
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': getToken(),
+        }),
         body: JSON.stringify(
             {
                 id: bikeId
