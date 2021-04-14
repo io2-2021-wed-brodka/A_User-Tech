@@ -9,6 +9,7 @@ import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
 import React from 'react';
+import { returnRentedBike } from '../../api/bikes/returnBikes';
 
 const useStyles = makeStyles({
     container: {
@@ -59,6 +60,7 @@ const MainPage = () => {
             }
         });
     }
+
     const fetchStations = () => {
         getStations().then(res => {
             if (res.isError) {
@@ -75,6 +77,38 @@ const MainPage = () => {
         });
     }
 
+    const ReturnBike = (bikeId: string, stationId: string) => {
+        if (bikeId.length < 1) {
+            enqueueSnackbar("Could not return this bike", { variant: "error" });
+            return;
+        }
+
+        returnRentedBike(bikeId, stationId).then(res => {
+            if (res.isError) {
+                enqueueSnackbar("Something went wrong", { variant: "error" });
+            }
+            else {
+                enqueueSnackbar("Bike returned", { variant: "success" });
+                setRentedBikes(prev => prev.filter(b => b.id !== bikeId));
+                getRentedBikes().then(res => {
+                    if (res.isError) {
+                        enqueueSnackbar("Could not get rented bikes", { variant: "error" });
+                    }
+                    else {
+                        setRentedBikes(res.data || []);
+                    }
+                });
+                setStations(prev => prev.map(s => {
+                    if (s.id !== stationId) return s;
+                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId }] };
+                    return ns;
+                }));
+            }
+        });
+
+
+    }
+
     return (
         <>
             <div className={classes.container}>
@@ -82,7 +116,7 @@ const MainPage = () => {
                     <Typography variant='h5' className={classes.subheader}>
                         Rented bikes:
                     </Typography>
-                    <RentedBikesList setRentedBikes={setRentedBikes} rentedBikes={rentedBikes} />
+                    <RentedBikesList setRentedBikes={setRentedBikes} rentedBikes={rentedBikes} ReturnBike={ReturnBike} />
                     <Typography variant='h5' className={classes.subheader}>
                         Available stations:
                     </Typography>
