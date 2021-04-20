@@ -37,22 +37,22 @@ const Pages = () => {
     const setUserName = (userName: string) => {
         localStorage.setItem("userName", userName);
     };
-    if (logged)
-        return (
-            <BrowserRouter>
-                <Topbar logged={logged} setToken={setToken} />
-                <Switch>
-                    <Route exact path="/" component={() => <MainPage />} />
-                    <Route exact path="/login" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
-                </Switch>
-            </BrowserRouter>
-        )
+    
     return (
         <BrowserRouter>
             <Topbar logged={logged} setToken={setToken} />
             <Switch>
-                <Route exact path="/register" component={() => <RegisterPage setToken={setToken} setUserName={setUserName}/>} />
-                <Route path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                { !logged ?
+                <>
+                    <Route exact path="/register" component={() => <RegisterPage setToken={setToken} setUserName={setUserName}/>} />
+                    <Route exact path="/login" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                    <Route exact path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                </>
+                :
+                <>
+                    <Route path="/" component={() => <MainPage />} />
+                </>
+                }
             </Switch>
         </BrowserRouter>
     )

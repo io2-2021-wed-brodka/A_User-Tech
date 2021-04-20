@@ -89,7 +89,7 @@ const RegisterPage = (props: LoginPageProps) => {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                             variant="outlined"
                             margin="normal"
                             required
@@ -103,7 +103,7 @@ const RegisterPage = (props: LoginPageProps) => {
                             type="password"
                             value={repassword}
                             onChange={handleRepasswordChange}
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                             variant="outlined"
                             margin="normal"
                             required
