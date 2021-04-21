@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
-import { login } from '../../api/login/login';
+import { register } from '../../api/register/register';
+import { LoginPageProps } from '../loggin/LoginPage';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,18 +27,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export interface LoginPageProps {
-    setToken: (newToken: string) => void;
-    setUserName: (userName: string) => void;
-}
 
-const LoginPage = (props: LoginPageProps) => {
+const RegisterPage = (props: LoginPageProps) => {
     const classes = useStyles();
     const history = useHistory()
 
     const { enqueueSnackbar } = useSnackbar();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [repassword, setRepassword] = useState('');
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -46,11 +44,15 @@ const LoginPage = (props: LoginPageProps) => {
         setPassword(event.target.value);
     };
 
+    const handleRepasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRepassword(event.target.value);
+    };
+
     const handleFormSubmit = (e: FormEvent) => {
         e.preventDefault();
-        login(username, password).then(r => {
+        register(username, password).then(r => {
             if (r.isError) {
-                enqueueSnackbar(`Loggin failed: ${r.errorMessage}`, { variant: "error" });
+                enqueueSnackbar(`Register failed: ${r.errorMessage}`, { variant: "error" });
             }
             else {
                 props.setToken(r.data?.token || '');
@@ -66,7 +68,7 @@ const LoginPage = (props: LoginPageProps) => {
                 <CssBaseline />
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Create new account
                     </Typography>
                     <form className={classes.form} onSubmit={handleFormSubmit}>
                         <TextField
@@ -87,13 +89,26 @@ const LoginPage = (props: LoginPageProps) => {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
                         />
-
+                        <TextField
+                            error={password!==repassword}
+                            helperText={password!==repassword ? "Passwords do not match." : ""}
+                            id={"RepasswordInput"}
+                            label={"Retype Password"}
+                            type="password"
+                            value={repassword}
+                            onChange={handleRepasswordChange}
+                            autoComplete="new-password"
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -101,15 +116,13 @@ const LoginPage = (props: LoginPageProps) => {
                             color="primary"
                             className={classes.submit}
                         >
-                            Sign In
+                            Create Account
                          </Button>
                     </form>
-                    <Button color="secondary" onClick={()=>history.push("/register")}>Create Account</Button>
-
                 </div>
             </Container>
         </>
     )
 }
 
-export default LoginPage;
+export default RegisterPage;

@@ -7,6 +7,7 @@ import {
 import Topbar from "./layout/Topbar";
 import LoginPage from "./pages/loggin/LoginPage";
 import MainPage from "./pages/mainPage/MainPage";
+import RegisterPage from "./pages/register/RegisterPage";
 
 const Pages = () => {
     const [logged, setLogged] = useState(false);
@@ -36,17 +37,22 @@ const Pages = () => {
     const setUserName = (userName: string) => {
         localStorage.setItem("userName", userName);
     };
-
+    
     return (
         <BrowserRouter>
             <Topbar logged={logged} setToken={setToken} />
             <Switch>
-                {logged ||
-                    <Route path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                { !logged ?
+                <>
+                    <Route exact path="/register" component={() => <RegisterPage setToken={setToken} setUserName={setUserName}/>} />
+                    <Route exact path="/login" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                    <Route exact path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
+                </>
+                :
+                <>
+                    <Route path="/" component={() => <MainPage />} />
+                </>
                 }
-                <Route exact path="/" component={() => <MainPage />} />
-                <Route exact path="/login" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
-
             </Switch>
         </BrowserRouter>
     )
