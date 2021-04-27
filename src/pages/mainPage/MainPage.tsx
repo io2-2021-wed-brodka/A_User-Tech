@@ -56,7 +56,7 @@ const MainPage = () => {
                 enqueueSnackbar("Could not get rented bikes", { variant: "error" });
             }
             else {
-                setRentedBikes(res.data || []);
+                setRentedBikes(res.data?.bikes || []);
             }
         });
     }
@@ -67,7 +67,7 @@ const MainPage = () => {
                 enqueueSnackbar("Could not retrive stations", { variant: "error" });
                 return;
             }
-            setStations((res.data || []).map(s => {
+            setStations((res.data?.stations || []).map(s => {
                 return {
                     ...s,
                     bikes: [],
@@ -95,7 +95,7 @@ const MainPage = () => {
                         enqueueSnackbar("Could not get rented bikes", { variant: "error" });
                     }
                     else {
-                        setRentedBikes(res.data || []);
+                        setRentedBikes(res.data?.bikes || []);
                     }
                 });
                 setStations(prev => prev.map(s => {

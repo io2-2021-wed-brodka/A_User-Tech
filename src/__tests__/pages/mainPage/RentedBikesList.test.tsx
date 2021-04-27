@@ -21,13 +21,13 @@ const bikes: RentedBike[] = [
     { id: "2138", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
     { id: "SPEED", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
 ];
-const fullResponse = { isError: false, responseCode: 200, data: bikes }
-const emptyResponse = { isError: false, responseCode: 200, data: [] }
+const fullResponse = { isError: false, responseCode: 200, data: { bikes } }
+const emptyResponse = { isError: false, responseCode: 200, data: { bikes: [] } }
 
 
 const mockedGetStations = getStations as jest.MockedFunction<typeof getStations>;
 const stations: Station[] = [{ id: "1", name: "Wadowice" }, { id: "2", name: "Na rynku w Barlinku" }, { id: "312", name: "Dom Rycha Peji" }, { id: "44124", name: "W Szczecinie na młynie" }];
-const stationsResponse = { isError: false, responseCode: 200, data: stations }
+const stationsResponse = { isError: false, responseCode: 200, data: { stations } }
 mockedGetStations.mockResolvedValue(stationsResponse);
 
 
