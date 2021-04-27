@@ -57,7 +57,7 @@ const StationBikesList = (props: StationBikesListProps) => {
             props.setStations(prev => prev.map(s => {
                 if (s.id !== props.station.id) return s;
                 const ns = { ...s };
-                ns.bikes = res.data || [];
+                ns.bikes = res.data?.bikes || [];
                 return ns;
             }));
         });
@@ -107,7 +107,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                     props.setStations(prev => prev.map(s => {
                         if (s.id !== props.station.id) return s;
                         const ns = { ...s };
-                        ns.bikes = res.data || [];
+                        ns.bikes = res.data?.bikes || [];
                         return ns;
                     }));
                 });

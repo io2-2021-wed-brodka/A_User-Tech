@@ -15,7 +15,7 @@ jest.mock('../../../../api/bikes/rentBike');
 
 const mockedGetBikesFromStation = getBikesFromStation as jest.MockedFunction<typeof getBikesFromStation>;
 const bikes: UnrentedBike[] = [{ id: "2137" }, { id: "2138" }];
-const resp2 = { isError: false, responseCode: 200, data: bikes }
+const resp2 = { isError: false, responseCode: 200, data: { bikes } }
 mockedGetBikesFromStation.mockResolvedValue(resp2);
 
 const mockedRentBike = rentBike as jest.MockedFunction<typeof rentBike>;

@@ -18,12 +18,12 @@ jest.mock('../../../../api/bikes/getBikesFromStation');
 
 const mockedGetStations = getStations as jest.MockedFunction<typeof getStations>;
 const stations: Station[] = [{ id: "1", name: "Wadowice" }, { id: "2", name: "Na rynku w Barlinku" }, { id: "312", name: "Dom Rycha Peji" }, { id: "44124", name: "W Szczecinie na młynie" }];
-const resp = { isError: false, responseCode: 200, data: stations }
+const resp = { isError: false, responseCode: 200, data: { stations } }
 mockedGetStations.mockResolvedValue(resp);
 
 const mockedGetBikesFromStation = getBikesFromStation as jest.MockedFunction<typeof getBikesFromStation>;
 const bikes: UnrentedBike[] = [{ id: "2137" }, { id: "2138" }];
-const resp2 = { isError: false, responseCode: 200, data: bikes }
+const resp2 = { isError: false, responseCode: 200, data: { bikes } }
 mockedGetBikesFromStation.mockResolvedValue(resp2);
 
 it("Station card unfolds on click", async () => {

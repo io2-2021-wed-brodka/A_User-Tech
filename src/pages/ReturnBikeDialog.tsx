@@ -63,7 +63,7 @@ const ReturnBikeDialog = (props: ReturnDialogProps) => {
                 enqueueSnackbar("Could not return bike", { variant: "error" });
                 return;
             }
-            setStations(res.data || []);
+            setStations(res.data?.stations || []);
         });
     }, [enqueueSnackbar]);
 
