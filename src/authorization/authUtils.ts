@@ -5,7 +5,7 @@ export function getToken() {
 
 export function setToken(token?: string | null) {
     if (token) {
-        localStorage.setItem('token', 'Bearer ' + token);
+        localStorage.setItem('token', token);
     }
     else {
         localStorage.removeItem('token');
@@ -38,7 +38,7 @@ export function setRole(role?: string | null) {
     }
 }
 
-export function RoleToInt(role: string | undefined) {
+function RoleToInt(role: string | undefined | null) {
     switch (role) {
         case 'user':
             return 0;
@@ -49,4 +49,8 @@ export function RoleToInt(role: string | undefined) {
         default:
             return -1;
     }
+}
+
+export function HasRole(userRole: string | undefined | null, requiredRole: string | undefined | null) {
+    return RoleToInt(userRole) >= RoleToInt(requiredRole)
 }

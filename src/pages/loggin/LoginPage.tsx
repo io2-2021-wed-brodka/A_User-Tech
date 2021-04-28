@@ -54,7 +54,7 @@ const LoginPage = (props: LoginPageProps) => {
             }
             else {
                 props.setUser(prev => {
-                    return { ...prev, token: r.data?.token, userName: username, role: r.data?.role }
+                    return { ...prev, token: 'Bearer ' + r.data?.token, userName: username, role: r.data?.role }
                 })
                 history.push("/");
             }

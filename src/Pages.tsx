@@ -4,18 +4,23 @@ import {
 
     Switch
 } from "react-router-dom";
-import { getRole, getToken, getUserName, setRole, setToken, setUserName } from "./authorization/authUtils";
+import { getRole, getToken, getUserName, HasRole, setRole, setToken, setUserName } from "./authorization/authUtils";
 import RoleRoute from "./authorization/RoleRoute";
 import Topbar from "./layout/Topbar";
 import { AppUser } from "./models/appUser";
 import LoginPage from "./pages/loggin/LoginPage";
 import MainPage from "./pages/mainPage/MainPage";
+import SimpleTabs from "./pages/mainPage/Tabs";
 import RegisterPage from "./pages/register/RegisterPage";
 
 
 
 const Pages = () => {
-    const [user, setUser] = useState<AppUser>();
+    const [user, setUser] = useState<AppUser | undefined>({
+        token: getToken(),
+        userName: getUserName(),
+        role: getRole(),
+    });
 
     useEffect(() => {
         const token = getToken();
@@ -28,6 +33,9 @@ const Pages = () => {
                 userName,
             })
         }
+        else {
+            setUser(undefined);
+        }
 
     }, [])
 
@@ -37,13 +45,21 @@ const Pages = () => {
         setRole(user?.role);
     }, [user])
 
+    const GetMainPage = () => {
+        if (HasRole(user?.role, 'tech')) {
+            return (<SimpleTabs />)
+        }
+        return (<MainPage />
+        )
+    }
+
     return (
         <BrowserRouter>
             <Topbar user={user} setUser={setUser} />
             <Switch>
                 <RoleRoute exact path="/register" component={() => <RegisterPage />} />
                 <RoleRoute exact path="/login" component={() => <LoginPage setUser={setUser} />} />
-                <RoleRoute exact path="/" component={() => <MainPage />} />
+                <RoleRoute requiredRole={'user'} actualRole={user?.role} exact path="/" component={() => GetMainPage()} />
             </Switch>
         </BrowserRouter>
     )
