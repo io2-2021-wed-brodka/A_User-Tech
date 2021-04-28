@@ -1,7 +1,7 @@
 import { IApiResponse } from "../../api/apiUtils";
-import { getStationsResponse } from "../../api/stations/getStations";
+import { GetStationsResponse } from "../../api/stations/getActiveStations";
 
-const getMockedStations = (): IApiResponse<getStationsResponse> => {
+const getMockedStations = (): IApiResponse<GetStationsResponse> => {
 
     return {
         isError: false,

@@ -11,14 +11,14 @@ export const handleResponse = async <T>(response: Response): Promise<IApiRespons
         return {
             isError: false,
             responseCode: response.status,
-            data: response.status!==204 ? await response.json() : null,
+            data: response.status !== 204 ? await response.json() : null,
         }
     }
     else {
         return {
             isError: true,
             responseCode: response.status,
-            errorMessage: await response.text(),
+            errorMessage: (await response.json())?.message,
         }
     }
 }
@@ -31,3 +31,5 @@ export const handleError = async <T>(error: any): Promise<IApiResponse<T>> => {
         errorMessage: error.message,
     }
 }
+
+export const UseMock = () => (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1 || process.env.REACT_APP_BACKEND_URL === undefined)

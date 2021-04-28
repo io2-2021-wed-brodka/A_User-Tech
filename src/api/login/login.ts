@@ -1,18 +1,18 @@
 import { loginMock } from "../../mock_data/login/bikesFromStationMock";
 import { login as loginUrl } from "../apiUrls";
-import { handleError, handleResponse, IApiResponse } from "../apiUtils";
+import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
-export interface Token {
+export interface LoginResponse {
     token: string;
+    role: string;
 }
-export const login = async (username: string, password: string): Promise<IApiResponse<Token>> => {
+export const login = async (username: string, password: string): Promise<IApiResponse<LoginResponse>> => {
 
-    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
-        || process.env.REACT_APP_BACKEND_URL === undefined)
+    if (UseMock())
         return loginMock(username, password);
 
     let url = process.env.REACT_APP_BACKEND_URL + loginUrl;
-    type T = IApiResponse<Token>;    
+    type T = IApiResponse<LoginResponse>;
     return fetch(url, {
         method: "POST",
         // configure headers values on specification changes
@@ -23,7 +23,7 @@ export const login = async (username: string, password: string): Promise<IApiRes
         body: JSON.stringify(
             {
                 login: username,
-                password: password,                
+                password: password,
             })
     }).then<T>(handleResponse).catch<T>(handleError);
 }

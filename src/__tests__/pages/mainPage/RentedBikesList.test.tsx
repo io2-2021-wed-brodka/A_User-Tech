@@ -2,7 +2,7 @@ import { act, cleanup, fireEvent, RenderResult } from '@testing-library/react';
 import React from 'react';
 import 'regenerator-runtime/runtime';
 import { getRentedBikes } from '../../../api/bikes/rentedBikes';
-import { getStations } from '../../../api/stations/getStations';
+import { getActiveStations } from '../../../api/stations/getActiveStations';
 import { RentedBike } from '../../../models/bike';
 import { Station } from '../../../models/station';
 import MainPage from '../../../pages/mainPage/MainPage';
@@ -12,7 +12,7 @@ import { render } from '../../test-utils';
 afterEach(cleanup);
 
 jest.mock('../../../api/bikes/rentedBikes');
-jest.mock('../../../api/stations/getStations');
+jest.mock('../../../api/stations/getActiveStations');
 
 
 const mockedGetRentedBikes = getRentedBikes as jest.MockedFunction<typeof getRentedBikes>;
@@ -25,7 +25,7 @@ const fullResponse = { isError: false, responseCode: 200, data: { bikes } }
 const emptyResponse = { isError: false, responseCode: 200, data: { bikes: [] } }
 
 
-const mockedGetStations = getStations as jest.MockedFunction<typeof getStations>;
+const mockedGetStations = getActiveStations as jest.MockedFunction<typeof getActiveStations>;
 const stations: Station[] = [{ id: "1", name: "Wadowice" }, { id: "2", name: "Na rynku w Barlinku" }, { id: "312", name: "Dom Rycha Peji" }, { id: "44124", name: "W Szczecinie na młynie" }];
 const stationsResponse = { isError: false, responseCode: 200, data: { stations } }
 mockedGetStations.mockResolvedValue(stationsResponse);

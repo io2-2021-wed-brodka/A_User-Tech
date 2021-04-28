@@ -1,6 +1,7 @@
 import { AppBar, Button, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { AppUser } from "../models/appUser";
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -28,8 +29,8 @@ const useStyles = makeStyles(theme => ({
 
 
 export interface TopbarProps {
-    logged: boolean;
-    setToken: (newToken: string | undefined) => void;
+    user?: AppUser;
+    setUser: React.Dispatch<React.SetStateAction<AppUser | undefined>>;
 }
 
 const Topbar = (props: TopbarProps) => {
@@ -37,8 +38,8 @@ const Topbar = (props: TopbarProps) => {
     const history = useHistory();
     const [userName, setUserName] = useState<string>();
     useEffect(() => {
-        setUserName(localStorage.getItem('userName') || 'Anon');
-    }, [props.logged])
+        setUserName(props.user?.userName || '');
+    }, [props.user])
 
 
     const handleLoginClick = () => {
@@ -46,8 +47,8 @@ const Topbar = (props: TopbarProps) => {
     }
 
     const handleLogoutClick = () => {
-        props.setToken(undefined);
-        history.push("/");
+        props.setUser(undefined);
+        history.push("/login");
     }
 
     return (
@@ -59,7 +60,7 @@ const Topbar = (props: TopbarProps) => {
                             Bikes
                         </Link>
                     </Typography>
-                    {props.logged ?
+                    {props.user?.userName ?
                         <>
                             <Typography className={classes.right}>Witaj {userName}</Typography>
                             <Button className={classes.logoutButton} onClick={handleLogoutClick}>Log out</Button>

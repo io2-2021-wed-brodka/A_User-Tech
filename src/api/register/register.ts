@@ -1,18 +1,17 @@
 import { registerMock } from "../../mock_data/register/registerMock";
 import { register as registerUrl } from "../apiUrls";
-import { handleError, handleResponse, IApiResponse } from "../apiUtils";
+import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
-export interface Token {
+export interface RegisterResponse {
     token: string;
 }
-export const register = async (username: string, password: string): Promise<IApiResponse<Token>> => {
+export const register = async (username: string, password: string): Promise<IApiResponse<RegisterResponse>> => {
 
-    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
-        || process.env.REACT_APP_BACKEND_URL === undefined)
+    if (UseMock())
         return registerMock(username, password);
 
     let url = process.env.REACT_APP_BACKEND_URL + registerUrl;
-    type T = IApiResponse<Token>;    
+    type T = IApiResponse<RegisterResponse>;
     return fetch(url, {
         method: "POST",
         headers: new Headers({
@@ -22,7 +21,7 @@ export const register = async (username: string, password: string): Promise<IApi
         body: JSON.stringify(
             {
                 login: username,
-                password: password,                
+                password: password,
             })
     }).then<T>(handleResponse).catch<T>(handleError);
 }

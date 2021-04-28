@@ -1,58 +1,49 @@
 import React, { useEffect, useState } from "react";
 import {
     BrowserRouter,
-    Route,
+
     Switch
 } from "react-router-dom";
+import { getRole, getToken, getUserName, setRole, setToken, setUserName } from "./authorization/authUtils";
+import RoleRoute from "./authorization/RoleRoute";
 import Topbar from "./layout/Topbar";
+import { AppUser } from "./models/appUser";
 import LoginPage from "./pages/loggin/LoginPage";
 import MainPage from "./pages/mainPage/MainPage";
 import RegisterPage from "./pages/register/RegisterPage";
 
+
+
 const Pages = () => {
-    const [logged, setLogged] = useState(false);
+    const [user, setUser] = useState<AppUser>();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const userName = localStorage.getItem('userName');
-        if (token && userName) {
-            setLogged(true);
+        const token = getToken();
+        const userName = getUserName();
+        const role = getRole();
+        if (token && userName && role) {
+            setUser({
+                role,
+                token,
+                userName,
+            })
         }
-        else {
-            setLogged(false);
-        }
+
     }, [])
 
-    const setToken = (newToken: string | undefined) => {
-        if (newToken) {
-            localStorage.setItem("token", newToken);
-            setLogged(true);
-        }
-        else {
-            localStorage.removeItem("token");
-            setLogged(false);
-        }
-    };
+    useEffect(() => {
+        setToken(user?.token);
+        setUserName(user?.userName);
+        setRole(user?.role);
+    }, [user])
 
-    const setUserName = (userName: string) => {
-        localStorage.setItem("userName", userName);
-    };
-    
     return (
         <BrowserRouter>
-            <Topbar logged={logged} setToken={setToken} />
+            <Topbar user={user} setUser={setUser} />
             <Switch>
-                { !logged ?
-                <>
-                    <Route exact path="/register" component={() => <RegisterPage setToken={setToken} setUserName={setUserName}/>} />
-                    <Route exact path="/login" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
-                    <Route exact path="/" component={() => <LoginPage setToken={setToken} setUserName={setUserName} />} />
-                </>
-                :
-                <>
-                    <Route path="/" component={() => <MainPage />} />
-                </>
-                }
+                <RoleRoute exact path="/register" component={() => <RegisterPage />} />
+                <RoleRoute exact path="/login" component={() => <LoginPage setUser={setUser} />} />
+                <RoleRoute exact path="/" component={() => <MainPage />} />
             </Switch>
         </BrowserRouter>
     )

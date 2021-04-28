@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { getRentedBikes } from '../../api/bikes/rentedBikes';
-import { getStations } from '../../api/stations/getStations';
+import { getActiveStations } from '../../api/stations/getActiveStations';
 import { RentedBike } from '../../models/bike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
@@ -62,7 +62,7 @@ const MainPage = () => {
     }
 
     const fetchStations = () => {
-        getStations().then(res => {
+        getActiveStations().then(res => {
             if (res.isError) {
                 enqueueSnackbar("Could not retrive stations", { variant: "error" });
                 return;

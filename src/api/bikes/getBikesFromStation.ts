@@ -1,21 +1,20 @@
 import { bikesFromStationMock } from "../../mock_data/bikes/bikesFromStationMock";
 import { UnrentedBike } from "../../models/unrentedBike";
 import { stations } from "../apiUrls";
-import { handleError, handleResponse, IApiResponse } from "../apiUtils";
-import { getToken } from "../login/token";
+import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
+import { getToken } from "../../authorization/authUtils";
 
-export interface getBikesFromStationResponse {
+export interface GetBikesFromStationResponse {
     bikes: UnrentedBike[]
 }
 
-export const getBikesFromStation = async (stationId: string): Promise<IApiResponse<getBikesFromStationResponse>> => {
+export const getBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
 
-    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
-        || process.env.REACT_APP_BACKEND_URL === undefined)
+    if (UseMock())
         return bikesFromStationMock(stationId);
 
     let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
-    type T = IApiResponse<getBikesFromStationResponse>;
+    type T = IApiResponse<GetBikesFromStationResponse>;
     return fetch(url, {
         method: "GET",
         // configure headers values on specification changes
