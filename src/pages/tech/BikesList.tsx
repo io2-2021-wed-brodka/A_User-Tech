@@ -36,7 +36,7 @@ const BikesList = (props: BikesListProps) => {
     useEffect(() => {
         getBikesFromStation(props.stationId).then(r => {
             if (r.isError) {
-                enqueueSnackbar(`Could not get stations list: ${r.errorMessage}`)
+                enqueueSnackbar(`Could not get stations list: ${r.errorMessage}`, { variant: "error" })
             }
             else {
                 setBikes(r.data?.bikes || [])
