@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1,
     },
     customTabIndicator: {
-        backgroundColor: "#ABCABC"
+        backgroundColor: "white"
     }
 }));
 
