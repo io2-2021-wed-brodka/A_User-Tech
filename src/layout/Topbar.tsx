@@ -1,7 +1,9 @@
 import { AppBar, Button, makeStyles, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { HasRole } from "../authorization/authUtils";
 import { AppUser } from "../models/appUser";
+import TechTabs from "../pages/tech/TechTabs";
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -70,6 +72,8 @@ const Topbar = (props: TopbarProps) => {
                     }
 
                 </Toolbar>
+                {HasRole(props.user?.role, 'tech') && <TechTabs />}
+
             </AppBar>
             <Toolbar />
         </div>
