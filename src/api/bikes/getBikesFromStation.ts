@@ -17,7 +17,6 @@ export const getBikesFromStation = async (stationId: string): Promise<IApiRespon
     type T = IApiResponse<GetBikesFromStationResponse>;
     return fetch(url, {
         method: "GET",
-        // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',

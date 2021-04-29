@@ -15,7 +15,6 @@ export const login = async (username: string, password: string): Promise<IApiRes
     type T = IApiResponse<LoginResponse>;
     return fetch(url, {
         method: "POST",
-        // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',

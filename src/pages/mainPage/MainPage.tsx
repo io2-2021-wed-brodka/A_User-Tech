@@ -10,6 +10,7 @@ import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
 import React from 'react';
 import { returnRentedBike } from '../../api/bikes/returnBikes';
+import { BikeStatus } from '../../models/bikeStatus';
 
 const useStyles = makeStyles({
     container: {
@@ -100,7 +101,7 @@ const MainPage = () => {
                 });
                 setStations(prev => prev.map(s => {
                     if (s.id !== stationId) return s;
-                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId }] };
+                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId, status: BikeStatus.available }] };
                     return ns;
                 }));
             }

@@ -14,7 +14,6 @@ export const rentBike = async (bikeId: string): Promise<IApiResponse<Http2Server
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",
-        // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',

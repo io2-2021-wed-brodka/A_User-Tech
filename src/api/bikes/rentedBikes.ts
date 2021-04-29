@@ -17,7 +17,6 @@ export const getRentedBikes = async (): Promise<IApiResponse<GetRentedBikesRespo
     type T = IApiResponse<GetRentedBikesResponse>;
     return fetch(url, {
         method: "GET",
-        // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
             'Authorization': getToken(),

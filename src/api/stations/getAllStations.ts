@@ -4,17 +4,17 @@ import getMockedStations from "../../mock_data/stations/getStationsMock";
 import { stations } from "../apiUrls";
 import { getToken } from "../../authorization/authUtils";
 
-export interface GetActiveStationsResponse {
+export interface GetAllStationsResponse {
     stations: Station[]
 }
 
-export const getActiveStations = async (): Promise<IApiResponse<GetActiveStationsResponse>> => {
+export const getAllStations = async (): Promise<IApiResponse<GetAllStationsResponse>> => {
 
     if (UseMock())
         return getMockedStations();
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + 'active/';
-    type T = IApiResponse<GetActiveStationsResponse>;
+    let url = process.env.REACT_APP_BACKEND_URL + stations;
+    type T = IApiResponse<GetAllStationsResponse>;
     return fetch(url, {
         method: "GET",
         headers: new Headers({

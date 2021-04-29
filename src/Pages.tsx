@@ -10,7 +10,7 @@ import Topbar from "./layout/Topbar";
 import { AppUser } from "./models/appUser";
 import LoginPage from "./pages/loggin/LoginPage";
 import MainPage from "./pages/mainPage/MainPage";
-import SimpleTabs from "./pages/mainPage/Tabs";
+import TechTabs from "./pages/tech/TechTabs";
 import RegisterPage from "./pages/register/RegisterPage";
 
 
@@ -47,7 +47,7 @@ const Pages = () => {
 
     const GetMainPage = () => {
         if (HasRole(user?.role, 'tech')) {
-            return (<SimpleTabs />)
+            return (<TechTabs />)
         }
         return (<MainPage />
         )

@@ -1,3 +1,4 @@
 export interface UnrentedBike {
-    id: string
+    id: string;
+    status: string;
 }
