@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { getRentedBikes } from '../../api/bikes/rentedBikes';
-import { getStations } from '../../api/stations/getStations';
+import { getActiveStations } from '../../api/stations/getActiveStations';
 import { RentedBike } from '../../models/bike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
 import React from 'react';
 import { returnRentedBike } from '../../api/bikes/returnBikes';
+import { BikeStatus } from '../../models/bikeStatus';
 
 const useStyles = makeStyles({
     container: {
@@ -62,7 +63,7 @@ const MainPage = () => {
     }
 
     const fetchStations = () => {
-        getStations().then(res => {
+        getActiveStations().then(res => {
             if (res.isError) {
                 enqueueSnackbar("Could not retrive stations", { variant: "error" });
                 return;
@@ -100,7 +101,7 @@ const MainPage = () => {
                 });
                 setStations(prev => prev.map(s => {
                     if (s.id !== stationId) return s;
-                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId }] };
+                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId, status: BikeStatus.available }] };
                     return ns;
                 }));
             }

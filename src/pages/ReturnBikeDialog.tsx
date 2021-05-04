@@ -5,7 +5,7 @@ import {
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { getStations } from "../api/stations/getStations";
+import { getActiveStations } from "../api/stations/getActiveStations";
 import { Station } from "../models/station";
 
 
@@ -58,7 +58,7 @@ const ReturnBikeDialog = (props: ReturnDialogProps) => {
     const [stations, setStations] = useState<Station[]>([]);
 
     useEffect(() => {
-        getStations().then(res => {
+        getActiveStations().then(res => {
             if (res.isError) {
                 enqueueSnackbar("Could not return bike", { variant: "error" });
                 return;

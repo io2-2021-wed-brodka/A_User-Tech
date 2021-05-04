@@ -4,7 +4,6 @@ import { useSnackbar } from 'notistack';
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
 import { register } from '../../api/register/register';
-import { LoginPageProps } from '../loggin/LoginPage';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +26,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+export interface RegisterPageProps {
+}
 
-const RegisterPage = (props: LoginPageProps) => {
+const RegisterPage = (props: RegisterPageProps) => {
     const classes = useStyles();
     const history = useHistory()
 
@@ -55,9 +56,7 @@ const RegisterPage = (props: LoginPageProps) => {
                 enqueueSnackbar(`Register failed: ${r.errorMessage}`, { variant: "error" });
             }
             else {
-                props.setToken(r.data?.token || '');
-                props.setUserName(username);
-                history.push("/");
+                history.push("/login");
             }
         });
     }
@@ -96,8 +95,8 @@ const RegisterPage = (props: LoginPageProps) => {
                             fullWidth
                         />
                         <TextField
-                            error={password!==repassword}
-                            helperText={password!==repassword ? "Passwords do not match." : ""}
+                            error={password !== repassword}
+                            helperText={password !== repassword ? "Passwords do not match." : ""}
                             id={"RepasswordInput"}
                             label={"Retype Password"}
                             type="password"

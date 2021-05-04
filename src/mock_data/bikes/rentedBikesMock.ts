@@ -1,6 +1,6 @@
 import { IApiResponse } from "../../api/apiUtils";
-import { getRentedBikesResponse } from "../../api/bikes/rentedBikes";
-const getMockedRentedBikes = (): IApiResponse<getRentedBikesResponse> => {
+import { GetRentedBikesResponse } from "../../api/bikes/rentedBikes";
+const getMockedRentedBikes = (): IApiResponse<GetRentedBikesResponse> => {
 
     return {
         isError: false,

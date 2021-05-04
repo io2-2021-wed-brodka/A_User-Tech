@@ -1,7 +1,7 @@
 import { IApiResponse } from "../../api/apiUtils";
-import { Token } from "../../api/login/login";
+import { RegisterResponse } from "../../api/register/register";
 
-export const registerMock = (username: string, password: string): IApiResponse<Token> => {
+export const registerMock = (username: string, password: string): IApiResponse<RegisterResponse> => {
 
     return {
         isError: false,

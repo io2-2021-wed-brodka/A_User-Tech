@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../../api/login/login';
+import { AppUser } from '../../models/appUser';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface LoginPageProps {
-    setToken: (newToken: string) => void;
-    setUserName: (userName: string) => void;
+    setUser: React.Dispatch<React.SetStateAction<AppUser | undefined>>;
 }
 
 const LoginPage = (props: LoginPageProps) => {
@@ -53,8 +53,9 @@ const LoginPage = (props: LoginPageProps) => {
                 enqueueSnackbar(`Loggin failed: ${r.errorMessage}`, { variant: "error" });
             }
             else {
-                props.setToken(r.data?.token || '');
-                props.setUserName(username);
+                props.setUser(prev => {
+                    return { ...prev, token: 'Bearer ' + r.data?.token, userName: username, role: r.data?.role }
+                })
                 history.push("/");
             }
         });
@@ -104,7 +105,7 @@ const LoginPage = (props: LoginPageProps) => {
                             Sign In
                          </Button>
                     </form>
-                    <Button color="secondary" onClick={()=>history.push("/register")}>Create Account</Button>
+                    <Button color="secondary" onClick={() => history.push("/register")}>Create Account</Button>
 
                 </div>
             </Container>

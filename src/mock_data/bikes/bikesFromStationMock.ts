@@ -1,8 +1,8 @@
 import { IApiResponse } from "../../api/apiUtils";
 import { UnrentedBike } from "../../models/unrentedBike";
-import { getBikesFromStationResponse } from "../../api/bikes/getBikesFromStation";
+import { GetBikesFromStationResponse } from "../../api/bikes/getBikesFromStation";
 
-export const bikesFromStationMock = (stationId: string): IApiResponse<getBikesFromStationResponse> => {
+export const bikesFromStationMock = (stationId: string): IApiResponse<GetBikesFromStationResponse> => {
     const bikes = [
         { id: "1", stationId: "123" },
         { id: "2", stationId: "123" },

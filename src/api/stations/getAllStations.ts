@@ -1,24 +1,22 @@
-import { handleError, handleResponse, IApiResponse } from "../apiUtils";
+import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 import { Station } from "../../models/station";
 import getMockedStations from "../../mock_data/stations/getStationsMock";
 import { stations } from "../apiUrls";
-import { getToken } from "../login/token";
+import { getToken } from "../../authorization/authUtils";
 
-export interface getStationsResponse {
+export interface GetAllStationsResponse {
     stations: Station[]
 }
 
-export const getStations = async (): Promise<IApiResponse<getStationsResponse>> => {
+export const getAllStations = async (): Promise<IApiResponse<GetAllStationsResponse>> => {
 
-    if (parseInt(process.env.REACT_APP_MOCK_DATA || "0") === 1
-        || process.env.REACT_APP_BACKEND_URL === undefined)
+    if (UseMock())
         return getMockedStations();
 
     let url = process.env.REACT_APP_BACKEND_URL + stations;
-    type T = IApiResponse<getStationsResponse>;
+    type T = IApiResponse<GetAllStationsResponse>;
     return fetch(url, {
         method: "GET",
-        // configure headers values on specification changes
         headers: new Headers({
             'Accept': 'application/json',
             'Authorization': getToken(),
