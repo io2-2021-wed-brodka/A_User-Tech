@@ -1,10 +1,8 @@
-import { act, cleanup, fireEvent, RenderResult } from "@testing-library/react";
+import { act, cleanup, RenderResult } from "@testing-library/react";
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import "regenerator-runtime/runtime";
 import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { getAllStations } from "../../../api/stations/getAllStations";
-import Topbar from "../../../layout/Topbar";
 import { bikesFromStationMock } from "../../../mock_data/bikes/bikesFromStationMock";
 import getMockedStations from "../../../mock_data/stations/getStationsMock";
 import TechStationsList from "../../../pages/tech/TechStationsList";

@@ -8,7 +8,6 @@ import { bikesFromStationMock } from "../../../mock_data/bikes/bikesFromStationM
 import blockBikeMock from "../../../mock_data/bikes/blockBikeMock";
 import unblockBikeMock from "../../../mock_data/bikes/unblockBikeMock";
 import BikesList from "../../../pages/tech/BikesList";
-import TechStationsList from "../../../pages/tech/TechStationsList";
 import { render } from "../../test-utils";
 
 afterEach(cleanup);
