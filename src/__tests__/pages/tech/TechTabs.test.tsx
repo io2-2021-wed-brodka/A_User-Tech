@@ -3,8 +3,6 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import "regenerator-runtime/runtime";
 import Topbar from "../../../layout/Topbar";
-import MainPage from "../../../pages/mainPage/MainPage";
-import TechTabs from "../../../pages/tech/TechTabs";
 import { render } from "../../test-utils";
 
 afterEach(cleanup);
@@ -14,7 +12,7 @@ it("User should not see the tech tabs", async () => {
     await act(async () => {
         renderResult = render(
             <BrowserRouter>
-                <Topbar setUser={() => {}} user={{ role: "user", userName: "Jan" }} />
+                <Topbar setUser={() => { }} user={{ role: "user", userName: "Jan" }} />
             </BrowserRouter>
         );
     });
@@ -27,7 +25,7 @@ it("Tech should see two tabs", async () => {
     await act(async () => {
         renderResult = render(
             <BrowserRouter>
-                <Topbar setUser={() => {}} user={{ role: "tech", userName: "Paweł" }} />
+                <Topbar setUser={() => { }} user={{ role: "tech", userName: "Paweł" }} />
             </BrowserRouter>
         );
     });
@@ -40,7 +38,7 @@ it("Active tabs should be selected", async () => {
     await act(async () => {
         renderResult = render(
             <BrowserRouter>
-                <Topbar setUser={() => {}} user={{ role: "tech", userName: "Paweł" }} />
+                <Topbar setUser={() => { }} user={{ role: "tech", userName: "Paweł" }} />
             </BrowserRouter>
         );
     });
@@ -48,6 +46,14 @@ it("Active tabs should be selected", async () => {
     await act(async () => {
         fireEvent.click(tabs[0]);
     });
-    console.log(tabs[0]);
-    expect(tabs[0].attributes["aria-label"]).toEqual("true");
+
+    expect(tabs[0].getAttribute("aria-selected")).toEqual("true");
+    expect(tabs[1].getAttribute("aria-selected")).toEqual("false");
+    await act(async () => {
+        fireEvent.click(tabs[1]);
+    });
+    expect(tabs[0].getAttribute("aria-selected")).toEqual("false");
+    expect(tabs[1].getAttribute("aria-selected")).toEqual("true");
 });
+
+
