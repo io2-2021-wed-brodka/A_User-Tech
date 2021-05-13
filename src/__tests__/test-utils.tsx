@@ -2,13 +2,14 @@ import { ThemeProvider } from '@material-ui/core'
 import { render, RenderOptions } from '@testing-library/react'
 import { SnackbarProvider } from 'notistack'
 import React, { ReactElement } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import mainTheme from '../layout/mainTheme'
 
 const AllTheProviders = ({ children }: any) => {
     return (
         <ThemeProvider theme={mainTheme}>
             <SnackbarProvider maxSnack={3} >
-                {children}
+                    {children}
             </SnackbarProvider  >
         </ThemeProvider >
     )
