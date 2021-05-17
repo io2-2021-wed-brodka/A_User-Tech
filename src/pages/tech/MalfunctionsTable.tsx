@@ -36,7 +36,6 @@ export interface MalfunctionsTableProps {
 
 const MalfunctionsTable = (props: MalfunctionsTableProps) => {
     const classes = useStyles()
-    const { enqueueSnackbar } = useSnackbar();
    
   return (
     <TableContainer component={Paper}>
