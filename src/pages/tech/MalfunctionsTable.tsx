@@ -44,7 +44,7 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
       <TableHead>
         <TableRow>
           <TableCell>Bike</TableCell>
-          <TableCell align="right">User Reported Id</TableCell>
+          <TableCell align="right">User Id</TableCell>
           <TableCell align="right">Bike Id</TableCell>
           <TableCell align="right">Description</TableCell>
           <TableCell align="center" colSpan={3}>Action</TableCell>
