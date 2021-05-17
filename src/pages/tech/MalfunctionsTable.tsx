@@ -14,13 +14,19 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",      
     },
     table: {
-      minWidth: 700,
+      minWidth: 750,
     },
     blockButton: {
       color: "#ee6002"
     },
     unblockButton: {
         color: "#09af00"
+    },
+    widerCell:{
+      minWidth: '4em'
+    },
+    widestCell:{
+      minWidth: '15em'
     },
     addButton: {
       margin: theme.spacing(2),
@@ -41,10 +47,10 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
     <Table className={classes.table} aria-label="simple table">
       <TableHead>
         <TableRow>
-          <TableCell>Bike</TableCell>
-          <TableCell align="right">User Id</TableCell>
-          <TableCell align="right">Bike Id</TableCell>
-          <TableCell align="right">Description</TableCell>
+          <TableCell>Malfunction</TableCell>
+          <TableCell align="right" className={classes.widerCell}>User Id</TableCell>
+          <TableCell align="right" className={classes.widerCell}>Bike Id</TableCell>
+          <TableCell align="right" className={classes.widestCell}>Description</TableCell>
           <TableCell align="center" colSpan={3}>Action</TableCell>
         </TableRow>
       </TableHead>
@@ -52,7 +58,7 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
         {props.malfunctions.map((malf) => (
           <TableRow key={malf.id}>
             <TableCell component="th" scope="row">
-              Malfunction {malf.id}
+              No. {malf.id}
             </TableCell>
             <TableCell align="right">{malf.bikeId}</TableCell>
             <TableCell align="right">
