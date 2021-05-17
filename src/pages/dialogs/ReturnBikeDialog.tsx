@@ -5,8 +5,8 @@ import {
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { getActiveStations } from "../api/stations/getActiveStations";
-import { Station } from "../models/station";
+import { getActiveStations } from "../../api/stations/getActiveStations";
+import { Station } from "../../models/station";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
