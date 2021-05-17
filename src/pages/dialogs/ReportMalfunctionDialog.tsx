@@ -5,7 +5,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    TextareaAutosize,
     TextField
 } from "@material-ui/core";
 import Transition from "../../layout/Transition";
