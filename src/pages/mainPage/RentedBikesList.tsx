@@ -80,6 +80,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                                         <IconButton
                                             edge="end"
                                             aria-label="delete"
+                                            style={{marginRight: 10}}
                                             onClick={() => handleOpenWindow(bike.id)}
                                         >
                                             <SubdirectoryArrowLeftIcon/>

@@ -1,5 +1,13 @@
 import React, {ChangeEvent, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextareaAutosize} from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextareaAutosize,
+    TextField
+} from "@material-ui/core";
 import Transition from "../../layout/Transition";
 
 interface MalfunctionDialogProps {
@@ -33,10 +41,7 @@ const ReportMalfunctionDialog = (props: MalfunctionDialogProps) => {
                 {`Report malfunction for bike: ${props.bikeId}`}
             </DialogTitle>
             <DialogContent>
-                <TextareaAutosize
-                    placeholder="Malfunctions description"
-                    onChange={handleDescriptionChange}
-                    rowsMin={5} style={{width: 300}}/>
+                <TextField multiline onChange={handleDescriptionChange} placeholder="Malfunction description"/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onReportClick} color="secondary">Report</Button>
