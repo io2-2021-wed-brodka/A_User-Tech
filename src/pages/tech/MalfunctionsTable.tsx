@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles, Theme, createStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { useSnackbar } from 'notistack';
 import { Malfunction } from '../../models/malfunctions';
 
 const useStyles = makeStyles((theme: Theme) =>
