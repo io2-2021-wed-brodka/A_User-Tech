@@ -114,9 +114,10 @@ const MainPage = () => {
 
         reportMalfunction(bikeId, description).then(response => {
             if (response.isError) {
-                enqueueSnackbar("Reporting malfunction failed", {variant: "error"});
+                enqueueSnackbar(`Reporting malfunction failed: ${response.errorMessage}`, {variant: "error"});
             } else {
                 enqueueSnackbar("Malfunction reported", {variant: "success"});
+                setRentedBikes(prev => prev.filter(b => b.id !== bikeId));
             }
         });
     }
