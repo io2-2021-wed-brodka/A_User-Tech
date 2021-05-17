@@ -1,16 +1,17 @@
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
-import { getRentedBikes } from '../../api/bikes/rentedBikes';
-import { getActiveStations } from '../../api/stations/getActiveStations';
-import { RentedBike } from '../../models/bike';
-import { StationWithBikes } from '../../models/station';
+import {Typography} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {useSnackbar} from 'notistack';
+import {useEffect, useState} from 'react';
+import {getRentedBikes} from '../../api/bikes/rentedBikes';
+import {getActiveStations} from '../../api/stations/getActiveStations';
+import {RentedBike} from '../../models/bike';
+import {StationWithBikes} from '../../models/station';
 import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
 import React from 'react';
-import { returnRentedBike } from '../../api/bikes/returnBikes';
-import { BikeStatus } from '../../models/bikeStatus';
+import {returnRentedBike} from '../../api/bikes/returnBikes';
+import {BikeStatus} from '../../models/bikeStatus';
+import {reportMalfunction} from '../../api/malfunctions/reportMalfunction'
 
 const useStyles = makeStyles({
     container: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
 
 const MainPage = () => {
     const classes = useStyles();
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
     const [rentedBikes, setRentedBikes] = useState<RentedBike[]>([]);
     const [stations, setStations] = useState<StationWithBikes[]>([]);
@@ -54,9 +55,8 @@ const MainPage = () => {
     const fetchRentedBikes = () => {
         getRentedBikes().then(res => {
             if (res.isError) {
-                enqueueSnackbar("Could not get rented bikes", { variant: "error" });
-            }
-            else {
+                enqueueSnackbar("Could not get rented bikes", {variant: "error"});
+            } else {
                 setRentedBikes(res.data?.bikes || []);
             }
         });
@@ -65,49 +65,60 @@ const MainPage = () => {
     const fetchStations = () => {
         getActiveStations().then(res => {
             if (res.isError) {
-                enqueueSnackbar("Could not retrive stations", { variant: "error" });
+                enqueueSnackbar("Could not retrive stations", {variant: "error"});
                 return;
             }
             setStations((res.data?.stations || []).map(s => {
-                return {
-                    ...s,
-                    bikes: [],
-                };
-            }
+                    return {
+                        ...s,
+                        bikes: [],
+                    };
+                }
             ));
         });
     }
 
     const ReturnBike = (bikeId: string, stationId: string) => {
         if (bikeId.length < 1) {
-            enqueueSnackbar("Could not return this bike", { variant: "error" });
+            enqueueSnackbar("Could not return this bike", {variant: "error"});
             return;
         }
 
         returnRentedBike(bikeId, stationId).then(res => {
             if (res.isError) {
-                enqueueSnackbar("Something went wrong", { variant: "error" });
-            }
-            else {
-                enqueueSnackbar("Bike returned", { variant: "success" });
+                enqueueSnackbar("Something went wrong", {variant: "error"});
+            } else {
+                enqueueSnackbar("Bike returned", {variant: "success"});
                 setRentedBikes(prev => prev.filter(b => b.id !== bikeId));
                 getRentedBikes().then(res => {
                     if (res.isError) {
-                        enqueueSnackbar("Could not get rented bikes", { variant: "error" });
-                    }
-                    else {
+                        enqueueSnackbar("Could not get rented bikes", {variant: "error"});
+                    } else {
                         setRentedBikes(res.data?.bikes || []);
                     }
                 });
                 setStations(prev => prev.map(s => {
                     if (s.id !== stationId) return s;
-                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId, status: BikeStatus.available }] };
+                    const ns = {...s, bikes: [...s.bikes, {id: bikeId, status: BikeStatus.available}]};
                     return ns;
                 }));
             }
         });
+    }
 
+    const ReportMalfunction = (bikeId: string, description: string) => {
+        if (bikeId.length < 1) {
+            enqueueSnackbar("Could not report malfunction: invalid bike id", {variant: "error"});
+            return;
+        }
 
+        reportMalfunction(bikeId, description).then(response => {
+            if (response.isError) {
+                enqueueSnackbar("Reporting malfunction failed", {variant: "error"});
+            } else {
+                enqueueSnackbar("Malfunction reported", {variant: "success"});
+            }
+        });
     }
 
     return (
@@ -117,11 +128,16 @@ const MainPage = () => {
                     <Typography variant='h5' className={classes.subheader}>
                         Rented bikes:
                     </Typography>
-                    <RentedBikesList setRentedBikes={setRentedBikes} rentedBikes={rentedBikes} ReturnBike={ReturnBike} />
+                    <RentedBikesList
+                        setRentedBikes={setRentedBikes}
+                        rentedBikes={rentedBikes}
+                        ReturnBike={ReturnBike}
+                        reportMalfunction={ReportMalfunction}
+                    />
                     <Typography variant='h5' className={classes.subheader}>
                         Available stations:
                     </Typography>
-                    <StationsList setStations={setStations} stations={stations} addRentedBike={addRentedBike} />
+                    <StationsList setStations={setStations} stations={stations} addRentedBike={addRentedBike}/>
                 </div>
             </div>
         </>

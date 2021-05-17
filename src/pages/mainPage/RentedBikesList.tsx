@@ -30,6 +30,7 @@ export interface RentedBikesListProps {
     rentedBikes: RentedBike[];
     setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
     ReturnBike: (bikeId: string, stationId: string) => void;
+    reportMalfunction: (bikeId: string, description: string) => void;
 }
 
 const RentedBikesList = (props: RentedBikesListProps) => {
@@ -119,7 +120,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                     open={openMalfunctionDialog}
                     bikeId={malfunctionBikeId}
                     closeDialog={handleCloseMalfunctionDialog}
-                    reportMalfunction={bikeId => console.log(`Reporting malfunction for bike ${bikeId}`)}/>
+                    reportMalfunction={props.reportMalfunction}/>
             </>
             :
             <Typography className={classes.typography}>No bikes rented</Typography>

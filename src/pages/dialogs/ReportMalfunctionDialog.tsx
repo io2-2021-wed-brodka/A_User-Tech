@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextareaAutosize} from "@material-ui/core";
 import Transition from "../../layout/Transition";
 
@@ -6,12 +6,18 @@ interface MalfunctionDialogProps {
     open: boolean,
     bikeId: string,
     closeDialog: any,
-    reportMalfunction: (bikeId: string) => void;
+    reportMalfunction: (bikeId: string, description: string) => void;
 }
 
 const ReportMalfunctionDialog = (props: MalfunctionDialogProps) => {
+    const [description, setDescription] = useState<string>();
+
+    const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(event.target.value);
+    };
+
     const onReportClick = () => {
-        props.reportMalfunction(props.bikeId);
+        props.reportMalfunction(props.bikeId, description ?? '');
         props.closeDialog();
     }
 
@@ -27,7 +33,10 @@ const ReportMalfunctionDialog = (props: MalfunctionDialogProps) => {
                 {`Report malfunction for bike: ${props.bikeId}`}
             </DialogTitle>
             <DialogContent>
-                <TextareaAutosize placeholder="Malfunction description" rowsMin={5} style={{width: 300}}/>
+                <TextareaAutosize
+                    placeholder="Malfunctions description"
+                    onChange={handleDescriptionChange}
+                    rowsMin={5} style={{width: 300}}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onReportClick} color="secondary">Report</Button>
