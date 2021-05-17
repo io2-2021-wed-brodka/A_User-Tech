@@ -70,12 +70,13 @@ const Topbar = (props: TopbarProps) => {
                         :
                         <Button className={classes.loginButton} onClick={handleLoginClick}>Log in</Button>
                     }
-
                 </Toolbar>
                 {HasRole(props.user?.role, 'tech') && <TechTabs />}
 
             </AppBar>
             <Toolbar />
+            {HasRole(props.user?.role, 'tech') && <TechTabs />}
+
         </div>
     )
 }

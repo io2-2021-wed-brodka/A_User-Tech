@@ -20,7 +20,7 @@ it("User should not see the tech tabs", async () => {
     expect(renderResult.queryByRole("tab")).toBeNull();
 });
 
-it("Tech should see two tabs", async () => {
+it("Tech should see two tabs (plus tabs with addtional space)", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
@@ -30,7 +30,7 @@ it("Tech should see two tabs", async () => {
         );
     });
 
-    expect(renderResult.queryAllByRole("tab")).toHaveLength(2);
+    expect(renderResult.queryAllByRole("tab")).toHaveLength(2+2);
 });
 
 it("Active tabs should be selected", async () => {
