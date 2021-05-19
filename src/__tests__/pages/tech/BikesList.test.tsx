@@ -2,7 +2,7 @@ import { act, cleanup, fireEvent, RenderResult } from "@testing-library/react";
 import React from "react";
 import "regenerator-runtime/runtime";
 import { blockBike } from "../../../api/bikes/blockBike";
-import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
+import { getActiveBikesFromStation, getAllBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { unblockBike } from "../../../api/bikes/unblockBike";
 import { bikesFromStationMock } from "../../../mock_data/bikes/bikesFromStationMock";
 import blockBikeMock from "../../../mock_data/bikes/blockBikeMock";
@@ -17,7 +17,7 @@ jest.mock('../../../api/bikes/getBikesFromStation');
 jest.mock('../../../api/bikes/unblockBike');
 jest.mock('../../../api/bikes/blockBike');
 
-const mockedGetBikesFromStation = getBikesFromStation as jest.MockedFunction<typeof getBikesFromStation>;
+const mockedGetBikesFromStation = getAllBikesFromStation as jest.MockedFunction<typeof getAllBikesFromStation>;
 const bikesResponse = bikesFromStationMock("1");
 mockedGetBikesFromStation.mockResolvedValue(bikesResponse);
 

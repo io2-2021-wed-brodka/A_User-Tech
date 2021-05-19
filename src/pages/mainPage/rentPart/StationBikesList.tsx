@@ -12,7 +12,7 @@ import {
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
-import { getBikesFromStation } from "../../../api/bikes/getBikesFromStation";
+import { getActiveBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
 import Transition from "../../../layout/Transition";
 import { RentedBike } from "../../../models/bike";
@@ -48,7 +48,7 @@ const StationBikesList = (props: StationBikesListProps) => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchBikes = () => {
-        getBikesFromStation(props.station.id).then(res => {
+        getActiveBikesFromStation(props.station.id).then(res => {
 
             if (res.isError) {
                 enqueueSnackbar("Could not retrive bikes", { variant: "error" });
@@ -81,7 +81,7 @@ const StationBikesList = (props: StationBikesListProps) => {
 
         rentBike(tmpBikeId).then(res => {
             if (res.isError) {
-                enqueueSnackbar("Something went wrong", { variant: "error" });
+                enqueueSnackbar(`Failed to rent bike: ${res.errorMessage}`, { variant: "error" });
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
@@ -98,7 +98,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                     ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
                     return ns;
                 }));
-                getBikesFromStation(props.station.id).then(res => {
+                getActiveBikesFromStation(props.station.id).then(res => {
 
                     if (res.isError) {
                         enqueueSnackbar("Could not retrive bikes", { variant: "error" });

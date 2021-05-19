@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, RenderResult } from '@testing-library/react';
 import React from 'react';
 import 'regenerator-runtime/runtime';
-import { getBikesFromStation } from '../../../../api/bikes/getBikesFromStation';
+import { getActiveBikesFromStation } from '../../../../api/bikes/getBikesFromStation';
 import { rentBike } from '../../../../api/bikes/rentBike';
 import { UnrentedBike } from '../../../../models/unrentedBike';
 import MainPage from '../../../../pages/mainPage/MainPage';
@@ -13,7 +13,7 @@ afterEach(cleanup);
 jest.mock('../../../../api/bikes/getBikesFromStation');
 jest.mock('../../../../api/bikes/rentBike');
 
-const mockedGetBikesFromStation = getBikesFromStation as jest.MockedFunction<typeof getBikesFromStation>;
+const mockedGetBikesFromStation = getActiveBikesFromStation as jest.MockedFunction<typeof getActiveBikesFromStation>;
 const bikes: UnrentedBike[] = [{ id: "2137" }, { id: "2138" }];
 const resp2 = { isError: false, responseCode: 200, data: { bikes } }
 mockedGetBikesFromStation.mockResolvedValue(resp2);

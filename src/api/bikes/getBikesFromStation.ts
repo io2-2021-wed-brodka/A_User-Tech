@@ -8,12 +8,11 @@ export interface GetBikesFromStationResponse {
     bikes: UnrentedBike[]
 }
 
-export const getBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
+const getBikesFromStation = async (stationId: string, url: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
 
     if (UseMock())
         return bikesFromStationMock(stationId);
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
     type T = IApiResponse<GetBikesFromStationResponse>;
     return fetch(url, {
         method: "GET",
@@ -23,4 +22,14 @@ export const getBikesFromStation = async (stationId: string): Promise<IApiRespon
             'Authorization': getToken(),
         }),
     }).then<T>(handleResponse).catch<T>(handleError);
+}
+
+export const getActiveBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
+    return getBikesFromStation(stationId, url);
+}
+
+export const getAllBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/all/";
+    return getBikesFromStation(stationId, url);
 }

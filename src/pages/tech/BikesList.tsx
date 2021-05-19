@@ -3,7 +3,7 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { blockBike } from '../../api/bikes/blockBike';
-import { getBikesFromStation } from '../../api/bikes/getBikesFromStation';
+import { getAllBikesFromStation } from '../../api/bikes/getBikesFromStation';
 import { unblockBike } from '../../api/bikes/unblockBike';
 import { BikeStatus } from '../../models/bikeStatus';
 import { UnrentedBike } from '../../models/unrentedBike';
@@ -34,7 +34,7 @@ const BikesList = (props: BikesListProps) => {
     const [bikes, setBikes] = useState<UnrentedBike[]>([]);
 
     useEffect(() => {
-        getBikesFromStation(props.stationId).then(r => {
+        getAllBikesFromStation(props.stationId).then(r => {
             if (r.isError) {
                 enqueueSnackbar(`Could not get stations list: ${r.errorMessage}`, { variant: "error" })
             }
