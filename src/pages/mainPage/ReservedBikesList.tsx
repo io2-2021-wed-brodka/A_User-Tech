@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 import { cancelBikeReservation } from "../../api/bikes/cancelBikeReservation";
 import { getReservedBikes } from "../../api/bikes/getReservedBikes";
 import { rentBike } from "../../api/bikes/rentBike";
-import { RentedBike } from "../../models/bike";
+import { RentedBike } from "../../models/rentedBike";
 import { ReservedBike } from "../../models/reseverdBike";
 import RentBikeDialog from "./rentPart/RentBikeDialog";
 

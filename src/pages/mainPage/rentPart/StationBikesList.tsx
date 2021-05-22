@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { getActiveBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
 import { reserveBike } from "../../../api/bikes/reserveBike";
-import { RentedBike } from "../../../models/bike";
+import { RentedBike } from "../../../models/rentedBike";
 import { ReservedBike } from "../../../models/reseverdBike";
 import { StationWithBikes } from "../../../models/station";
 import RentBikeDialog from "./RentBikeDialog";

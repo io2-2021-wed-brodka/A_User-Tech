@@ -3,7 +3,7 @@ import React from 'react';
 import 'regenerator-runtime/runtime';
 import { getRentedBikes } from '../../../api/bikes/getRentedBikes';
 import { getActiveStations } from '../../../api/stations/getActiveStations';
-import { RentedBike } from '../../../models/bike';
+import { RentedBike } from '../../../models/rentedBike';
 import { Station } from '../../../models/station';
 import MainPage from '../../../pages/mainPage/MainPage';
 import { render } from '../../test-utils';
@@ -152,10 +152,10 @@ it("Reporting malfunction should show success message", async () => {
     const malfunctionDialog = renderResult.getByRole('dialog');
     expect(malfunctionDialog).toBeDefined();
 
-    const reportButton = renderResult.getByText('Report');
+    const reportButton = renderResult.getAllByText('Return');
     expect(reportButton).toBeDefined();
     await act(async () => {
-        fireEvent.click(reportButton);
+        fireEvent.click(reportButton[0]);
     });
     expect(renderResult.getByText('Malfunction reported')).toBeDefined();
 })
