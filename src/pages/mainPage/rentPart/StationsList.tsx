@@ -9,6 +9,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import BreakpointMasonry from "../../../layout/BreakpointMasonry";
 import { RentedBike } from "../../../models/bike";
+import { ReservedBike } from "../../../models/reseverdBike";
 import { StationWithBikes } from "../../../models/station";
 import StationBikesList from "./StationBikesList";
 
@@ -52,6 +53,7 @@ export interface StationsListProps {
     setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
     stations: StationWithBikes[];
     addRentedBike: (bike: RentedBike) => void;
+    addReservedBike: (bike: ReservedBike) => void;
 }
 
 const StationsList = (props: StationsListProps) => {
@@ -122,7 +124,7 @@ const StationsList = (props: StationsListProps) => {
                                     </CardActionArea>
                                     <Collapse in={stationsOpenStatus[stationIndex]} timeout="auto" unmountOnExit>
                                         <CardContent>
-                                            <StationBikesList station={station} setStations={props.setStations} addRentedBike={props.addRentedBike} />
+                                            <StationBikesList station={station} setStations={props.setStations} addRentedBike={props.addRentedBike} addReservedBike={props.addReservedBike} />
                                         </CardContent>
                                     </Collapse>
                                 </Card>

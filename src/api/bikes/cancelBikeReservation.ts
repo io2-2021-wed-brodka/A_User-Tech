@@ -1,19 +1,17 @@
-import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
-import { bikes } from "../apiUrls";
 import { Http2ServerResponse } from "http2";
-import ok204Mock from "../../mock_data/bikes/rentBikeMock";
 import { getToken } from "../../authorization/authUtils";
+import ok204Mock from "../../mock_data/bikes/rentBikeMock";
+import { bikes } from "../apiUrls";
+import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
-
-export const rentBike = async (bikeId: string): Promise<IApiResponse<Http2ServerResponse>> => {
-
+export const cancelBikeReservation = async (bikeId: string): Promise<IApiResponse<Http2ServerResponse>> => {
     if (UseMock())
         return ok204Mock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented/";
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "reserved/" + bikeId;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
-        method: "POST",
+        method: "DELETE",
         headers: new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json',

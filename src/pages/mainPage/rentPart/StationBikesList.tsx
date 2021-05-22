@@ -1,10 +1,5 @@
 import {
     Avatar, Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
     List, ListItem, ListItemAvatar,
     ListItemSecondaryAction, ListItemText,
     makeStyles, Typography
@@ -14,9 +9,11 @@ import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { getActiveBikesFromStation } from "../../../api/bikes/getBikesFromStation";
 import { rentBike } from "../../../api/bikes/rentBike";
-import Transition from "../../../layout/Transition";
+import { reserveBike } from "../../../api/bikes/reserveBike";
 import { RentedBike } from "../../../models/bike";
+import { ReservedBike } from "../../../models/reseverdBike";
 import { StationWithBikes } from "../../../models/station";
+import RentBikeDialog from "./RentBikeDialog";
 const useStyles = makeStyles({
     paper: {
         padding: '1em',
@@ -34,6 +31,7 @@ interface StationBikesListProps {
     station: StationWithBikes;
     setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>,
     addRentedBike: (bike: RentedBike) => void;
+    addReservedBike: (bike: ReservedBike) => void;
 }
 
 const StationBikesList = (props: StationBikesListProps) => {
@@ -69,6 +67,20 @@ const StationBikesList = (props: StationBikesListProps) => {
         setOpenSlidingWindow(true);
     }
 
+    const reserveBikeClickHandle = (id: string) => {
+        reserveBike(id).then(res => {
+            if (res.isError) {
+                enqueueSnackbar(`Failed to reserve bike: ${res.errorMessage}`, { variant: "error" });
+            }
+            else {
+                const data = res.data;
+                if (data) {
+                    props.addReservedBike(data);
+                }
+            }
+        })
+    }
+
     const handleCloseWindow = () => setOpenSlidingWindow(false);
 
     const rentBikeCall = () => {
@@ -86,12 +98,6 @@ const StationBikesList = (props: StationBikesListProps) => {
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
                 props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "" } })
-                props.setStations(prev => prev.map(s => {
-                    if (s.id !== props.station.id) return s;
-                    const ns = { ...s };
-                    ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
-                    return ns;
-                }));
                 props.setStations(prev => prev.map(s => {
                     if (s.id !== props.station.id) return s;
                     const ns = { ...s };
@@ -133,6 +139,10 @@ const StationBikesList = (props: StationBikesListProps) => {
                                 </ListItemAvatar>
                                 <ListItemText primary={bike.id} />
                                 <ListItemSecondaryAction>
+                                    <Button size="small" color="default"
+                                        onClick={() => reserveBikeClickHandle(bike.id)}>
+                                        Reserve
+                                    </Button>
                                     <Button size="small" color="primary"
                                         onClick={() => rentBikeClickHandle(bike.id)}>
                                         Rent
@@ -143,30 +153,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                         })
                     }
                 </List>
-                <Dialog
-                    open={openSlidingWindow}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleCloseWindow}
-                    aria-labelledby="alert-dialog-slide-title"
-                    aria-describedby="alert-dialog-slide-description"
-                >
-                    <DialogTitle id="alert-dialog-slide-title">{"Rent this bike?"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
-                            Do you want to rent bike {rentBikeId} ?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseWindow} color="primary">
-                            No
-                        </Button>
-                        <Button onClick={rentBikeCall} color="primary">
-                            Yes
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
+                <RentBikeDialog bikeId={rentBikeId} open={openSlidingWindow} onNoClick={handleCloseWindow} onYesClick={rentBikeCall} />
             </>
             :
             <Typography className={classes.typography}>No bikes available</Typography>
