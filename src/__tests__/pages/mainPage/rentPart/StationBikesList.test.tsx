@@ -14,7 +14,7 @@ jest.mock('../../../../api/bikes/getBikesFromStation');
 jest.mock('../../../../api/bikes/rentBike');
 
 const mockedGetBikesFromStation = getActiveBikesFromStation as jest.MockedFunction<typeof getActiveBikesFromStation>;
-const bikes: UnrentedBike[] = [{ id: "2137" }, { id: "2138" }];
+const bikes: UnrentedBike[] = [{ id: "2137", status: "" }, { id: "2138", status: "" }];
 const resp2 = { isError: false, responseCode: 200, data: { bikes } }
 mockedGetBikesFromStation.mockResolvedValue(resp2);
 
@@ -27,7 +27,7 @@ it("Bikes ids exisit on list", async () => {
 
     await act(async () => {
         renderResult = render(
-            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} addReservedBike={(a: any) => { return; }} />
         );
     });
 
@@ -40,12 +40,12 @@ it("Click on bike should show confirm pop-up", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} addReservedBike={(a: any) => { return; }} />
         );
     });
 
     await act(async () => {
-        fireEvent.click(renderResult.getAllByRole('button')[0]);
+        fireEvent.click(renderResult.getAllByRole('button')[1]);
     });
 
     expect(renderResult.getByRole('dialog')).toBeDefined();
@@ -55,12 +55,12 @@ it("Renting bike should show success message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} />
+            <StationBikesList station={{ id: "2", name: "Na rynku w Barlinku", bikes: bikes }} setStations={(a: any) => { return; }} addRentedBike={(a: any) => { return; }} addReservedBike={(a: any) => { return; }} />
         );
     });
 
     await act(async () => {
-        fireEvent.click(renderResult.getAllByRole('button')[0]);
+        fireEvent.click(renderResult.getAllByRole('button')[1]);
     });
 
     expect(renderResult.getByRole('dialog')).toBeDefined();

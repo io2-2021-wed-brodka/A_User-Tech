@@ -11,7 +11,7 @@ import { reportMalfunction } from "../../../api/malfunctions/reportMalfunction";
 
 afterEach(cleanup);
 
-jest.mock('../../../api/bikes/rentedBikes');
+jest.mock('../../../api/bikes/getRentedBikes');
 jest.mock('../../../api/stations/getActiveStations');
 jest.mock('../../../api/malfunctions/reportMalfunction');
 
@@ -85,7 +85,7 @@ it("There should be a button to return a bike", async () => {
         );
     });
 
-    const list = renderResult.getByRole('list');
+    const list = renderResult.getAllByRole('list')[0];
 
     bikes.forEach((bike, index) => {
         const listElement = list.children[index];
@@ -103,7 +103,7 @@ it("Show popup after clicking to return bike", async () => {
         );
     });
 
-    const list = renderResult.getByRole('list');
+    const list = renderResult.getAllByRole('list')[0];
     const buttons = renderResult.getAllByRole('button');
     expect(buttons.length).toBeGreaterThan(0);
     await act(async () => {
