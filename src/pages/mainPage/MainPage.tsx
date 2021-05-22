@@ -95,7 +95,7 @@ const MainPage = () => {
     const fetchReservedBikes = () => {
         getReservedBikes().then(res => {
             if (res.isError) {
-                enqueueSnackbar("Could not get rented bikes", { variant: "error" });
+                enqueueSnackbar("Could not get reserved bikes", { variant: "error" });
             } else {
                 setReservedBikes(res.data?.bikes || []);
             }

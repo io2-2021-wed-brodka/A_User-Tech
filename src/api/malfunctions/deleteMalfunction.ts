@@ -1,6 +1,6 @@
 import { Http2ServerResponse } from "node:http2";
 import { getToken } from "../../authorization/authUtils";
-import ok204Mock from "../../mock_data/bikes/rentBikeMock";
+import ok204Mock from "../../mock_data/bikes/ok204Mock";
 import { malfunctions } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 

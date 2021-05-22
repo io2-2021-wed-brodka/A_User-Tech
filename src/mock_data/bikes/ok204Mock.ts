@@ -4,7 +4,7 @@ import { IApiResponse } from "../../api/apiUtils";
 const ok204Mock = (): IApiResponse<Http2ServerResponse> => {
     return {
         isError: false,
-        responseCode: 201
+        responseCode: 204,
     };
 }
 

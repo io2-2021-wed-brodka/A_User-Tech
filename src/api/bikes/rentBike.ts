@@ -1,7 +1,7 @@
 import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 import { bikes } from "../apiUrls";
 import { Http2ServerResponse } from "http2";
-import ok204Mock from "../../mock_data/bikes/rentBikeMock";
+import ok204Mock from "../../mock_data/bikes/ok204Mock";
 import { getToken } from "../../authorization/authUtils";
 
 
