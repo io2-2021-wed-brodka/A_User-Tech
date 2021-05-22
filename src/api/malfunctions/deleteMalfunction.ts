@@ -1,14 +1,14 @@
-import { Http2ServerResponse } from "http2";
+import { Http2ServerResponse } from "node:http2";
 import { getToken } from "../../authorization/authUtils";
 import ok204Mock from "../../mock_data/bikes/ok204Mock";
-import { bikeReserved } from "../apiUrls";
+import { malfunctions } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
-export const cancelBikeReservation = async (bikeId: string): Promise<IApiResponse<Http2ServerResponse>> => {
+export const deleteMalfunction = async (id: string): Promise<IApiResponse<Http2ServerResponse>> => {
     if (UseMock())
         return ok204Mock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikeReserved + bikeId;
+    let url = `${process.env.REACT_APP_BACKEND_URL}${malfunctions}${id}`;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "DELETE",
@@ -17,9 +17,5 @@ export const cancelBikeReservation = async (bikeId: string): Promise<IApiRespons
             'Content-Type': 'application/json',
             'Authorization': getToken(),
         }),
-        body: JSON.stringify(
-            {
-                id: bikeId
-            })
     }).then<T>(handleResponse).catch<T>(handleError);
 }
