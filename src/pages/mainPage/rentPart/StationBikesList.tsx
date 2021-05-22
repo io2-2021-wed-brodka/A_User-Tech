@@ -1,5 +1,6 @@
 import {
     Avatar, Button,
+    IconButton,
     List, ListItem, ListItemAvatar,
     ListItemSecondaryAction, ListItemText,
     makeStyles, Typography
@@ -14,6 +15,7 @@ import { RentedBike } from "../../../models/bike";
 import { ReservedBike } from "../../../models/reseverdBike";
 import { StationWithBikes } from "../../../models/station";
 import RentBikeDialog from "./RentBikeDialog";
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 const useStyles = makeStyles({
     paper: {
         padding: '1em',
@@ -139,10 +141,14 @@ const StationBikesList = (props: StationBikesListProps) => {
                                 </ListItemAvatar>
                                 <ListItemText primary={bike.id} />
                                 <ListItemSecondaryAction>
-                                    <Button size="small" color="default"
-                                        onClick={() => reserveBikeClickHandle(bike.id)}>
-                                        Reserve
-                                    </Button>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="reserve"
+                                        style={{ marginRight: 10 }}
+                                        onClick={() => reserveBikeClickHandle(bike.id)}
+                                    >
+                                        <BookmarkBorderIcon />
+                                    </IconButton>
                                     <Button size="small" color="primary"
                                         onClick={() => rentBikeClickHandle(bike.id)}>
                                         Rent

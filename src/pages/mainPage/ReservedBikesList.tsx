@@ -15,6 +15,7 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
 import { cancelBikeReservation } from "../../api/bikes/cancelBikeReservation";
+import { getReservedBikes } from "../../api/bikes/getReservedBikes";
 import { rentBike } from "../../api/bikes/rentBike";
 import { RentedBike } from "../../models/bike";
 import { ReservedBike } from "../../models/reseverdBike";
@@ -47,6 +48,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
         setTimers(new Array<string>(props.reservedBikes.length));
         callbackTimer && clearInterval(callbackTimer);
         if (props.reservedBikes.length !== 0) {
+            refreshTimers();
             const timeout = setInterval(refreshTimers, 1000);
             setCallbackTimer(timeout);
         }
@@ -54,13 +56,15 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
 
     const refreshTimers = () => {
         const newTimers: string[] = new Array<string>(props.reservedBikes.length);
+        const now = new Date();
+        const outOfTimeBikesIndexes: number[] = [];
         for (let index = 0; index < props.reservedBikes.length; index++) {
             const bike = props.reservedBikes[index];
-            const now = new Date();
             const reservedTill = new Date(bike.reservedTill);
             const timeLeftMs = reservedTill.getTime() - now.getTime();
             if (timeLeftMs < 0) {
                 newTimers[index] = "--:--"
+                outOfTimeBikesIndexes.push(index);
             }
             else {
                 const minutes = Math.floor(timeLeftMs / 1000 / 60);
@@ -71,8 +75,28 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
                 newTimers[index] = `${minutesStr}:${secondsStr}`;
             }
         }
+        if (outOfTimeBikesIndexes.length > 0) {
+            removeOutOfTime(outOfTimeBikesIndexes);
+        }
         setTimers(newTimers);
     }
+
+    const removeOutOfTime = async (outOfTimeBikesIndexes: number[]) => {
+        const response = await getReservedBikes();
+        const bikes = response.data?.bikes;
+        if (bikes) {
+            for (let index = 0; index < outOfTimeBikesIndexes.length; index++) {
+                const i = outOfTimeBikesIndexes[index];
+                if (!bikes.some(b => b.id === props.reservedBikes[i].id)) {
+                    props.removeReservedBike(props.reservedBikes[i].id);
+                    break;
+                }
+            }
+        }
+
+
+    };
+
 
     const rentBikeClickHandle = (id: string) => {
         setRentBikeId(id);
