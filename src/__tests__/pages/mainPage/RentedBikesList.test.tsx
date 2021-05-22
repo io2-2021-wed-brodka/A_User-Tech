@@ -1,37 +1,37 @@
-import {act, cleanup, fireEvent, RenderResult} from '@testing-library/react';
+import { act, cleanup, fireEvent, RenderResult } from '@testing-library/react';
 import React from 'react';
 import 'regenerator-runtime/runtime';
-import {getRentedBikes} from '../../../api/bikes/rentedBikes';
-import {getActiveStations} from '../../../api/stations/getActiveStations';
-import {RentedBike} from '../../../models/bike';
-import {Station} from '../../../models/station';
+import { getRentedBikes } from '../../../api/bikes/getRentedBikes';
+import { getActiveStations } from '../../../api/stations/getActiveStations';
+import { RentedBike } from '../../../models/bike';
+import { Station } from '../../../models/station';
 import MainPage from '../../../pages/mainPage/MainPage';
-import {render} from '../../test-utils';
-import {reportMalfunction} from "../../../api/malfunctions/reportMalfunction";
+import { render } from '../../test-utils';
+import { reportMalfunction } from "../../../api/malfunctions/reportMalfunction";
 
 afterEach(cleanup);
 
-jest.mock('../../../api/bikes/rentedBikes');
+jest.mock('../../../api/bikes/getRentedBikes');
 jest.mock('../../../api/stations/getActiveStations');
 jest.mock('../../../api/malfunctions/reportMalfunction');
 
 
 const mockedGetRentedBikes = getRentedBikes as jest.MockedFunction<typeof getRentedBikes>;
 const bikes: RentedBike[] = [
-    {id: "2137", status: "", user: {id: "1", name: "Artur"}, station: {id: "1", name: "Wadowice"}},
-    {id: "2138", status: "", user: {id: "1", name: "Artur"}, station: {id: "1", name: "Wadowice"}},
-    {id: "SPEED", status: "", user: {id: "1", name: "Artur"}, station: {id: "1", name: "Wadowice"}},
+    { id: "2137", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
+    { id: "2138", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
+    { id: "SPEED", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
 ];
-const fullResponse = {isError: false, responseCode: 200, data: {bikes}}
-const emptyResponse = {isError: false, responseCode: 200, data: {bikes: []}}
+const fullResponse = { isError: false, responseCode: 200, data: { bikes } }
+const emptyResponse = { isError: false, responseCode: 200, data: { bikes: [] } }
 
 
 const mockedGetStations = getActiveStations as jest.MockedFunction<typeof getActiveStations>;
-const stations: Station[] = [{id: "1", name: "Wadowice"}, {id: "2", name: "Na rynku w Barlinku"}, {
+const stations: Station[] = [{ id: "1", name: "Wadowice" }, { id: "2", name: "Na rynku w Barlinku" }, {
     id: "312",
     name: "Dom Rycha Peji"
-}, {id: "44124", name: "W Szczecinie na młynie"}];
-const stationsResponse = {isError: false, responseCode: 200, data: {stations}}
+}, { id: "44124", name: "W Szczecinie na młynie" }];
+const stationsResponse = { isError: false, responseCode: 200, data: { stations } }
 mockedGetStations.mockResolvedValue(stationsResponse);
 
 const mockedReportMalfunction = reportMalfunction as jest.MockedFunction<typeof reportMalfunction>;
@@ -53,7 +53,7 @@ it("No rented bikes should show a message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <MainPage/>
+            <MainPage />
         );
     });
 
@@ -66,12 +66,12 @@ it("Bikes ids exisit on list", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <MainPage/>
+            <MainPage />
         );
     });
 
     bikes.forEach(bike => {
-        expect(renderResult.getByText(bike.id, {exact: false})).toBeDefined();
+        expect(renderResult.getByText(bike.id, { exact: false })).toBeDefined();
     });
 })
 
@@ -81,11 +81,11 @@ it("There should be a button to return a bike", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <MainPage/>
+            <MainPage />
         );
     });
 
-    const list = renderResult.getByRole('list');
+    const list = renderResult.getAllByRole('list')[0];
 
     bikes.forEach((bike, index) => {
         const listElement = list.children[index];
@@ -99,11 +99,11 @@ it("Show popup after clicking to return bike", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <MainPage/>
+            <MainPage />
         );
     });
 
-    const list = renderResult.getByRole('list');
+    const list = renderResult.getAllByRole('list')[0];
     const buttons = renderResult.getAllByRole('button');
     expect(buttons.length).toBeGreaterThan(0);
     await act(async () => {
@@ -118,7 +118,7 @@ it("Returning a bike show success message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <MainPage/>
+            <MainPage />
         );
     });
 
@@ -141,7 +141,7 @@ it("Reporting malfunction should show success message", async () => {
     mockedGetRentedBikes.mockResolvedValue(fullResponse);
     let renderResult = {} as RenderResult;
     await act(async () => {
-        renderResult = render(<MainPage/>);
+        renderResult = render(<MainPage />);
     });
 
     const buttons = renderResult.getAllByRole('button');

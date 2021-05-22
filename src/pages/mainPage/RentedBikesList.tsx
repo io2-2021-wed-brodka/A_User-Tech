@@ -14,9 +14,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Transition from "../../layout/Transition";
-import {RentedBike} from "../../models/bike";
+import { RentedBike } from "../../models/bike";
 import ReturnBikeDialog from "../dialogs/ReturnBikeDialog";
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import ReportMalfunctionDialog from "../dialogs/ReportMalfunctionDialog";
@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 
 export interface RentedBikesListProps {
     rentedBikes: RentedBike[];
-    setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
     ReturnBike: (bikeId: string, stationId: string) => void;
     reportMalfunction: (bikeId: string, description: string) => void;
 }
@@ -70,27 +69,27 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                                 <ListItem key={bike.id}>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <DirectionsBikeIcon/>
+                                            <DirectionsBikeIcon />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        secondary={bike.id}
+                                        primary={bike.id}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
                                             edge="end"
                                             aria-label="delete"
-                                            style={{marginRight: 10}}
+                                            style={{ marginRight: 10 }}
                                             onClick={() => handleOpenWindow(bike.id)}
                                         >
-                                            <SubdirectoryArrowLeftIcon/>
+                                            <SubdirectoryArrowLeftIcon />
                                         </IconButton>
                                         <IconButton
                                             edge="end"
                                             aria-label="delete"
                                             onClick={() => handleOpenMalfunctionDialog(bike.id)}
                                         >
-                                            <ReportProblemOutlinedIcon/>
+                                            <ReportProblemOutlinedIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
@@ -121,7 +120,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                     open={openMalfunctionDialog}
                     bikeId={malfunctionBikeId}
                     closeDialog={handleCloseMalfunctionDialog}
-                    reportMalfunction={props.reportMalfunction}/>
+                    reportMalfunction={props.reportMalfunction} />
             </>
             :
             <Typography className={classes.typography}>No bikes rented</Typography>

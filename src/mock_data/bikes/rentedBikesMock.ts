@@ -1,5 +1,5 @@
 import { IApiResponse } from "../../api/apiUtils";
-import { GetRentedBikesResponse } from "../../api/bikes/rentedBikes";
+import { GetRentedBikesResponse } from "../../api/bikes/getRentedBikes";
 const getMockedRentedBikes = (): IApiResponse<GetRentedBikesResponse> => {
 
     return {
