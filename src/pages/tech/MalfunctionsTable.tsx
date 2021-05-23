@@ -76,14 +76,13 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
         enqueueSnackbar(`Could not approve: ${r.errorMessage}`, { variant: "error" })
       }
       else {
-        setReportedBikes(prev => {
-          const copy = [...prev];
-          copy[index] = { ...prev[index], status: "blocked" };
-          return copy;
-        })
+        setReportedBikes(prev => prev.map(b => {
+          if (b.id !== malfunction.bikeId) return b;
+          return { ...b, status: "blocked" }
+        }))
       }
     })
-  }
+  };
 
   const deny = (malfunction: Malfunction, index: number) => {
     deleteMalfunction(malfunction.id).then(r => {
@@ -101,18 +100,21 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
   }
 
   const fixed = (malfunction: Malfunction, index: number) => {
-    unblockBike(malfunction.bikeId).then(r => {
-      if (r.isError) {
-        enqueueSnackbar(`Could not unblock bike: ${r.errorMessage}`, { variant: "error" })
-      }
-      else {
-        setReportedBikes(prev => {
-          const copy = [...prev];
-          copy.splice(index, 1)
-          return copy;
-        })
-      }
-    })
+    if (reportedBikes.filter(b => b.id === malfunction.bikeId).length === 1) {
+      unblockBike(malfunction.bikeId).then(r => {
+        if (r.isError) {
+          enqueueSnackbar(`Could not unblock bike: ${r.errorMessage}`, { variant: "error" })
+        }
+        else {
+          setReportedBikes(prev => {
+            const copy = [...prev];
+            copy.splice(index, 1)
+            return copy;
+          })
+        }
+      });
+    }
+
     deleteMalfunction(malfunction.id).then(r => {
       if (r.isError) {
         enqueueSnackbar(`Could not deny: ${r.errorMessage}`, { variant: "error" })
@@ -125,6 +127,8 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
         })
       }
     })
+
+
   }
 
   return (
@@ -145,9 +149,9 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
               <TableCell component="th" scope="row">
                 No. {malf.id}
               </TableCell>
-              <TableCell align="right">{malf.bikeId}</TableCell>
+              <TableCell align="right">{malf.reportingUserId}</TableCell>
               <TableCell align="right">
-                {malf.reportingUserId}
+                {malf.bikeId}
               </TableCell>
               <TableCell align="right">{malf.description ?? "-"}</TableCell>
               {reportedBikes[index] && reportedBikes[index].status === "available" &&
