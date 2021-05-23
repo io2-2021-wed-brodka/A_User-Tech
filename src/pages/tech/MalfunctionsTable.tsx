@@ -70,7 +70,7 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
     })
   }, [props.malfunctions]);// eslint-disable-line react-hooks/exhaustive-deps
 
-  const approve = (malfunction: Malfunction, index: number) => {
+  const approve = (malfunction: Malfunction) => {
     blockBike(malfunction.bikeId).then(r => {
       if (r.isError) {
         enqueueSnackbar(`Could not approve: ${r.errorMessage}`, { variant: "error" })
@@ -157,7 +157,7 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
               {reportedBikes[index] && reportedBikes[index].status === "available" &&
                 <>
                   <TableCell align="right">
-                    <Button className={classes.blockButton} onClick={() => approve(malf, index)}>
+                    <Button className={classes.blockButton} onClick={() => approve(malf)}>
                       Approve
                     </Button>
                   </TableCell>
