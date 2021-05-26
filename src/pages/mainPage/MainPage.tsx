@@ -1,20 +1,18 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getRentedBikes } from '../../api/bikes/getRentedBikes';
+import { getReservedBikes } from '../../api/bikes/getReservedBikes';
+import { returnRentedBike } from '../../api/bikes/returnBikes';
 import { getActiveStations } from '../../api/stations/getActiveStations';
-import { RentedBike } from '../../models/bike';
+import { BikeStatus } from '../../models/bikeStatus';
+import { RentedBike } from '../../models/rentedBike';
+import { ReservedBike } from '../../models/reseverdBike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
 import StationsList from './rentPart/StationsList';
-import React from 'react';
-import { returnRentedBike } from '../../api/bikes/returnBikes';
-import { BikeStatus } from '../../models/bikeStatus';
-import { reportMalfunction } from '../../api/malfunctions/reportMalfunction'
 import ReservedBikesList from './ReservedBikesList';
-import { getReservedBikes } from '../../api/bikes/getReservedBikes';
-import { ReservedBike } from '../../models/reseverdBike';
 
 const useStyles = makeStyles({
     container: {
@@ -148,22 +146,6 @@ const MainPage = () => {
         });
     }
 
-    const ReportMalfunction = (bikeId: string, description: string) => {
-        if (bikeId.length < 1) {
-            enqueueSnackbar("Could not report malfunction: invalid bike id", { variant: "error" });
-            return;
-        }
-
-        reportMalfunction(bikeId, description).then(response => {
-            if (response.isError) {
-                enqueueSnackbar(`Reporting malfunction failed: ${response.errorMessage}`, { variant: "error" });
-            } else {
-                enqueueSnackbar("Malfunction reported", { variant: "success" });
-                setRentedBikes(prev => prev.filter(b => b.id !== bikeId));
-            }
-        });
-    }
-
 
     return (
         <>
@@ -175,7 +157,6 @@ const MainPage = () => {
                     <RentedBikesList
                         rentedBikes={rentedBikes}
                         ReturnBike={ReturnBike}
-                        reportMalfunction={ReportMalfunction}
                     />
                     <ReservedBikesList
                         reservedBikes={reservedBikes} addRentedBike={addRentedBike} removeReservedBike={removeReservedBike}

@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import BreakpointMasonry from "../../../layout/BreakpointMasonry";
-import { RentedBike } from "../../../models/bike";
+import { RentedBike } from "../../../models/rentedBike";
 import { ReservedBike } from "../../../models/reseverdBike";
 import { StationWithBikes } from "../../../models/station";
 import StationBikesList from "./StationBikesList";

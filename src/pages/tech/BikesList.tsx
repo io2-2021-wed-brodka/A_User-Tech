@@ -80,14 +80,17 @@ const BikesList = (props: BikesListProps) => {
                     </ListItemAvatar>
                     <ListItemText primary={b.id} />
                     <ListItemSecondaryAction >
-                        {b.status === BikeStatus.available ?
+                        {b.status === BikeStatus.available &&
                             <Button className={classes.blockButton} onClick={() => handleBlock(b.id)}>
                                 Block
-                                </Button> :
-                            <Button className={classes.unblockButton} onClick={() => handleUnblock(b.id)}>
-                                Unblock
-                                </Button>
-                        }
+                                </Button>}
+                        {b.status === BikeStatus.blocked && <Button className={classes.unblockButton} onClick={() => handleUnblock(b.id)}>
+                            Unblock
+                                </Button>}
+                        {b.status === BikeStatus.reserved && <Button className={classes.unblockButton} disabled>
+                            Reserved
+                                </Button>}
+
                     </ListItemSecondaryAction>
                 </ListItem>)
             })}
