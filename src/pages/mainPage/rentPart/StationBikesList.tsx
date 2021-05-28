@@ -122,7 +122,7 @@ const StationBikesList = (props: StationBikesListProps) => {
         props.station.bikes.length > 0 ?
             <>
                 <Typography className={classes.typography}>Available bikes:</Typography>
-                <List className={classes.list}>
+                <List id="bikes" className={classes.list}>
                     {
                         props.station.bikes.map(bike => {
                             return (<ListItem key={bike.id}>
@@ -131,7 +131,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                                         <DirectionsBikeIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={bike.id} />
+                                <ListItemText id="bike-id" primary={bike.id} />
                                 <ListItemSecondaryAction>
                                     <Button size="small" color="primary"
                                         onClick={() => rentBikeClickHandle(bike.id)}>

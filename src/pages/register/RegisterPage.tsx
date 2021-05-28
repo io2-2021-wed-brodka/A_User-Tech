@@ -71,7 +71,7 @@ const RegisterPage = (props: RegisterPageProps) => {
                     </Typography>
                     <form className={classes.form} onSubmit={handleFormSubmit}>
                         <TextField
-                            id={"LoginInput"}
+                            id="username-register-field"
                             label={"Login"}
                             value={username}
                             onChange={handleUsernameChange}
@@ -83,7 +83,7 @@ const RegisterPage = (props: RegisterPageProps) => {
                             autoFocus
                         />
                         <TextField
-                            id={"PasswordInput"}
+                            id="password-register-field"
                             label={"Password"}
                             type="password"
                             value={password}
@@ -97,7 +97,7 @@ const RegisterPage = (props: RegisterPageProps) => {
                         <TextField
                             error={password !== repassword}
                             helperText={password !== repassword ? "Passwords do not match." : ""}
-                            id={"RepasswordInput"}
+                            id="repassword-field"
                             label={"Retype Password"}
                             type="password"
                             value={repassword}
@@ -109,6 +109,7 @@ const RegisterPage = (props: RegisterPageProps) => {
                             fullWidth
                         />
                         <Button
+                            id="create-account-register-button"
                             type="submit"
                             fullWidth
                             variant="contained"

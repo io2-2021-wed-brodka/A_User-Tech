@@ -30,6 +30,7 @@ const ReportMalfunctionDialog = (props: MalfunctionDialogProps) => {
 
     return (
         <Dialog
+            id="report-malfunction-dialog"
             open={props.open}
             TransitionComponent={Transition}
             keepMounted

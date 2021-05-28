@@ -93,11 +93,11 @@ const StationsList = (props: StationsListProps) => {
 
     return (
         props.stations.length > 0 ?
-            <>
+            <div id="stations">
                 <BreakpointMasonry>
                     {
                         props.stations.map((station, stationIndex) => {
-                            return (<div key={station.id}>
+                            return (<div id={`station`} key={station.id}>
                                 <Card className={classes.card} >
                                     <CardActionArea onClick={() => handleOpenStationClick(stationIndex)}>
                                         <CardMedia
@@ -131,7 +131,7 @@ const StationsList = (props: StationsListProps) => {
                         })
                     }
                 </BreakpointMasonry>
-            </>
+            </div>
             :
             <Typography className={classes.typography}>No stations available</Typography>
     )
