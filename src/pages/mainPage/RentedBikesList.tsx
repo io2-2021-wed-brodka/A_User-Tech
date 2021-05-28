@@ -1,7 +1,4 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
     IconButton,
     ListItemSecondaryAction,
     makeStyles,
@@ -13,13 +10,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
-import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
-import React, {useState} from "react";
-import Transition from "../../layout/Transition";
-import {RentedBike} from "../../models/bike";
-import ReturnBikeDialog from "../dialogs/ReturnBikeDialog";
 import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
-import ReportMalfunctionDialog from "../dialogs/ReportMalfunctionDialog";
+import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
+import React, { useState } from "react";
+import { RentedBike } from "../../models/rentedBike";
+import ReturnBikeDialog from "../dialogs/ReturnBikeDialog";
 
 const useStyles = makeStyles({
     list: {},
@@ -28,36 +23,30 @@ const useStyles = makeStyles({
 
 export interface RentedBikesListProps {
     rentedBikes: RentedBike[];
-    setRentedBikes: React.Dispatch<React.SetStateAction<RentedBike[]>>;
     ReturnBike: (bikeId: string, stationId: string) => void;
-    reportMalfunction: (bikeId: string, description: string) => void;
 }
 
 const RentedBikesList = (props: RentedBikesListProps) => {
     const classes = useStyles();
 
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
+    const [withMalfunction, setWithMalfunction] = useState<boolean>(false);
     const [returnBikeId, setReturnBikeId] = useState<string>("");
 
-    const [openMalfunctionDialog, setOpenMalfunctionDialog] = useState<boolean>(false);
-    const [malfunctionBikeId, setMalfunctionBikeId] = useState<string>("");
 
     const handleCloseWindow = () => {
         setOpenSlidingWindow(false);
         setReturnBikeId("");
     };
-    const handleOpenWindow = (bikeId: string) => {
+    const handleOpenWindow = (bikeId: string, withMalfunction = false) => {
+        setWithMalfunction(withMalfunction);
         setOpenSlidingWindow(true);
         setReturnBikeId(bikeId);
     };
 
-    const handleCloseMalfunctionDialog = () => {
-        setOpenMalfunctionDialog(false);
-        setMalfunctionBikeId("");
-    };
-    const handleOpenMalfunctionDialog = (bikeId: string) => {
-        setOpenMalfunctionDialog(true);
-        setMalfunctionBikeId(bikeId);
+    const handleCloseDialog = () => {
+        setOpenSlidingWindow(false);
+        setReturnBikeId("");
     };
 
     return (
@@ -70,27 +59,27 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                                 <ListItem key={bike.id}>
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <DirectionsBikeIcon/>
+                                            <DirectionsBikeIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText id="bike-id" secondary={bike.id}/>
+                                    <ListItemText id="bike-id" primary={bike.id}/>
                                     <ListItemSecondaryAction>
                                         <IconButton
                                             id="bike-return-button"
                                             edge="end"
                                             aria-label="delete"
-                                            style={{marginRight: 10}}
+                                            style={{ marginRight: 10 }}
                                             onClick={() => handleOpenWindow(bike.id)}
                                         >
-                                            <SubdirectoryArrowLeftIcon/>
+                                            <SubdirectoryArrowLeftIcon />
                                         </IconButton>
                                         <IconButton
                                             id="report-malfunction-button"
                                             edge="end"
                                             aria-label="delete"
-                                            onClick={() => handleOpenMalfunctionDialog(bike.id)}
+                                            onClick={() => handleOpenWindow(bike.id, true)}
                                         >
-                                            <ReportProblemOutlinedIcon/>
+                                            <ReportProblemOutlinedIcon />
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
@@ -98,30 +87,15 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                         })
                     }
                 </List>
-                <Dialog
+                <ReturnBikeDialog
+                    bikeId={returnBikeId}
+                    closeDialog={handleCloseWindow}
+                    ReturnBike={props.ReturnBike}
                     open={openSlidingWindow}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleCloseWindow}
-                    aria-labelledby="return-dialog-slide-title"
-                    aria-describedby="return-dialog-slide-description"
-                >
-                    <DialogTitle id="return-dialog-slide-title">
-                        {"Choose return station for bike: " + returnBikeId}
-                    </DialogTitle>
-                    <DialogContent>
-                        <ReturnBikeDialog
-                            bikeId={returnBikeId}
-                            closeDialog={handleCloseWindow}
-                            ReturnBike={props.ReturnBike}
-                        />
-                    </DialogContent>
-                </Dialog>
-                <ReportMalfunctionDialog
-                    open={openMalfunctionDialog}
-                    bikeId={malfunctionBikeId}
-                    closeDialog={handleCloseMalfunctionDialog}
-                    reportMalfunction={props.reportMalfunction}/>
+                    handleCloseWindow={handleCloseDialog}
+                    withMalfunction={withMalfunction}
+                />
+
             </>
             :
             <Typography className={classes.typography}>No bikes rented</Typography>
