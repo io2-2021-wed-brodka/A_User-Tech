@@ -1,4 +1,4 @@
-import { Http2ServerResponse } from "node:http2";
+import { Http2ServerResponse } from "http2";
 import { getToken } from "../../authorization/authUtils";
 import ok204Mock from "../../mock_data/bikes/ok204Mock";
 import { malfunctions } from "../apiUrls";
