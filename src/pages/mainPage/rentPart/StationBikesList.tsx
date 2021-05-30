@@ -99,7 +99,7 @@ const StationBikesList = (props: StationBikesListProps) => {
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
-                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "" } })
+                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "", activeBikesCount: 0 } })
                 props.setStations(prev => prev.map(s => {
                     if (s.id !== props.station.id) return s;
                     const ns = { ...s };

@@ -9,13 +9,13 @@ const reservedBikesMock = (): IApiResponse<getReservedBikesResponse> => {
             bikes: [
                 {
                     id: "Andrzej",
-                    station: { id: "123", name: "Rondo ONZ" },
+                    station: { id: "123", name: "Rondo ONZ", activeBikesCount: 0 },
                     reservedAt: new Date(Date.now() - (5 * 60 * 1000)).toJSON(),
                     reservedTill: new Date(Date.now() + (25 * 60 * 1000)).toJSON() // now + 30 minutes 
                 },
                 {
                     id: "Monika",
-                    station: { id: "123", name: "Rondo ONZ" },
+                    station: { id: "123", name: "Rondo ONZ", activeBikesCount: 0 },
                     reservedAt: new Date(Date.now() - (10 * 60 * 1000)).toJSON(),
                     reservedTill: new Date(Date.now() + (20 * 60 * 1000)).toJSON() // now + 30 minutes 
                 }

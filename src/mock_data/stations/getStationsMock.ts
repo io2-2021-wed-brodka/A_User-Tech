@@ -8,10 +8,10 @@ const getMockedStations = (): IApiResponse<GetActiveStationsResponse> => {
         responseCode: 200,
         data: {
             stations: [
-                { id: "123", name: "Rondo ONZ" },
-                { id: "125", name: "Ratusz Arsenał" },
-                { id: "126", name: "Ustro" },
-                { id: "2137", name: "Wadowice" }
+                { id: "123", name: "Rondo ONZ", activeBikesCount: 0 },
+                { id: "125", name: "Ratusz Arsenał", activeBikesCount: 0 },
+                { id: "126", name: "Ustro", activeBikesCount: 0 },
+                { id: "2137", name: "Wadowice", activeBikesCount: 0 }
             ]
         }
     };
