@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         flexDirection: "column",
         justifyContent: "center"
     },
+    activeBikesCount: {
+        marginLeft: "1em",
+        color: "green"
+    },
     media: {
         height: 160,
     },
@@ -110,7 +114,9 @@ const StationsList = (props: StationsListProps) => {
                                             <Typography className={classes.typography} variant="h6">
                                                 {station.name}
                                             </Typography>
-
+                                            <Typography className={clsx(classes.typography, classes.activeBikesCount)} variant="h6">
+                                                {`(${station.activeBikesCount})`}
+                                            </Typography>
                                             <Icon
                                                 className={clsx(classes.expand, {
                                                     [classes.expandOpen]: stationsOpenStatus[stationIndex],

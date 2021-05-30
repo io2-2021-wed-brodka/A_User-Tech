@@ -8,11 +8,11 @@ const getAllBikeMocked = (): IApiResponse<GetRentedBikesResponse> => {
         responseCode: 200,
         data: {
             bikes: [
-                { id: "1", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
-                { id: "2", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
-                { id: "3", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
-                { id: "2137", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
-                { id: "Peja", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice" } },
+                { id: "1", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice", activeBikesCount: 0 } },
+                { id: "2", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice", activeBikesCount: 0 } },
+                { id: "3", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice", activeBikesCount: 0 } },
+                { id: "2137", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice", activeBikesCount: 0 } },
+                { id: "Peja", status: "", user: { id: "1", name: "Artur" }, station: { id: "1", name: "Wadowice", activeBikesCount: 0 } },
             ]
         }
     };

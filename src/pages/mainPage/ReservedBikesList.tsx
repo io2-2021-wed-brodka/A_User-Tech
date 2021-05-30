@@ -128,7 +128,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
             }
             else {
                 enqueueSnackbar("Bike rented", { variant: "success" });
-                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "" } })
+                props.addRentedBike({ id: tmpBikeId, user: { id: "", name: "" }, status: "", station: { id: "1", name: "", activeBikesCount: 0 } })
             }
         });
 
