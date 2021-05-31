@@ -1,7 +1,7 @@
 import { getToken } from "../../authorization/authUtils";
 import reservedBikesMock from "../../mock_data/bikes/reservedBikesMock";
 import { ReservedBike } from "../../models/reseverdBike";
-import { bikeReserved } from "../apiUrls";
+import { bikes } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
 export interface getReservedBikesResponse {
@@ -12,7 +12,7 @@ export const getReservedBikes = async (): Promise<IApiResponse<getReservedBikesR
     if (UseMock())
         return reservedBikesMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikeReserved;
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "reserved";
     type T = IApiResponse<getReservedBikesResponse>;
     return fetch(url, {
         method: "GET",

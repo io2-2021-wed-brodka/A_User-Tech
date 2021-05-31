@@ -13,7 +13,7 @@ export const getRentedBikes = async (): Promise<IApiResponse<GetRentedBikesRespo
     if (UseMock())
         return getMockedRentedBikes();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented/";
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented";
     type T = IApiResponse<GetRentedBikesResponse>;
     return fetch(url, {
         method: "GET",

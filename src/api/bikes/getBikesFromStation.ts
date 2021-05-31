@@ -25,11 +25,11 @@ const getBikesFromStation = async (stationId: string, url: string): Promise<IApi
 }
 
 export const getActiveBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes";
     return getBikesFromStation(stationId, url);
 }
 
 export const getAllBikesFromStation = async (stationId: string): Promise<IApiResponse<GetBikesFromStationResponse>> => {
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/all/";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/all";
     return getBikesFromStation(stationId, url);
 }
