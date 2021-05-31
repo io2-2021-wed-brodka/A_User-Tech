@@ -10,7 +10,7 @@ export const rentBike = async (bikeId: string): Promise<IApiResponse<Http2Server
     if (UseMock())
         return ok204Mock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "rented/";
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "/rented";
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",
