@@ -1,6 +1,7 @@
 import { getToken } from "../../authorization/authUtils";
 import { getMalfunctionsMocked } from "../../mock_data/malfunctions/getMalfunctionsMocked";
 import { Malfunction } from "../../models/malfunctions";
+import { malfunctions } from "../apiUrls";
 import { handleError, handleResponse, IApiResponse, UseMock } from "../apiUtils";
 
 export interface GetMalfunctionsResponse {
@@ -12,7 +13,7 @@ export const getMalfunctions = async (): Promise<IApiResponse<GetMalfunctionsRes
     if (UseMock())
         return getMalfunctionsMocked();
 
-    let url = process.env.REACT_APP_BACKEND_URL + "malfunctions";
+    let url = process.env.REACT_APP_BACKEND_URL + malfunctions;
     type T = IApiResponse<GetMalfunctionsResponse>;
     return fetch(url, {
         method: "GET",

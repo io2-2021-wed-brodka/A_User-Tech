@@ -10,7 +10,7 @@ export const blockBike = async (bikeId: string): Promise<IApiResponse<UnrentedBi
     if (UseMock())
         return blockBikeMock(bikeId);
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "blocked";
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "blocked/";
     type T = IApiResponse<UnrentedBike>;
     return fetch(url, {
         method: "POST",
