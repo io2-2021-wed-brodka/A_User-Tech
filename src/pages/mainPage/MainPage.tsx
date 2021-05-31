@@ -65,6 +65,7 @@ const MainPage = () => {
             if (s.id !== bike.station.id) return s;
             const copy = { ...s };
             copy.bikes = s.bikes.filter(b => b.id !== bike.id);
+            copy.activeBikesCount--;
             return copy;
         }));
         fetchReservedBikes();
@@ -77,6 +78,7 @@ const MainPage = () => {
             if (s.id !== bike?.station.id) return s;
             const copy = { ...s };
             copy.bikes = [...s.bikes, { id: bike.id, status: "available" }];
+            copy.activeBikesCount++;
             return copy;
         }));
         fetchReservedBikes();
@@ -139,7 +141,8 @@ const MainPage = () => {
                 });
                 setStations(prev => prev.map(s => {
                     if (s.id !== stationId) return s;
-                    const ns = { ...s, bikes: [...s.bikes, { id: bikeId, status: BikeStatus.available }] };
+                    let ns = { ...s, bikes: [...s.bikes, { id: bikeId, status: BikeStatus.available }] };
+                    ns.activeBikesCount += 1;
                     return ns;
                 }));
             }

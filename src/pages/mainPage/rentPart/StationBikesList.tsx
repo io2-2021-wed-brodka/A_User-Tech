@@ -104,6 +104,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                     if (s.id !== props.station.id) return s;
                     const ns = { ...s };
                     ns.bikes = ns.bikes.filter(b => b.id !== tmpBikeId);
+                    ns.activeBikesCount--;
                     return ns;
                 }));
                 getActiveBikesFromStation(props.station.id).then(res => {
