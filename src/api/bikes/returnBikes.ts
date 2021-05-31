@@ -9,7 +9,7 @@ export const returnRentedBike = async (bikeId: string, stationId: string): Promi
     if (UseMock())
         return returnRentedBikeMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + stationId + "/bikes/";
+    let url = process.env.REACT_APP_BACKEND_URL + stations + "/" + stationId + "/bikes";
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "POST",

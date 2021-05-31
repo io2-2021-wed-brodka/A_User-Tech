@@ -8,7 +8,7 @@ export const cancelBikeReservation = async (bikeId: string): Promise<IApiRespons
     if (UseMock())
         return ok204Mock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikeReserved + bikeId;
+    let url = process.env.REACT_APP_BACKEND_URL + bikeReserved + "/" + bikeId;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "DELETE",

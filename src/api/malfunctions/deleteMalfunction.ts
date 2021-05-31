@@ -8,7 +8,7 @@ export const deleteMalfunction = async (id: string): Promise<IApiResponse<Http2S
     if (UseMock())
         return ok204Mock();
 
-    let url = `${process.env.REACT_APP_BACKEND_URL}${malfunctions}${id}`;
+    let url = `${process.env.REACT_APP_BACKEND_URL}${malfunctions}/${id}`;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url, {
         method: "DELETE",

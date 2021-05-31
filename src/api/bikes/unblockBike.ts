@@ -10,7 +10,7 @@ export const unblockBike = async (bikeId: string): Promise<IApiResponse<Unrented
     if (UseMock())
         return unblockBikeMock();
 
-    let url = process.env.REACT_APP_BACKEND_URL + bikes + "blocked/" + bikeId;
+    let url = process.env.REACT_APP_BACKEND_URL + bikes + "/blocked/" + bikeId;
     type T = IApiResponse<UnrentedBike>;
     return fetch(url, {
         method: "DELETE",

@@ -13,7 +13,7 @@ export const getActiveStations = async (): Promise<IApiResponse<GetActiveStation
     if (UseMock())
         return getMockedStations();
 
-    let url = process.env.REACT_APP_BACKEND_URL + stations + 'active/';
+    let url = process.env.REACT_APP_BACKEND_URL + stations + '/active';
     type T = IApiResponse<GetActiveStationsResponse>;
     return fetch(url, {
         method: "GET",
