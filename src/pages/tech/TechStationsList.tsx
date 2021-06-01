@@ -2,8 +2,9 @@ import { Collapse, createStyles, List, ListItem, ListItemText, makeStyles, Theme
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
+import { getAllBikes } from '../../api/bikes/getAllBikes';
 import { getAllStations } from '../../api/stations/getAllStations';
-import { Station } from '../../models/station';
+import { StationWithBikes } from '../../models/station';
 import BikesList from './BikesList';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const TechStationsList = () => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-    const [stations, setStations] = useState<Station[]>([]);
+    const [stations, setStations] = useState<StationWithBikes[]>([]);
     const [open, setOpen] = useState<boolean[]>([]);
 
     useEffect(() => {
@@ -27,7 +28,32 @@ const TechStationsList = () => {
                 enqueueSnackbar(`Could not get stations list: ${r.errorMessage}`, { variant: "error" })
             }
             else {
-                setStations(r.data?.stations || [])
+                const stationsArray = r.data?.stations;
+                if (stationsArray) {
+                    setStations(stationsArray.map(s => {
+                        return { ...s, bikes: [] }
+                    }))
+                    stationsArray.forEach(station => {
+                    });
+                    getAllBikes().then(r => {
+                        if (r.isError) {
+                            enqueueSnackbar(`Could not get bikes list: ${r.errorMessage}`, { variant: "error" })
+                        }
+                        else {
+                            const bikes = r.data?.bikes;
+                            if (bikes) {
+                                bikes.forEach(bike => {
+                                    if (bike.station && bike.station.id) {
+                                        setStations(prev => prev.map(s => {
+                                            if (s.id !== bike.station.id) return s;
+                                            return { ...s, bikes: [...s.bikes, bike] };
+                                        }))
+                                    }
+                                });
+                            }
+                        }
+                    })
+                }
             }
         })
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -45,6 +71,8 @@ const TechStationsList = () => {
         })
     };
 
+
+
     return (<>
         <List className={classes.root}>
             {stations.map((s, index) => {
@@ -53,7 +81,7 @@ const TechStationsList = () => {
                     {open[index] ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                     <Collapse in={open[index]}>
-                        <BikesList stationId={s.id} />
+                        <BikesList stationId={s.id} bikes={s.bikes} setStations={setStations} />
                     </Collapse>
                 </>
                 )

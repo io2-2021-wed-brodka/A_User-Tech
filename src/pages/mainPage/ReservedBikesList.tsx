@@ -42,17 +42,26 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
     const [rentBikeId, setRentBikeId] = useState<string>('');
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [timers, setTimers] = useState<string[]>([]);
-    const [callbackTimer, setCallbackTimer] = useState<NodeJS.Timeout>();
+    const [callbackTimer, setCallbackTimer] = useState<number>();
 
     useEffect(() => {
         setTimers(new Array<string>(props.reservedBikes.length));
-        callbackTimer && clearInterval(callbackTimer);
+        callbackTimer && window.clearInterval(callbackTimer);
+        let timeout: number = -1;
         if (props.reservedBikes.length !== 0) {
             refreshTimers();
-            const timeout = setInterval(refreshTimers, 1000);
+            timeout = window.setInterval(refreshTimers, 1000);
             setCallbackTimer(timeout);
+
         }
+        return () => {
+            if (timeout !== -1) {
+                window.clearInterval(timeout);
+            }
+        };
     }, [props.reservedBikes]) // eslint-disable-line react-hooks/exhaustive-deps
+
+
 
     const refreshTimers = () => {
         const newTimers: string[] = new Array<string>(props.reservedBikes.length);

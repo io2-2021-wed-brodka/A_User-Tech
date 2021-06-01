@@ -1,11 +1,11 @@
 import { Avatar, Button, createStyles, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, makeStyles, Theme } from '@material-ui/core';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { blockBike } from '../../api/bikes/blockBike';
-import { getAllBikesFromStation } from '../../api/bikes/getBikesFromStation';
 import { unblockBike } from '../../api/bikes/unblockBike';
 import { BikeStatus } from '../../models/bikeStatus';
+import { StationWithBikes } from '../../models/station';
 import { UnrentedBike } from '../../models/unrentedBike';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,23 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface BikesListProps {
     stationId: string;
+    bikes: UnrentedBike[];
+    setStations: React.Dispatch<React.SetStateAction<StationWithBikes[]>>
 }
 
 const BikesList = (props: BikesListProps) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
-    const [bikes, setBikes] = useState<UnrentedBike[]>([]);
-
-    useEffect(() => {
-        getAllBikesFromStation(props.stationId).then(r => {
-            if (r.isError) {
-                enqueueSnackbar(`Could not get stations list: ${r.errorMessage}`, { variant: "error" })
-            }
-            else {
-                setBikes(r.data?.bikes || [])
-            }
-        })
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const updateBikeStatus = (bike: UnrentedBike, status: string): UnrentedBike => {
         bike.status = status;
@@ -54,7 +44,10 @@ const BikesList = (props: BikesListProps) => {
             if (response.isError) {
                 enqueueSnackbar(`Failed to block bike: ${response.errorMessage}`, { variant: "error" });
             } else {
-                setBikes(prev => prev.map(b => b.id === id ? updateBikeStatus(b, BikeStatus.blocked) : b));
+                props.setStations(prev => prev.map(s => {
+                    if (s.id !== props.stationId) return s;
+                    return { ...s, bikes: s.bikes.map(b => b.id === id ? updateBikeStatus(b, BikeStatus.blocked) : b) }
+                }))
             }
         });
     };
@@ -64,14 +57,17 @@ const BikesList = (props: BikesListProps) => {
             if (response.isError) {
                 enqueueSnackbar(`Failed to unblock bike: ${response.errorMessage}`, { variant: "error" });
             } else {
-                setBikes(prev => prev.map(b => b.id === id ? updateBikeStatus(b, BikeStatus.available) : b));
+                props.setStations(prev => prev.map(s => {
+                    if (s.id !== props.stationId) return s;
+                    return { ...s, bikes: s.bikes.map(b => b.id === id ? updateBikeStatus(b, BikeStatus.available) : b) }
+                }))
             }
         });
     };
 
     return (<>
         <List component="div" disablePadding>
-            {bikes.map((b, index) => {
+            {props.bikes.map((b, index) => {
                 return (<ListItem>
                     <ListItemAvatar>
                         <Avatar>
