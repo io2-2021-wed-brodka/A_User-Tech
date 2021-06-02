@@ -46,16 +46,18 @@ const TechStationsList = () => {
     };
 
     return (<>
-        <List className={classes.root}>
+        <List id="tech-station-list" className={classes.root}>
             {stations.map((s, index) => {
-                return (<><ListItem button onClick={() => handleClick(index)}>
-                    <ListItemText primary={s.name} secondary={'id: ' + s.id} />
-                    {open[index] ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
+                return (
+                <div id="tech-station">
+                    <ListItem id="tech-station-card" button onClick={() => handleClick(index)}>
+                        <ListItemText primary={s.name} secondary={'id: ' + s.id} />
+                        {open[index] ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
                     <Collapse in={open[index]}>
                         <BikesList stationId={s.id} />
                     </Collapse>
-                </>
+                </div>
                 )
             })}
         </List>

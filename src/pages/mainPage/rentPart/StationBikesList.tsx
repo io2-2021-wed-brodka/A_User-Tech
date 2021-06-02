@@ -142,6 +142,7 @@ const StationBikesList = (props: StationBikesListProps) => {
                                 <ListItemText id="bike-id" primary={bike.id} />
                                 <ListItemSecondaryAction>
                                     <IconButton
+                                        id="reservation-button"
                                         edge="end"
                                         aria-label="reserve"
                                         style={{ marginRight: 10 }}
@@ -149,7 +150,9 @@ const StationBikesList = (props: StationBikesListProps) => {
                                     >
                                         <BookmarkBorderIcon />
                                     </IconButton>
-                                    <Button size="small" color="primary"
+                                    <Button
+                                        id="rent-button"
+                                        size="small" color="primary"
                                         onClick={() => rentBikeClickHandle(bike.id)}>
                                         Rent
                                     </Button>

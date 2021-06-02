@@ -143,17 +143,17 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
             <TableCell align="center" colSpan={3}>Action</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody id="malfunctions-table">
           {props.malfunctions.map((malf, index) => (
-            <TableRow key={malf.id}>
-              <TableCell component="th" scope="row">
+            <TableRow id="malfunction-row" key={malf.id}>
+              <TableCell id="malfunction-id" component="th" scope="row">
                 No. {malf.id}
               </TableCell>
-              <TableCell align="right">{malf.reportingUserId}</TableCell>
-              <TableCell align="right">
+              <TableCell id="user-id" align="right">{malf.reportingUserId}</TableCell>
+              <TableCell id="bike-id" align="right">
                 {malf.bikeId}
               </TableCell>
-              <TableCell align="right">{malf.description ?? "-"}</TableCell>
+              <TableCell id="malfunction-description" align="right">{malf.description ?? "-"}</TableCell>
               {reportedBikes[index] && reportedBikes[index].status === "available" &&
                 <>
                   <TableCell align="right">
