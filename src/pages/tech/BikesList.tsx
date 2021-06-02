@@ -67,7 +67,7 @@ const BikesList = (props: BikesListProps) => {
 
     return (<>
         <List id="tech-station-collapse" component="div" disablePadding>
-            {bikes.map((b, index) => {
+            {props.bikes.map((b, index) => {
                 return (<ListItem id="bike-entry">
                     <ListItemAvatar>
                         <Avatar>
