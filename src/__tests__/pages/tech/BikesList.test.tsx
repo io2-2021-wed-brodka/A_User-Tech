@@ -2,10 +2,10 @@ import { act, cleanup, fireEvent, RenderResult } from "@testing-library/react";
 import React from "react";
 import "regenerator-runtime/runtime";
 import { blockBike } from "../../../api/bikes/blockBike";
-import { getActiveBikesFromStation, getAllBikesFromStation } from "../../../api/bikes/getBikesFromStation";
+import { getAllBikes } from "../../../api/bikes/getAllBikes";
 import { unblockBike } from "../../../api/bikes/unblockBike";
-import { bikesFromStationMock } from "../../../mock_data/bikes/bikesFromStationMock";
 import blockBikeMock from "../../../mock_data/bikes/blockBikeMock";
+import getAllBikeMocked from "../../../mock_data/bikes/getAllBikeMocked";
 import unblockBikeMock from "../../../mock_data/bikes/unblockBikeMock";
 import BikesList from "../../../pages/tech/BikesList";
 import { render } from "../../test-utils";
@@ -13,13 +13,13 @@ import { render } from "../../test-utils";
 afterEach(cleanup);
 
 
-jest.mock('../../../api/bikes/getBikesFromStation');
+jest.mock("../../../api/bikes/getAllBikes");
 jest.mock('../../../api/bikes/unblockBike');
 jest.mock('../../../api/bikes/blockBike');
 
-const mockedGetBikesFromStation = getAllBikesFromStation as jest.MockedFunction<typeof getAllBikesFromStation>;
-const bikesResponse = bikesFromStationMock("1");
-mockedGetBikesFromStation.mockResolvedValue(bikesResponse);
+const mockedGetBikes = getAllBikes as jest.MockedFunction<typeof getAllBikes>;
+const bikesResponse = getAllBikeMocked();
+mockedGetBikes.mockResolvedValue(bikesResponse);
 
 const mockedBlockBike = blockBike as jest.MockedFunction<typeof blockBike>;
 const blockResponse = blockBikeMock("1");
@@ -33,7 +33,7 @@ it("All bikes should show up on list", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <BikesList stationId={"1"} />
+            <BikesList stationId={"1"} bikes={bikesResponse.data?.bikes || []} setStations={() => { }} />
         );
     });
 
@@ -46,7 +46,7 @@ it("Clicking on button should change state", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <BikesList stationId={"1"} />
+            <BikesList stationId={"1"} bikes={bikesResponse.data?.bikes || []} setStations={() => { }} />
         );
     });
     const buttons = renderResult.queryAllByRole("button");
@@ -78,7 +78,7 @@ it("Failed bike block should show error message", async () => {
     let renderResult = {} as RenderResult;
     await act(async () => {
         renderResult = render(
-            <BikesList stationId={"1"} />
+            <BikesList stationId={"1"} bikes={bikesResponse.data?.bikes || []} setStations={() => { }} />
         );
     });
     const buttons = renderResult.queryAllByRole("button");
