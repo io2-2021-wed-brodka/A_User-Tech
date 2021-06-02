@@ -143,7 +143,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
                 <Typography variant='h5' className={classes.subheader}>
                     Reserved bikes:
                     </Typography>
-                <List className={classes.list}>
+                <List id="reservations-list" className={classes.list}>
                     {
                         props.reservedBikes.map((bike, index) => {
                             return (
@@ -158,6 +158,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
+                                            id="cancel-reservation-button"
                                             edge="end"
                                             aria-label="delete"
                                             style={{ marginRight: 10 }}
@@ -166,6 +167,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
                                             <BookmarkIcon />
                                         </IconButton>
                                         <Button size="small" color="primary"
+                                            id="rent-reserved-button"
                                             onClick={() => rentBikeClickHandle(bike.id)}>
                                             Rent
                                     </Button>
