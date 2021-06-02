@@ -66,9 +66,9 @@ const BikesList = (props: BikesListProps) => {
     };
 
     return (<>
-        <List component="div" disablePadding>
-            {props.bikes.map((b, index) => {
-                return (<ListItem>
+        <List id="tech-station-collapse" component="div" disablePadding>
+            {bikes.map((b, index) => {
+                return (<ListItem id="bike-entry">
                     <ListItemAvatar>
                         <Avatar>
                             <DirectionsBikeIcon />

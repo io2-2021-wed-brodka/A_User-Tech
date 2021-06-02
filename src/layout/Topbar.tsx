@@ -64,11 +64,11 @@ const Topbar = (props: TopbarProps) => {
                     </Typography>
                     {props.user?.userName ?
                         <>
-                            <Typography className={classes.right}>Witaj {userName}</Typography>
-                            <Button className={classes.logoutButton} onClick={handleLogoutClick}>Log out</Button>
+                            <Typography id="welcome-text" className={classes.right}>Witaj {userName}</Typography>
+                            <Button id="logout-topbar-button" className={classes.logoutButton} onClick={handleLogoutClick}>Log out</Button>
                         </>
                         :
-                        <Button className={classes.loginButton} onClick={handleLoginClick}>Log in</Button>
+                        <Button id="login-topbar-button" className={classes.loginButton} onClick={handleLoginClick}>Log in</Button>
                     }
                 </Toolbar>
                 {HasRole(props.user?.role, 'tech') && <TechTabs />}

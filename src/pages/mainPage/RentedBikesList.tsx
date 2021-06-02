@@ -52,7 +52,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
     return (
         props.rentedBikes.length > 0 ?
             <>
-                <List className={classes.list}>
+                <List id="rented-bike-list" className={classes.list}>
                     {
                         props.rentedBikes.map(bike => {
                             return (
@@ -62,11 +62,10 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                                             <DirectionsBikeIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText
-                                        primary={bike.id}
-                                    />
+                                    <ListItemText id="bike-id" primary={bike.id}/>
                                     <ListItemSecondaryAction>
                                         <IconButton
+                                            id="bike-return-button"
                                             edge="end"
                                             aria-label="delete"
                                             style={{ marginRight: 10 }}
@@ -75,6 +74,7 @@ const RentedBikesList = (props: RentedBikesListProps) => {
                                             <SubdirectoryArrowLeftIcon />
                                         </IconButton>
                                         <IconButton
+                                            id="report-malfunction-button"
                                             edge="end"
                                             aria-label="delete"
                                             onClick={() => handleOpenWindow(bike.id, true)}

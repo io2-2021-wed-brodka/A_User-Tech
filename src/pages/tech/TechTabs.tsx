@@ -24,9 +24,9 @@ export default function TechTabs() {
         setValue(value);
     };
 
-    const tabs: { label: string, page: string }[] = [
-        { label: "Main Page", page: '/' },
-        { label: "Tech Page", page: '/techPage' }
+    const tabs: { label: string, page: string, id: string }[] = [
+        { label: "Main Page", page: '/', id: 'user-page'},
+        { label: "Tech Page", page: '/techPage', id: 'tech-page' }
     ]
 
     return (
@@ -34,7 +34,7 @@ export default function TechTabs() {
             <Tabs variant={"fullWidth"} value={value} aria-label="simple tabs example" classes={{
                 indicator: classes.customTabIndicator
             }} >
-                {tabs.map((t, index) => <Tab label={t.label} onClick={() => handlePageChange(t.page, index)} />)}
+                {tabs.map((t, index) => <Tab id={t.id} label={t.label} onClick={() => handlePageChange(t.page, index)} />)}
             </Tabs>
         </div >
     );

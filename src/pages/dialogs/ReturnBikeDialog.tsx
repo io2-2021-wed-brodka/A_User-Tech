@@ -116,7 +116,7 @@ const ReturnBikeDialog = (props: ReturnDialogProps) => {
             </DialogTitle>
             <DialogContent>
                 {stations.length > 0 ?
-                    <div className={classes.listScrollable}>
+                    <div id="return-bike-dialog-list" className={classes.listScrollable}>
                         <List>
                             {
                                 stations.map((station) => {
