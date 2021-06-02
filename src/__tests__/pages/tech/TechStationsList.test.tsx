@@ -19,9 +19,6 @@ const mockedGetRentedBikes = getAllStations as jest.MockedFunction<typeof getAll
 const response = getMockedStations();
 mockedGetRentedBikes.mockResolvedValue(response);
 
-const mockedGetBikesFromStation = getAllBikesFromStation as jest.MockedFunction<typeof getAllBikesFromStation>;
-const bikesResponse = bikesFromStationMock("1");
-mockedGetBikesFromStation.mockResolvedValue(bikesResponse);
 
 it("Stations names should show up on list", async () => {
     let renderResult = {} as RenderResult;
@@ -38,23 +35,3 @@ it("Stations names should show up on list", async () => {
 
 });
 
-it("Stations should contains bikes lists", async () => {
-    let renderResult = {} as RenderResult;
-    await act(async () => {
-        renderResult = render(
-            <TechStationsList />
-        );
-    });
-    const stationsList = renderResult.getByRole("list");
-    expect(stationsList).toBeDefined();
-
-    response.data?.stations.forEach(station => {
-        const stationHtml = renderResult.getByText(station.name);
-        bikesResponse.data?.bikes.forEach(bike => {
-            expect(stationHtml).toContain(bike.id);
-        });
-
-    })
-
-
-});
