@@ -157,12 +157,12 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
               {reportedBikes[index] && reportedBikes[index].status === "available" &&
                 <>
                   <TableCell align="right">
-                    <Button className={classes.blockButton} onClick={() => approve(malf)}>
+                    <Button id="approve-button" className={classes.blockButton} onClick={() => approve(malf)}>
                       Approve
                     </Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button color="secondary" onClick={() => deny(malf, index)}>
+                    <Button id="deny-button" color="secondary" onClick={() => deny(malf, index)}>
                       Deny
                     </Button>
                   </TableCell>
@@ -170,7 +170,7 @@ const MalfunctionsTable = (props: MalfunctionsTableProps) => {
               }
               {reportedBikes[index] && reportedBikes[index].status === "blocked" &&
                 <TableCell align="center">
-                  <Button color="primary" onClick={() => fixed(malf, index)}>
+                  <Button id="fix-button" color="primary" onClick={() => fixed(malf, index)}>
                     Fixed
               </Button>
                 </TableCell>
