@@ -163,7 +163,7 @@ const ReservedBikesList = (props: ReservedBikesListProps) => {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={bike.id + " on " + bike.station.name} secondary={timers[index]}
+                                        primary={bike.id + " on " + bike.station?.name} secondary={timers[index]}
                                     />
                                     <ListItemSecondaryAction>
                                         <IconButton
