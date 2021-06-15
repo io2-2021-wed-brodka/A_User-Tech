@@ -16,6 +16,7 @@ export const unblockBike = async (bikeId: string): Promise<IApiResponse<Unrented
         method: "DELETE",
         headers: new Headers({
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': getToken(),
         }),
     }).then<T>(handleResponse).catch<T>(handleError);

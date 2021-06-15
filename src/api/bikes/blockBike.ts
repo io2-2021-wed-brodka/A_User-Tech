@@ -16,6 +16,7 @@ export const blockBike = async (bikeId: string): Promise<IApiResponse<UnrentedBi
         method: "POST",
         headers: new Headers({
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': getToken(),
         }),
         body: JSON.stringify(
