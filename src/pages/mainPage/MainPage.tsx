@@ -11,6 +11,7 @@ import { RentedBike } from '../../models/rentedBike';
 import { ReservedBike } from '../../models/reseverdBike';
 import { StationWithBikes } from '../../models/station';
 import RentedBikesList from './RentedBikesList';
+import Contact from './rentPart/Contact';
 import StationsList from './rentPart/StationsList';
 import ReservedBikesList from './ReservedBikesList';
 
@@ -168,6 +169,7 @@ const MainPage = () => {
                         Available stations:
                     </Typography>
                     <StationsList setStations={setStations} stations={stations} addRentedBike={addRentedBike} addReservedBike={addReservedBike} />
+                    <Contact />
                 </div>
             </div>
         </>
